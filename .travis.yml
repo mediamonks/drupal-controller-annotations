@@ -118,6 +118,7 @@ after_success:
   - if [ "$UPSTREAM" == "1" ]; then eval "$(ssh-agent -s)"; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo "$DRUPAL_ORG_KEY" > drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then chmod 600 drupalorg_key.pem; fi;
+  - if [ "$UPSTREAM" == "1" ]; then cat drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then ssh-add drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.name "devmonk"; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.email devmonk@mediamonks.com; fi;
