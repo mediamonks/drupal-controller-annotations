@@ -112,7 +112,7 @@ script:
 after_success:
   - if [ "$UPSTREAM" == "1" ]; then cd $TRAVIS_BUILD_DIR/module; fi;
   - if [ "$UPSTREAM" == "1" ]; then git remote -v; fi;
-  - if [ "$UPSTREAM" == "1" ]; then ls -la; fi;
   - if [ "$UPSTREAM" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
-  - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg https://$DRUPAL_ORG_USERNAME:$DRUPAL_ORG_PASSWORD@git.drupal.org/project/$MODULE_NAME.git; fi;
+  - if [ "$UPSTREAM" == "1" ]; then rm coverage.clover; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg https://$DRUPAL_ORG_USERNAME:$DRUPAL_ORG_PASSWORD@git.drupal.org/project/$MODULE_NAME.git && git push drupalorg; fi;
