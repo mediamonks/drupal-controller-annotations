@@ -34,7 +34,7 @@ mysql:
 
 before_install:
   # Decide if this build is used to push upstream changes to Drupal.org
-  - if [ "$TRAVIS_PHP_VERSION" == "7.0" ] && [ "$DRUPAL_VERSION" == "8.3.x" ]; then export UPSTREAM="1"; else export UPSTREAM="0"; fi;
+  - if [ "$TRAVIS_PHP_VERSION" == "7.0" ] && [ "$DRUPAL_VERSION" == "8.3.x" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then export UPSTREAM="1"; else export UPSTREAM="0"; fi;
 
   # Disable xdebug when we do not generate coverage files
   - if [ "$UPSTREAM" == "0" ]; then phpenv config-rm xdebug.ini; fi;
@@ -121,7 +121,7 @@ after_success:
   - if [ "$UPSTREAM" == "1" ]; then ssh-add drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.name "devmonk"; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.email devmonk@mediamonks.com; fi;
-  - if [ "$UPSTREAM" == "1" ]; then git config --global push.default current; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git config --global push.default matching; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo -e "Host git.drupal.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config; fi;
   - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg git@git.drupal.org/project/$MODULE_NAME.git; fi;
-  - if [ "$UPSTREAM" == "1" ]; then git push drupalorg; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git push drupalorg $TRAVIS_BRANCH; fi;
