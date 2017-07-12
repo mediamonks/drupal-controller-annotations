@@ -116,7 +116,7 @@ after_success:
   - if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then rm coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then eval "$(ssh-agent -s)"; fi;
-  - if [ "$UPSTREAM" == "1" ]; then echo "$DRUPAL_ORG_KEY" > drupalorg_key.pem; fi;
+  - if [ "$UPSTREAM" == "1" ]; then echo $DRUPAL_ORG_KEY | base64 --decode > drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then chmod 600 drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then cat drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then ssh-add drupalorg_key.pem; fi;
