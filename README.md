@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/mediamonks/drupal-controller-annotations.svg?branch=master)](https://travis-ci.org/mediamonks/drupal-controller-annotations)
+[![Build Status](https://travis-ci.org/mediamonks/drupal-controller-annotations.svg?branch=8.x-1.x)](https://travis-ci.org/mediamonks/drupal-controller-annotations)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/badges/quality-score.png?b=8.x-1.x)](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/?branch=8.x-1.x)
-[![Code Coverage](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/badges/coverage.png?b=8.x-1.x)](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/?branch=8.x-1.x)
 
 # Drupal Controller Annotations
 
