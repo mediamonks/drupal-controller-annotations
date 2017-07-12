@@ -118,11 +118,10 @@ after_success:
   - if [ "$UPSTREAM" == "1" ]; then eval "$(ssh-agent -s)"; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo $DRUPAL_ORG_KEY | base64 --decode > drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then chmod 600 drupalorg_key.pem; fi;
-  - if [ "$UPSTREAM" == "1" ]; then cat drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then ssh-add drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.name "devmonk"; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.email devmonk@mediamonks.com; fi;
-  - if [ "$UPSTREAM" == "1" ]; then git config --global push.default simple; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git config --global push.default current; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo -e "Host git.drupal.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config; fi;
   - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg git@git.drupal.org/project/$MODULE_NAME.git; fi;
   - if [ "$UPSTREAM" == "1" ]; then git push drupalorg; fi;
