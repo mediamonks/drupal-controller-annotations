@@ -1,0 +1,47 @@
+{
+    "name": "drupal/controller_annotations",
+    "type": "drupal-module",
+    "description": "Integrates the controller annotations from Symfony Framework SensioFrameworkExtraBundle into Drupal",
+    "keywords": [
+        "annotation",
+        "controller",
+        "routing",
+        "converter",
+        "param",
+        "template",
+        "symfony",
+        "framework"
+    ],
+    "homepage": "https://mediamonks.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robert Slootjes",
+            "email": "robert@mediamonks.com",
+            "homepage": "https://github.com/slootjes"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Drupal\\controller_annotations\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\controller_annotations\\": "tests/src"
+        }
+    },
+    "require": {
+        "php": "~5.5|~7.0",
+        "sensio/framework-extra-bundle": "^3.0",
+        "drupal/core": "~8.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^0.9.9"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

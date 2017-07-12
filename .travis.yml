@@ -1,0 +1,119 @@
+language: php
+
+sudo: false
+
+php:
+  - 7.0
+
+env:
+  global:
+    - MODULE_NAME='controller_annotations'
+    - DRUPAL_REPO='git://drupalcode.org/project/drupal.git'
+    - PHPCS_VERSION='2.7.*'
+    - CODER_VERSION='8.2.9'
+  matrix:
+    - DRUPAL_VERSION='8.3.x'
+
+cache:
+  bundler: true
+  apt: true
+  directories:
+  - "$HOME/.composer/cache"
+  - "$HOME/.drush/cache"
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+before_install:
+  # Decide if this build is used to push upstream changes to Drupal.org
+  - if [ "$TRAVIS_PHP_VERSION" == "7.0" ] && [ "$DRUPAL_VERSION" == "8.3.x" ]; then export UPSTREAM="1"; else export UPSTREAM="0"; fi;
+
+  # Disable xdebug when we do not generate coverage files
+  - if [ "$UPSTREAM" == "0" ]; then phpenv config-rm xdebug.ini; fi;
+
+  # Composer.
+  - sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
+  - source $HOME/.bashrc
+  - composer self-update
+
+  # Drush.
+  - composer global require drush/drush:~8.1
+
+  # Codesniffer.
+  - composer global require squizlabs/php_codesniffer:$PHPCS_VERSION
+
+  # Coder.
+  - composer global require drupal/coder:$CODER_VERSION
+  - ln -s ~/.composer/vendor/drupal/coder/coder_sniffer/Drupal ~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
+
+  # Ensure the PHP environment is ready.
+  - phpenv rehash
+
+install:
+  # Isolate our module into a separate directory
+  - mkdir module
+  - shopt -s extglob dotglob
+  - mv !(module) module
+  - shopt -u dotglob
+  - git clone --branch $DRUPAL_VERSION $DRUPAL_REPO drupal --depth 1
+  # Make sure Drupal can access our module by using a symlink
+  - ln -s $PWD/module drupal/modules/$MODULE_NAME
+  - cd drupal
+  # Merge the module requirements with the core requirements
+  # (yes this is ugly but it works very well, let us know if there is a better way to do it please)
+  - sed -i "s|\"core/composer.json\"|\"core/composer.json\",\"modules/$MODULE_NAME/composer.json\"|" composer.json
+  - composer install
+  - composer update
+
+before_script:
+  # This fixes a fail when install Drupal.
+  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+  # Mysql might time out for long tests, increase the wait timeout.
+  - mysql -e 'SET @@GLOBAL.wait_timeout=1200'
+
+  # Install Drupal and enable the required modules (including this one).
+  - mysql -e 'create database drupal;'
+  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes site-install standard --db-url="mysql://root@127.0.0.1/drupal"
+  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes en $MODULE_NAME
+  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes en simpletest
+
+  # Export simpletest environment variables
+  - export SIMPLETEST_BASE_URL=http://localhost:8080
+  - export SIMPLETEST_DB=mysql://root:@127.0.0.1/drupal
+
+script:
+
+  # Start a web server.
+  - cd $TRAVIS_BUILD_DIR/drupal
+  - drush runserver 127.0.0.1:8080 &
+
+  # Run code sniffer.
+  # Warnings are disabled until the SMS notifier is ported.
+  #- phpcs --report=full --standard=Drupal --warning-severity=0 $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME --ignore=bin,*.css,gulpfile.js,libraries,modules/contrib,vendor
+
+  # Drupal "SimpleTests" via run-tests.sh
+  #- cd $TRAVIS_BUILD_DIR/drupal
+  #- php core/scripts/run-tests.sh --verbose --color --module $MODULE_NAME --php $(which php) --url http://127.0.0.1:8080
+
+  # PHP Unit Tests
+  - cd $TRAVIS_BUILD_DIR/drupal
+  - if [ "$UPSTREAM" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox; fi;
+
+  # Behat Tests - RUN THESE LAST OTHERWISE PHPUNIT WILL FAIL BECAUSE OF DEPENDENCY CONFLICTS
+  #- cd $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME
+  #- composer install
+  #- vendor/bin/behat --config tests/behat/behat.yml
+
+after_success:
+  - if [ "$UPSTREAM" == "1" ]; then cd $TRAVIS_BUILD_DIR/module; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git remote -v; fi;
+  - if [ "$UPSTREAM" == "1" ]; then ls -la; fi;
+  - if [ "$UPSTREAM" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
+  - if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg https://$DRUPAL_ORG_USERNAME:$DRUPAL_ORG_PASSWORD@git.drupal.org/project/$MODULE_NAME.git; fi;
+
+#after_script:
+

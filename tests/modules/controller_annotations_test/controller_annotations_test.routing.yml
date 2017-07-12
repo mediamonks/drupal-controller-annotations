@@ -1,0 +1,5 @@
+controller_annotations_test.annotations:
+    path:
+    options:
+        type: annotation
+        module: 'controller_annotations_test'
