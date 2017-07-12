@@ -3,7 +3,10 @@ language: php
 sudo: false
 
 php:
+  - 5.5
+  - 5.6
   - 7.0
+  - 7.1
 
 env:
   global:
@@ -12,7 +15,10 @@ env:
     - PHPCS_VERSION='2.7.*'
     - CODER_VERSION='8.2.9'
   matrix:
+    - DRUPAL_VERSION='8.1.x'
+    - DRUPAL_VERSION='8.2.x'
     - DRUPAL_VERSION='8.3.x'
+    - DRUPAL_VERSION='8.4.x'
 
 cache:
   bundler: true
@@ -114,6 +120,3 @@ after_success:
   - if [ "$UPSTREAM" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg https://$DRUPAL_ORG_USERNAME:$DRUPAL_ORG_PASSWORD@git.drupal.org/project/$MODULE_NAME.git; fi;
-
-#after_script:
-
