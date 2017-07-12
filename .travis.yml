@@ -39,22 +39,18 @@ before_install:
   # Disable xdebug when we do not generate coverage files
   - if [ "$UPSTREAM" == "0" ]; then phpenv config-rm xdebug.ini; fi;
 
-  # Composer.
+  # Composer
   - sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
   - source $HOME/.bashrc
   - composer self-update
 
-  # Drush.
+  # Load global dependencies
   - composer global require drush/drush:~8.1
-
-  # Codesniffer.
   - composer global require squizlabs/php_codesniffer:$PHPCS_VERSION
-
-  # Coder.
   - composer global require drupal/coder:$CODER_VERSION
   - ln -s ~/.composer/vendor/drupal/coder/coder_sniffer/Drupal ~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
 
-  # Ensure the PHP environment is ready.
+  # Ensure the PHP environment is ready
   - phpenv rehash
 
 install:
