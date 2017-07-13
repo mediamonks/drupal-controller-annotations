@@ -18,4 +18,4 @@ If you discover any security related issues, please email devmonk@mediamonks.com
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The GPL version 2. Please see [License File](LICENSE.txt) or read more about [Licensing in Drupal](https://www.drupal.org/about/licensing).

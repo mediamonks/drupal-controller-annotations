@@ -13,7 +13,7 @@
         "framework"
     ],
     "homepage": "https://mediamonks.com/",
-    "license": "MIT",
+    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Robert Slootjes",
