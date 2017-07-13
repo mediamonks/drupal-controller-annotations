@@ -1,0 +1,5 @@
+name: Controller Annotations test module
+type: module
+description: "Support module for Controller Annotations tests."
+core: 8.x
+package: Testing

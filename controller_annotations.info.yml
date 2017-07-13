@@ -1,0 +1,5 @@
+name: Controller Annotations
+description: Easily configure your controllers with annotations
+core: 8.x
+package: Developer Experience
+type: module

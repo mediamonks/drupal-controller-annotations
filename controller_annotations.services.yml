@@ -1,0 +1,89 @@
+services:
+    controller_annotations.file_locator:
+        class: Symfony\Component\Config\FileLocator
+        public: false
+
+    controller_annotations.annotation_reader:
+        class: Doctrine\Common\Annotations\AnnotationReader
+        calls:
+            - [addGlobalIgnoredName, ['endlink']]
+        public: false
+
+    controller_annotations.controller.event_subscriber:
+        class: Drupal\controller_annotations\EventSubscriber\ControllerEventSubscriber
+        arguments:
+            - '@controller_annotations.annotation_reader'
+        tags:
+            - { name: event_subscriber }
+
+    controller_annotations.cache.event_subscriber:
+        class: Drupal\controller_annotations\EventSubscriber\HttpCacheEventSubscriber
+        tags:
+            - { name: event_subscriber }
+
+    controller_annotations.route.event_subscriber:
+        class: Drupal\controller_annotations\EventSubscriber\RouteEventSubscriber
+        arguments:
+            - '@controller_annotations.routing.loader.annotation_dir'
+            - '@app.root'
+        tags:
+            - { name: event_subscriber }
+
+    controller_annotations.template.event_subscriber:
+        class: Drupal\controller_annotations\EventSubscriber\TemplateEventSubscriber
+        arguments:
+            - '@twig'
+            - '@controller_annotations.templating.resolver'
+        tags:
+            - { name: event_subscriber }
+
+    controller_annotations.templating.resolver:
+        class: Drupal\controller_annotations\Templating\TemplateResolver
+        public: false
+
+    controller_annotations.param_converter.manager:
+        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterManager
+        tags:
+            - { name: service_collector, tag: controller_annotations.param_converter, call: add }
+        public: false
+
+    controller_annotations.param_converter.datetime:
+        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter
+        tags:
+            - { name: controller_annotations.param_converter, priority: 0 }
+        public: false
+
+    controller_annotations.param_converter.node:
+        class: Drupal\controller_annotations\Request\ParamConverter\NodeParamConverter
+        arguments:
+            - '@entity_type.manager'
+        tags:
+            - { name: controller_annotations.param_converter, priority: 10 }
+        public: false
+
+    controller_annotations.param_converter.event_subscriber:
+        class: Drupal\controller_annotations\EventSubscriber\ParamConverterEventSubscriber
+        arguments:
+            - '@controller_annotations.param_converter.manager'
+        tags:
+            - { name: event_subscriber }
+
+    controller_annotations.routing.loader.annotation_dir:
+        class: Symfony\Component\Routing\Loader\AnnotationDirectoryLoader
+        arguments:
+            - '@controller_annotations.file_locator'
+            - '@controller_annotations.routing.loader.annotation_class'
+        public: false
+
+    controller_annotations.routing.loader.annotation_file:
+        class: Symfony\Component\Routing\Loader\AnnotationFileLoader
+        arguments:
+            - '@file_locator'
+            - '@controller_annotations.routing.loader.annotation_class'
+        public: false
+
+    controller_annotations.routing.loader.annotation_class:
+        class: Drupal\controller_annotations\Routing\AnnotatedRouteControllerLoader
+        arguments:
+            - '@controller_annotations.annotation_reader'
+        public: false
