@@ -6,7 +6,7 @@
 
 ## Warning: this module is experimental and should be considered unstable
 
-Integrates the controller annotations from Symfony Framework [SensioLabs](https://github.com/sensiolabs/SensioFrameworkExtraBundle) into Drupal
+A Drupal port of the controller annotations from Symfony Framework [SensioLabs](https://github.com/sensiolabs/SensioFrameworkExtraBundle)
 
 ## Security
 
