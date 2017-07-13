@@ -10,15 +10,15 @@ php:
 
 env:
   global:
-    - MODULE_NAME='controller_annotations'
-    - DRUPAL_REPO='git://drupalcode.org/project/drupal.git'
-    - PHPCS_VERSION='2.7.*'
-    - CODER_VERSION='8.2.9'
+    - MODULE_NAME="controller_annotations"
+    - DRUPAL_REPO="git://drupalcode.org/project/drupal.git"
+    - PHPCS_VERSION="2.7.*"
+    - CODER_VERSION="8.2.9"
   matrix:
-    - DRUPAL_VERSION='8.1.x'
-    - DRUPAL_VERSION='8.2.x'
-    - DRUPAL_VERSION='8.3.x'
-    - DRUPAL_VERSION='8.4.x'
+    - DRUPAL_VERSION="8.1.x"
+    - DRUPAL_VERSION="8.2.x"
+    - DRUPAL_VERSION="8.3.x"
+    - DRUPAL_VERSION="8.4.x"
 
 cache:
   bundler: true
@@ -86,23 +86,21 @@ before_script:
   - export SIMPLETEST_BASE_URL=http://localhost:8080
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/drupal
 
-script:
-
   # Start a web server.
   - cd $TRAVIS_BUILD_DIR/drupal
   - drush runserver 127.0.0.1:8080 &
 
-  # Run code sniffer.
-  # Warnings are disabled until the SMS notifier is ported.
+script:
+  # CodeSniffer
   #- phpcs --report=full --standard=Drupal --warning-severity=0 $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME --ignore=bin,*.css,gulpfile.js,libraries,modules/contrib,vendor
 
   # Drupal "SimpleTests" via run-tests.sh
   #- cd $TRAVIS_BUILD_DIR/drupal
   #- php core/scripts/run-tests.sh --verbose --color --module $MODULE_NAME --php $(which php) --url http://127.0.0.1:8080
 
-  # PHP Unit Tests
-  - cd $TRAVIS_BUILD_DIR/drupal
-  - if [ "$UPSTREAM" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox; fi;
+  # PHPUnit
+  #- cd $TRAVIS_BUILD_DIR/drupal
+  #- if [ "$UPSTREAM" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox; fi;
 
   # Behat Tests - RUN THESE LAST OTHERWISE PHPUNIT WILL FAIL BECAUSE OF DEPENDENCY CONFLICTS
   #- cd $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME
@@ -111,10 +109,9 @@ script:
 
 after_success:
   - if [ "$UPSTREAM" == "1" ]; then cd $TRAVIS_BUILD_DIR/module; fi;
-  - if [ "$UPSTREAM" == "1" ]; then git remote -v; fi;
-  - if [ "$UPSTREAM" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
-  - if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
-  - if [ "$UPSTREAM" == "1" ]; then rm coverage.clover; fi;
+  #- if [ "$UPSTREAM" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
+  #- if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
+  #- if [ "$UPSTREAM" == "1" ]; then rm coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then eval "$(ssh-agent -s)"; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo $DRUPAL_ORG_KEY | base64 --decode > drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then chmod 600 drupalorg_key.pem; fi;
@@ -122,6 +119,8 @@ after_success:
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.name "devmonk"; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global user.email devmonk@mediamonks.com; fi;
   - if [ "$UPSTREAM" == "1" ]; then git config --global push.default matching; fi;
+  - if [ "$UPSTREAM" == "1" ]; then git config --global push.followTags true; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo -e "Host git.drupal.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config; fi;
   - if [ "$UPSTREAM" == "1" ]; then git remote add drupalorg git@git.drupal.org:project/$MODULE_NAME.git; fi;
-  - if [ "$UPSTREAM" == "1" ]; then git push drupalorg $TRAVIS_BRANCH; fi;
+  #- if [ "$UPSTREAM" == "1" ]; then git push drupalorg $TRAVIS_BRANCH; fi;
+  - if [ "$UPSTREAM" == "1" ]; then ps aux; fi;
