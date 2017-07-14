@@ -5,6 +5,9 @@ namespace Drupal\Tests\controller_annotations\Unit\Templating;
 use Drupal\controller_annotations\Templating\TemplateResolver;
 use Drupal\Tests\UnitTestCase;
 
+/**
+ * @group controller_annotations
+ */
 class TemplateResolverTest extends UnitTestCase
 {
     /**
@@ -27,7 +30,7 @@ class TemplateResolverTest extends UnitTestCase
     ) {
         $this->assertEquals(
           $expected,
-          $this->templateResolver->resolveByControllerAndActon(
+          $this->templateResolver->resolveByControllerAndAction(
             $controller,
             $action
           )
@@ -91,5 +94,11 @@ class TemplateResolverTest extends UnitTestCase
     {
         $this->setExpectedException(\InvalidArgumentException::class);
         $this->templateResolver->normalize('foo');
+    }
+
+    public function testResolveByControllerAndActionWithInvalidController()
+    {
+        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->templateResolver->resolveByControllerAndAction('Foo', 'fooAction');
     }
 }

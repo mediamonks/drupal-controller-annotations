@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Loader\AnnotationDirectoryLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
+/**
+ * @group controller_annotations
+ */
 class RouteEventSubscriberTest extends UnitTestCase
 {
     /**
@@ -100,5 +103,22 @@ class RouteEventSubscriberTest extends UnitTestCase
         $this->triggerOnRoutes();
         $this->assertEquals(1, $this->getRouteCollection()->count());
         $this->assertEquals($annotatedRoute, $this->getRouteCollection()->all()['bar']);
+    }
+
+    public function testOnRoutesWithoutRequiredOptions()
+    {
+        $this->setExpectedException(\Exception::class);
+
+        $annotatedRoute = new Route('/bar');
+
+        $annotatedRouteCollection = $this->getAnnotatedRouteCollection();
+        $annotatedRouteCollection->add('bar', $annotatedRoute);
+
+        $route = new Route('/foo');
+        $route->setOption('type', 'annotation');
+
+        $this->getRouteCollection()->add('foo', $route);
+
+        $this->triggerOnRoutes();
     }
 }

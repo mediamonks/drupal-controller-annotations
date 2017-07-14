@@ -14,6 +14,9 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+/**
+ * @group controller_annotations
+ */
 class TemplateEventSubscriberTest extends UnitTestCase
 {
     public function testOnKernelControllerWithoutTemplate()
@@ -36,7 +39,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
 
         $twig = m::mock(\Twig_Environment::class);
         $templateResolver = m::mock(TemplateResolver::class);
-        $templateResolver->shouldReceive('resolveByControllerAndActon')->once()->andReturn($templateName);
+        $templateResolver->shouldReceive('resolveByControllerAndAction')->once()->andReturn($templateName);
 
         $template = new Template([]);
 

@@ -16,7 +16,7 @@ class TemplateResolver
      * @param string $action
      * @return string
      */
-    public function resolveByControllerAndActon($controllerClass, $action)
+    public function resolveByControllerAndAction($controllerClass, $action)
     {
         preg_match('/^Drupal\\\(.*)\\\Controller\\\(.*)/', $controllerClass, $data);
         if (!empty($data)) {

@@ -12,6 +12,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @group controller_annotations
+ */
 class NodeParamConverterTest extends UnitTestCase
 {
     private function getNodeParamConverter()
@@ -152,6 +155,31 @@ class NodeParamConverterTest extends UnitTestCase
 
         $this->assertTrue($request->attributes->has($name));
         $this->assertEquals(null, $request->attributes->get($name));
+    }
+
+    public function testApplyWithoutAttribute()
+    {
+        $id = 1;
+        $bundle = 'article';
+
+        $entityInterface = m::mock(EntityInterface::class);
+        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+
+        $entityTypeManager = m::mock(EntityTypeManager::class);
+        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+
+        $nodeParamConverter = new NodeParamConverter($entityTypeManager);
+
+        $name = 'test';
+        $request = new Request();
+
+        $paramConverter = m::mock(ParamConverter::class);
+        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+        $paramConverter->shouldReceive('getOptions')->once()->andReturn(['bundle' => $bundle]);
+
+        $this->assertTrue($nodeParamConverter->supports($paramConverter));
+        $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
     }
 
     public function tearDown()

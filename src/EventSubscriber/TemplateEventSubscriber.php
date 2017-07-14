@@ -59,7 +59,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
     private function normalizeTemplate(Template $template)
     {
         if (is_null($template->getTemplate())) {
-            $templateFile = $this->resolver->resolveByControllerAndActon(
+            $templateFile = $this->resolver->resolveByControllerAndAction(
                 get_class($template->getOwner()[0]),
                 $template->getOwner()[1]
             );
