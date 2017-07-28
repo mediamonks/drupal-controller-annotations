@@ -115,8 +115,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface
     /**
      * @param Request $request
      * @param Template $template
-     * @param $controller
-     * @param $action
+     * @param string $controller
+     * @param string $action
      * @return array
      */
     private function resolveDefaultParameters(Request $request, Template $template, $controller, $action)
