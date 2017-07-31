@@ -115,7 +115,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
     /**
      * @param Request $request
      * @param Template $template
-     * @param string $controller
+     * @param object $controller
      * @param string $action
      * @return array
      */

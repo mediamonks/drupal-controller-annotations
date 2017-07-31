@@ -3,6 +3,7 @@
 namespace Drupal\Tests\controller_annotations\Kernel;
 
 use Drupal\Core\DrupalKernel;
+use Drupal\Core\Site\Settings;
 use Drupal\KernelTests\KernelTestBase as BaseKernelTestBase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
