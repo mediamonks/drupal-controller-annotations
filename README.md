@@ -6,7 +6,7 @@
 
 ## Warning: this module is experimental and should be considered unstable
 
-A Drupal port of the controller annotations from Symfony Framework [SensioLabs](https://github.com/sensiolabs/SensioFrameworkExtraBundle)
+A Drupal port of the controller annotations from [Symfony Framework](http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html)
 
 ## Security
 

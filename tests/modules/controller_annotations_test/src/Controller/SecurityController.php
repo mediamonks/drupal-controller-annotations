@@ -38,4 +38,22 @@ class SecurityController extends ControllerBase
     {
         return new Response('OK');
     }
+
+    /**
+     * @Route("custom")
+     * @Security(custom="\Drupal\controller_annotations_test\Security\Custom::access")
+     */
+    public function customAction()
+    {
+        return new Response('OK');
+    }
+
+    /**
+     * @Route("csrf")
+     * @Security(access=true, csrf=true)
+     */
+    public function csrfAction()
+    {
+        return new Response('OK');
+    }
 }

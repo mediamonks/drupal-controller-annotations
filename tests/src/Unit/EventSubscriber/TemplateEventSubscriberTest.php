@@ -31,6 +31,12 @@ class TemplateEventSubscriberTest extends UnitTestCase
 
         $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
         $this->assertNull($eventSubscriber->onKernelController($event));
+
+        $event = m::mock(GetResponseForControllerResultEvent::class);
+        $event->shouldReceive('getRequest')->once()->andReturn($request);
+
+        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+        $this->assertNull($eventSubscriber->onKernelView($event));
     }
 
     public function testOnKernelControllerWithInvalidTemplate()
@@ -46,6 +52,12 @@ class TemplateEventSubscriberTest extends UnitTestCase
 
         $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
         $this->assertNull($eventSubscriber->onKernelController($event));
+
+        $event = m::mock(GetResponseForControllerResultEvent::class);
+        $event->shouldReceive('getRequest')->once()->andReturn($request);
+
+        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+        $this->assertNull($eventSubscriber->onKernelView($event));
     }
 
     public function testOnKernelControllerWithTemplate()

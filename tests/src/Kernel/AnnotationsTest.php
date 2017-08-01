@@ -81,5 +81,23 @@ class AnnotationsTest extends KernelTestBase
         $this->assertForbidden(Request::create('/test/security/role'));
         $this->setAdministratorAccount();
         $this->assertResponseContents(Request::create('/test/security/role'), 'OK');
+
+        // custom
+        $this->setAnonymousAccount();
+        $this->assertForbidden(Request::create('/test/security/custom'));
+        $this->setAuthenticatedAccount();
+        $this->assertForbidden(Request::create('/test/security/custom'));
+        $this->setAdministratorAccount();
+        $this->assertForbidden(Request::create('/test/security/custom'));
+        $this->setAccount(new UserSession([
+            'uid' => 1337
+        ]));
+        $this->assertResponseContents(Request::create('/test/security/custom'), 'OK');
+
+        // csrf
+        $this->assertForbidden(Request::create('/test/security/csrf'));
+        $this->assertResponseContents(Request::create('/test/security/csrf', 'GET', [
+            'token' => $this->kernel->getContainer()->get('csrf_token')->get('test/security/csrf')
+        ]), 'OK');
     }
 }
