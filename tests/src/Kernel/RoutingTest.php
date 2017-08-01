@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\controller_annotations\Kernel;
 
+use Drupal\Core\Session\AnonymousUserSession;
+use Drupal\Core\Session\UserSession;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -49,5 +51,27 @@ class RoutingTest extends KernelTestBase
         $this->assertResponseContents(Request::create('/test/template/module-controller'), 'module-controller');
         $this->assertResponseContents(Request::create('/test/template/module-controller-action'), 'module-controller-action');
         $this->assertResponseContents(Request::create('/test/template/parameter'), 'value');
+    }
+
+    public function testSecurity()
+    {
+        // all access
+        $this->assertResponseContents(Request::create('/test/security/access'), 'OK');
+
+        // only access with "access content" permission
+        $this->assertForbidden(Request::create('/test/security/permission'));
+        $this->setAdministratorAccount();
+        $this->assertResponseContents(Request::create('/test/security/permission'), 'OK');
+
+        // only access with "administrator" role
+        $this->setAnonymousAccount();
+        $this->assertForbidden(Request::create('/test/security/role'));
+        $this->setAccount(new UserSession([
+            'uid' => 2,
+            'roles' => ['authenticated']
+        ]));
+        $this->assertForbidden(Request::create('/test/security/role'));
+        $this->setAdministratorAccount();
+        $this->assertResponseContents(Request::create('/test/security/role'), 'OK');
     }
 }
