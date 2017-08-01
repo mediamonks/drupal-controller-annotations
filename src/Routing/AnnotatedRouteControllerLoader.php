@@ -73,9 +73,6 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
         if ($security->hasRole()) {
             $route->setRequirement('_role', $security->getRole());
         }
-        if ($security->hasAuth()) {
-            $route->setRequirement('_auth', $security->getAuth());
-        }
         if ($security->hasCsrf()) {
             $route->setRequirement('_csrf_token', 'TRUE');
         }

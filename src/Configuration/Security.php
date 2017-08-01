@@ -25,11 +25,6 @@ class Security extends ConfigurationAnnotation
     protected $access;
 
     /**
-     * @var string
-     */
-    protected $auth;
-
-    /**
      * @var bool
      */
     protected $csrf;
@@ -108,33 +103,6 @@ class Security extends ConfigurationAnnotation
     public function setAccess($access)
     {
         $this->access = $access;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasAuth()
-    {
-        return !empty($this->auth);
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuth()
-    {
-        return $this->auth;
-    }
-
-    /**
-     * @param string $auth
-     * @return Security
-     */
-    public function setAuth($auth)
-    {
-        $this->auth = $auth;
 
         return $this;
     }
