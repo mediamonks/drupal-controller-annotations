@@ -2,14 +2,13 @@
 
 namespace Drupal\Tests\controller_annotations\Kernel;
 
-use Drupal\Core\Session\AnonymousUserSession;
-use Drupal\Core\Session\UserSession;
+use Drupal\Tests\controller_annotations\Kernel\TestUserSession as UserSession;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @group controller_annotations
  */
-class RoutingTest extends KernelTestBase
+class AnnotationsTest extends KernelTestBase
 {
     public function testRouting()
     {
@@ -51,6 +50,7 @@ class RoutingTest extends KernelTestBase
         $this->assertResponseContents(Request::create('/test/template/module-controller'), 'module-controller');
         $this->assertResponseContents(Request::create('/test/template/module-controller-action'), 'module-controller-action');
         $this->assertResponseContents(Request::create('/test/template/parameter'), 'value');
+        $this->assertResponseContents(Request::create('/test/template/parameter-url/foo'), 'foo default');
     }
 
     public function testSecurity()
@@ -60,16 +60,24 @@ class RoutingTest extends KernelTestBase
 
         // only access with "access content" permission
         $this->assertForbidden(Request::create('/test/security/permission'));
+        $this->setAccount(new UserSession([
+            'uid' => 2,
+            'permissions' => ['foo']
+        ]));
+        $this->assertForbidden(Request::create('/test/security/permission'));
+        $this->setAccount(new UserSession([
+            'uid' => 2,
+            'permissions' => ['access content']
+        ]));
+
+        $this->assertResponseContents(Request::create('/test/security/permission'), 'OK');
         $this->setAdministratorAccount();
         $this->assertResponseContents(Request::create('/test/security/permission'), 'OK');
 
         // only access with "administrator" role
         $this->setAnonymousAccount();
         $this->assertForbidden(Request::create('/test/security/role'));
-        $this->setAccount(new UserSession([
-            'uid' => 2,
-            'roles' => ['authenticated']
-        ]));
+        $this->setAuthenticatedAccount();
         $this->assertForbidden(Request::create('/test/security/role'));
         $this->setAdministratorAccount();
         $this->assertResponseContents(Request::create('/test/security/role'), 'OK');

@@ -5,11 +5,10 @@ namespace Drupal\Tests\controller_annotations\Kernel;
 use Drupal\Core\DrupalKernel;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AnonymousUserSession;
-use Drupal\Core\Session\UserSession;
+use Drupal\Tests\controller_annotations\Kernel\TestUserSession as UserSession;
 use Drupal\KernelTests\KernelTestBase as BaseKernelTestBase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 abstract class KernelTestBase extends BaseKernelTestBase
 {
@@ -79,6 +78,17 @@ abstract class KernelTestBase extends BaseKernelTestBase
     protected function setAnonymousAccount()
     {
         $this->setAccount(new AnonymousUserSession());
+    }
+
+    /**
+     *
+     */
+    protected function setAuthenticatedAccount()
+    {
+        $this->setAccount(new UserSession([
+            'uid' => 2,
+            'roles' => ['authenticated']
+        ]));
     }
 
     /**

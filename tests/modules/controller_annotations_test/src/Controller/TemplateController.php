@@ -48,4 +48,13 @@ class TemplateController extends ControllerBase
     {
         return ['parameter' => 'value'];
     }
+
+    /**
+     * @Route("parameter-url/{parameter}")
+     * @Security(access=true)
+     * @Template
+     */
+    public function parameterUrlAction($parameter, $default = 'default')
+    {
+    }
 }
