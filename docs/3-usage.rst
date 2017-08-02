@@ -1,0 +1,188 @@
+Step 3: Usage
+=============
+
+A full example will probably demonstrate quickly how this works:
+
+.. code-block:: php
+
+    namespace Drupal\acme\Controller;
+
+    use Drupal\controller_annotations\Configuration\Route;
+    use Drupal\controller_annotations\Configuration\Cache;
+    use Drupal\controller_annotations\Configuration\Template;
+    use Drupal\controller_annotations\Configuration\ParamConverter;
+    use Drupal\controller_annotations\Configuration\Method;
+    use Drupal\controller_annotations\Configuration\Security;
+    use Drupal\node\Entity\Node;
+
+    /**
+     * @Route("/articles")
+     * @Cache(expires="tomorrow")
+     */
+    class ArticleController
+    {
+        /**
+         * @Route
+         * @Template
+         * @Security(permission="access content")
+         */
+        public function indexAction()
+        {
+            $articles = ...;
+
+            return ['articles' => $articles];
+        }
+
+        /**
+         * @Route("/{id}", name="article_edit")
+         * @Method("GET")
+         * @ParamConverter("article", options={"bundle": "article"})
+         * @Template("acme:article:show", vars={"article"})
+         * @Cache(smaxage="15")
+         * @Security(role="administrator")
+         */
+        public function editAction(Node $article) { }
+    }
+
+The documentation on the `Symfony Framework Extra Bundle`_ is a great read on what the possibilities are.
+This document will mainly describe the differences between the Bundle and this module to prevent duplicating
+the great documentation that is provided already.
+
+@Route
+------
+
+The only difference is how the annotation is activated. In Drupal this should be added to your ``routing.yml`` file:
+
+.. code-block:: yml
+
+    acme_annotations:
+        path:
+        options:
+            type: annotation
+            module: acme
+
+This will assume the controllers of your module are placed in ``/modules/acme/src/Controller``
+
+If you prefer to use a different path you can provide the path yourself manually instead:
+
+.. code-block:: yml
+
+    acme_annotations:
+        path:
+        options:
+            type: annotation
+            path: /modules/acme/src/SomewhereElse
+
+@Security
+---------
+
+Security is handled differently in Drupal so this section is different from the bundle.
+It basically follows the same rules as usual and the options should look familiar.
+
+Allow this route to be accessed under all cirumstances:
+
+.. code-block:: php
+
+    /**
+     * @Security(access=true)
+     */
+
+Require a specific permission:
+
+.. code-block:: php
+
+    /**
+     * @Security(permission="access content")
+     */
+
+or role:
+
+.. code-block:: php
+
+    /**
+     * @Security(role="administrator")
+     */
+
+or even point it to a custom access checker:
+
+.. code-block:: php
+
+    /**
+     * @Security(custom="Drupal\acme\Security\Custom::access")
+     */
+
+You can also require a valid CSRF token for this endpoint:
+
+.. code-block:: php
+
+    /**
+     * @Security(access=true, csrf=true)
+     */
+
+@Cache
+------
+
+The cache annotation is very flexible and supports many different options:
+
+.. code-block:: php
+
+    /**
+     * @Cache(expires="tomorrow", public=true)
+     * @Cache(expires="+2 days")
+     * @Cache(smaxage="15")
+     * @Cache(vary={"Cookie"})
+     */
+
+@ParamConverter
+---------------
+
+Obviously the examples for Doctrine ORM are not applicable to Drupal but instead a ``NodeParamConverter`` is included:
+
+.. code-block:: php
+
+    use Drupal\node\Entity\Node;
+
+    /**
+     * @ParamConverter
+     */
+    public function editAction(Node $article) { }
+
+You can also be a little more explicit and require a specific bundle:
+
+.. code-block:: php
+
+    use Drupal\node\Entity\Node;
+
+    /**
+     * @ParamConverter("article", options={"bundle": "article"})
+     */
+    public function editAction(Node $article) { }
+
+
+Just like with Symfony Framework you can add your own converters by creating a service which implements
+``Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface``
+and is tagged with ``controller_annotations.param_converter``.
+
+@Template
+---------
+
+This basically does the same but the convention of resolving a string to a template is a little different.
+
+If no template name is provided the template resolver will figure out the name of your module, controller and action
+and convert this into the path of the template. This means that ``Drupal\<module>\Controller\<controller>Controller:<action>Action``
+will be converted to the path ``modules/<module>/templates/<module>-<controller>(-<action>).html.twig``.
+
+You can manually change the rendered template by using these formats instead:
+
+.. code-block:: php
+
+    /**
+     * @Template("acme:articles")
+     * @Template("acme:articles:index")
+     */
+
+which will render to respectively ``modules/acme/templates/acme-articles.html.twig``
+and ``modules/acme/templates/acme-articles-index.html.twig``
+
+
+.. _`Symfony Framework Extra Bundle`: http://symfony.com/doc/master/bundles/SensioFrameworkExtraBundle/index.html

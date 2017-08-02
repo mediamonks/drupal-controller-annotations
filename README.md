@@ -1,12 +1,22 @@
 [![Build Status](https://travis-ci.org/mediamonks/drupal-controller-annotations.svg?branch=8.x-1.x)](https://travis-ci.org/mediamonks/drupal-controller-annotations)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/badges/quality-score.png?b=8.x-1.x)](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/?branch=8.x-1.x)
 [![Code Coverage](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/badges/coverage.png?b=8.x-1.x)](https://scrutinizer-ci.com/g/mediamonks/drupal-controller-annotations/?branch=8.x-1.x)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 # Drupal Controller Annotations
 
-## Warning: this module is experimental and should be considered unstable
-
 A Drupal port of the controller annotations from [Symfony Framework](http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html)
+
+## Documentation
+
+Please refer to the files in the [/docs](/docs) folder.
+
+## System Requirements
+
+You need:
+
+- **PHP >= 5.5.0**
+- **Drupal >= 8.0**
 
 ## Security
 
