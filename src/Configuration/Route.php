@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as BaseRoute;
 class Route extends BaseRoute
 {
     /**
-     * @var string
+     * @var bool
      */
     protected $admin;
 
