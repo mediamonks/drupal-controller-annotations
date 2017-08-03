@@ -46,17 +46,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
             if ($route->hasOption('type')
                 && $route->getOption('type') === 'annotation'
             ) {
-                if ($route->hasOption('path')) {
-                    $path = $route->getOption('path');
-                } elseif ($route->hasOption('module')) {
-                    $path = sprintf('/%s/src/Controller', drupal_get_path('module', $route->getOption('module')));
-                } else {
-                    throw new \Exception(
-                        'Either the "resource" or "module"  option is required to load from annotations'
-                    );
-                }
-
-                $routeCollection = $this->annotationDirectoryLoader->load($this->rootPath.$path);
+                $routeCollection = $this->annotationDirectoryLoader->load($this->rootPath . $this->getRoutePath($route));
                 $routeCollection->addPrefix($route->getPath());
 
                 $event->getRouteCollection()->addCollection($routeCollection);
@@ -75,5 +65,24 @@ class RouteEventSubscriber implements EventSubscriberInterface
                 ['onRoutes', 0],
             ]
         ];
+    }
+
+    /**
+     * @param Route $route
+     * @return string
+     * @throws \Exception
+     */
+    public function getRoutePath(Route $route)
+    {
+        if ($route->hasOption('path')) {
+            $path = $route->getOption('path');
+        } elseif ($route->hasOption('module')) {
+            $path = sprintf('/%s/src/Controller', drupal_get_path('module', $route->getOption('module')));
+        } else {
+            throw new \Exception(
+                'Either the "resource" or "module"  option is required to load from annotations'
+            );
+        }
+        return $path;
     }
 }

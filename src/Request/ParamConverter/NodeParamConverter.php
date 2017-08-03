@@ -32,28 +32,37 @@ class NodeParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $param = $configuration->getName();
-        $options = $configuration->getOptions();
-
         if (!$request->attributes->has($param)) {
             return false;
         }
 
         $value = $request->attributes->get($param);
 
-        $object = $this->entityTypeManager->getStorage('node')->load($value);
+        $request->attributes->set($param, $this->getNode($value, $configuration));
+    }
 
-        $class = 'node';
-        if (isset($options['bundle'])) {
-            $class = $options['bundle'];
-        }
+    /**
+     * @param string $value
+     * @param ParamConverter $configuration
+     * @return \Drupal\Core\Entity\EntityInterface|null
+     */
+    protected function getNode($value, ParamConverter $configuration)
+    {
+        $options = $configuration->getOptions();
+        $node = $this->entityTypeManager->getStorage('node')->load($value);
+
         if (
-            (is_null($object) && false === $configuration->isOptional())
-            || (!is_null($object) && isset($options['bundle']) && $object->bundle() !== $options['bundle'])
+            (is_null($node) && false === $configuration->isOptional())
+            || (!is_null($node) && isset($options['bundle']) && $node->bundle() !== $options['bundle'])
         ) {
+            $class = 'node';
+            if (isset($options['bundle'])) {
+                $class = $options['bundle'];
+            }
             throw new NotFoundHttpException(sprintf('%s not found.', $class));
         }
 
-        $request->attributes->set($param, $object);
+        return $node;
     }
 
     /**

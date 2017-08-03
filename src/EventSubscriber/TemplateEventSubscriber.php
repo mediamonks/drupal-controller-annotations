@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class TemplateEventSubscriber implements EventSubscriberInterface
@@ -42,15 +43,38 @@ class TemplateEventSubscriber implements EventSubscriberInterface
      */
     public function onKernelController(FilterControllerEvent $event)
     {
-        $request = $event->getRequest();
-        $template = $request->attributes->get('_template');
-
+        $template = $this->getTemplateFromRequest($event);
         if (!$template instanceof Template) {
             return;
         }
 
         $template->setOwner($event->getController());
         $this->normalizeTemplate($template);
+    }
+
+    /**
+     * Renders the template and initializes a new response object with the
+     * rendered template content.
+     *
+     * @param GetResponseForControllerResultEvent $event
+     */
+    public function onKernelView(GetResponseForControllerResultEvent $event)
+    {
+        $template = $this->getTemplateFromRequest($event);
+        if (!$template instanceof Template) {
+            return;
+        }
+
+        $this->setResponse($event, $template, $this->getParameters($event, $template));
+    }
+
+    /**
+     * @param KernelEvent $event
+     * @return mixed
+     */
+    private function getTemplateFromRequest(KernelEvent $event)
+    {
+        return $event->getRequest()->attributes->get('_template');
     }
 
     /**
@@ -71,32 +95,12 @@ class TemplateEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Renders the template and initializes a new response object with the
-     * rendered template content.
-     *
      * @param GetResponseForControllerResultEvent $event
+     * @param Template $template
+     * @param $parameters
      */
-    public function onKernelView(GetResponseForControllerResultEvent $event)
+    private function setResponse(GetResponseForControllerResultEvent $event, Template $template, $parameters)
     {
-        /* @var Template $template */
-        $request = $event->getRequest();
-        $template = $request->attributes->get('_template');
-
-        if (!$template instanceof Template) {
-            return;
-        }
-
-        $parameters = $event->getControllerResult();
-
-        $owner = $template->getOwner();
-        list($controller, $action) = $owner;
-
-        // when the annotation declares no default vars and the action returns
-        // null, all action method arguments are used as default vars
-        if (null === $parameters) {
-            $parameters = $this->resolveDefaultParameters($request, $template, $controller, $action);
-        }
-
         // make sure the owner (controller+dependencies) is not cached or stored elsewhere
         $template->setOwner([]);
 
@@ -106,10 +110,30 @@ class TemplateEventSubscriber implements EventSubscriberInterface
             };
 
             $event->setResponse(new StreamedResponse($callback));
-        }
-        else {
+        } else {
             $event->setResponse(new Response($this->twig->render($template->getTemplate(), $parameters)));
         }
+    }
+
+    /**
+     * @param GetResponseForControllerResultEvent $event
+     * @param Template $template
+     * @return array|mixed
+     */
+    private function getParameters(GetResponseForControllerResultEvent $event, Template $template)
+    {
+        $parameters = $event->getControllerResult();
+
+        $owner = $template->getOwner();
+        list($controller, $action) = $owner;
+
+        // when the annotation declares no default vars and the action returns
+        // null, all action method arguments are used as default vars
+        if (null === $parameters) {
+            $parameters = $this->resolveDefaultParameters($event->getRequest(), $template, $controller, $action);
+        }
+
+        return $parameters;
     }
 
     /**
@@ -137,11 +161,11 @@ class TemplateEventSubscriber implements EventSubscriberInterface
         // and assign them to the designated template
         foreach ($arguments as $argument) {
             if ($argument instanceof \ReflectionParameter) {
-                $parameters[$name = $argument->getName()] = !$request->attributes->has(
-                    $name
-                ) && $argument->isDefaultValueAvailable() ? $argument->getDefaultValue() : $request->attributes->get(
-                    $name
-                );
+                $name = $argument->getName();
+                $parameters[$name] = !$request->attributes->has($name)
+                && $argument->isDefaultValueAvailable()
+                    ? $argument->getDefaultValue()
+                    : $request->attributes->get($name);
             } else {
                 $parameters[$argument] = $request->attributes->get($argument);
             }

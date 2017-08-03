@@ -176,7 +176,7 @@ class NodeParamConverterTest extends UnitTestCase
         $paramConverter = m::mock(ParamConverter::class);
         $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
         $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->once()->andReturn(['bundle' => $bundle]);
+        $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
 
         $this->assertTrue($nodeParamConverter->supports($paramConverter));
         $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
