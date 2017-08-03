@@ -34,7 +34,7 @@ mysql:
 
 before_install:
   # Decide if this build is used to push upstream changes to Drupal.org
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ] && [ "$DRUPAL_VERSION" == "8.3.x" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then export UPSTREAM="1"; else export UPSTREAM="0"; fi;
+  - if [ "$TRAVIS_PHP_VERSION" == "7.0" ] && [ "$DRUPAL_VERSION" == "8.3.x" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then export UPSTREAM="1"; else export UPSTREAM="0"; fi;
 
   # Disable xdebug when we do not generate coverage files
   - if [ "$UPSTREAM" == "0" ]; then phpenv config-rm xdebug.ini; fi;
