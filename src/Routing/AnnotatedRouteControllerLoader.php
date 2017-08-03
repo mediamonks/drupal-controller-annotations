@@ -23,8 +23,7 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
         foreach ($this->reader->getMethodAnnotations($method) as $configuration) {
             if ($configuration instanceof RouteConfiguration) {
                 $this->setRouteConfiguration($route, $configuration);
-            }
-            elseif ($configuration instanceof Method) {
+            } elseif ($configuration instanceof Method) {
                 $this->setMethodConfiguration($route, $configuration);
             } elseif ($configuration instanceof Security) {
                 $this->setSecurityConfiguration($route, $configuration);
@@ -43,9 +42,9 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
     {
         $classAnnot = $this->reader->getClassAnnotation($class, $this->routeAnnotationClass);
         if ($classAnnot instanceof RouteConfiguration && $service = $classAnnot->getService()) {
-            $route->setDefault('_controller', $service.':'.$method->getName());
+            $route->setDefault('_controller', $service . ':' . $method->getName());
         } else {
-            $route->setDefault('_controller', $class->getName().'::'.$method->getName());
+            $route->setDefault('_controller', $class->getName() . '::' . $method->getName());
         }
     }
 
