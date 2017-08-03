@@ -1,4 +1,4 @@
-Step 3: Usage
+Step 2: Usage
 =============
 
 A full example will probably demonstrate quickly how this works:
@@ -51,7 +51,7 @@ the great documentation that is provided already.
 @Route
 ------
 
-The only difference is how the annotation is activated. In Drupal this should be added to your ``routing.yml`` file:
+The main difference is how the annotation is activated. In Drupal this should be added to your ``routing.yml`` file:
 
 .. code-block:: yml
 
@@ -73,13 +73,22 @@ If you prefer to use a different path you can provide the path yourself manually
             type: annotation
             path: /modules/acme/src/SomewhereElse
 
+An added feature is to flag your route as being an admin route:
+
+.. code-block:: php
+
+    /**
+     * @Route("path/to/route", admin=true)
+     */
+
 @Security
 ---------
 
 Security is handled differently in Drupal so this section is different from the bundle.
 It basically follows the same rules as usual and the options should look familiar.
+Please note that no one will be able to access this route if this annotation isn't added.
 
-Allow this route to be accessed under all cirumstances:
+Allow this route to be accessed under all circumstances:
 
 .. code-block:: php
 
@@ -101,6 +110,14 @@ or role:
 
     /**
      * @Security(role="administrator")
+     */
+
+or entity access:
+
+.. code-block:: php
+
+    /**
+     * @Security(entity="node.view")
      */
 
 or even point it to a custom access checker:

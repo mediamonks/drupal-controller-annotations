@@ -25,6 +25,11 @@ class Security extends ConfigurationAnnotation
     protected $access;
 
     /**
+     * @var string
+     */
+    protected $entity;
+
+    /**
      * @var bool
      */
     protected $csrf;
@@ -103,6 +108,33 @@ class Security extends ConfigurationAnnotation
     public function setAccess($access)
     {
         $this->access = $access;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasEntity()
+    {
+        return !empty($this->entity);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @param string $entity
+     * @return Security
+     */
+    public function setEntity($entity)
+    {
+        $this->entity = $entity;
 
         return $this;
     }

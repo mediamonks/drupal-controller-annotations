@@ -4,7 +4,7 @@ namespace Drupal\controller_annotations\Routing;
 
 use Drupal\controller_annotations\Configuration\Method;
 use Drupal\controller_annotations\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as FrameworkExtraBundleRoute;
+use Drupal\controller_annotations\Configuration\Route as RouteConfiguration;
 use Sensio\Bundle\FrameworkExtraBundle\Routing\AnnotatedRouteControllerLoader as BaseAnnotatedRouteControllerLoader;
 use Symfony\Component\Routing\Route;
 
@@ -21,11 +21,14 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
         $this->setController($route, $class, $method);
 
         foreach ($this->reader->getMethodAnnotations($method) as $configuration) {
-            if ($configuration instanceof Method) {
+            if ($configuration instanceof RouteConfiguration) {
+                $this->setRouteConfiguration($route, $configuration);
+            }
+            elseif ($configuration instanceof Method) {
                 $this->setMethodConfiguration($route, $configuration);
             } elseif ($configuration instanceof Security) {
                 $this->setSecurityConfiguration($route, $configuration);
-            } elseif ($configuration instanceof FrameworkExtraBundleRoute && $configuration->getService()) {
+            } elseif ($configuration instanceof RouteConfiguration && $configuration->getService()) {
                 throw new \LogicException('The service option can only be specified at class level.');
             }
         }
@@ -39,10 +42,21 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
     private function setController(Route $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
         $classAnnot = $this->reader->getClassAnnotation($class, $this->routeAnnotationClass);
-        if ($classAnnot instanceof FrameworkExtraBundleRoute && $service = $classAnnot->getService()) {
+        if ($classAnnot instanceof RouteConfiguration && $service = $classAnnot->getService()) {
             $route->setDefault('_controller', $service.':'.$method->getName());
         } else {
             $route->setDefault('_controller', $class->getName().'::'.$method->getName());
+        }
+    }
+
+    /**
+     * @param Route $route
+     * @param RouteConfiguration $routeConfiguration
+     */
+    private function setRouteConfiguration(Route $route, RouteConfiguration $routeConfiguration)
+    {
+        if ($routeConfiguration->isAdmin()) {
+            $route->setOption('_admin_route', true);
         }
     }
 
@@ -72,6 +86,9 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
         }
         if ($security->hasRole()) {
             $route->setRequirement('_role', $security->getRole());
+        }
+        if ($security->hasEntity()) {
+            $route->setRequirement('_entity_access', $security->getEntity());
         }
         if ($security->hasCsrf()) {
             $route->setRequirement('_csrf_token', 'TRUE');

@@ -5,6 +5,7 @@ namespace Drupal\controller_annotations_test\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\controller_annotations\Configuration\Route;
 use Drupal\controller_annotations\Configuration\Security;
+use Drupal\node\Entity\Node;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,6 +36,15 @@ class SecurityController extends ControllerBase
      * @Security(role="administrator")
      */
     public function roleAction()
+    {
+        return new Response('OK');
+    }
+
+    /**
+     * @Route("entity/{node}")
+     * @Security(entity="node.view")
+     */
+    public function entityAction(Node $node)
     {
         return new Response('OK');
     }

@@ -20,7 +20,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
     /**
      * @var array
      */
-    public static $modules = ['controller_annotations', 'controller_annotations_test', 'user'];
+    public static $modules = ['controller_annotations', 'controller_annotations_test', 'user', 'system', 'node'];
 
     /**
      * @param Request $request
@@ -30,6 +30,27 @@ abstract class KernelTestBase extends BaseKernelTestBase
     {
         $response = $this->request($request);
         $this->assertEquals($contents, $response->getContent());
+    }
+
+    /**
+     * @param Request $request
+     * @param $contents
+     */
+    protected function assertResponseContains(Request $request, $contents)
+    {
+        $response = $this->request($request);
+        //echo $response->getContent();
+        $this->assertTrue(strpos($response->getContent(), $contents) !== false);
+    }
+
+    /**
+     * @param Request $request
+     * @param $contents
+     */
+    protected function assertResponseNotContains(Request $request, $contents)
+    {
+        $response = $this->request($request);
+        $this->assertTrue(strpos($response->getContent(), $contents) === false);
     }
 
     /**

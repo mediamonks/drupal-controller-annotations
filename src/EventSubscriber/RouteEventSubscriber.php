@@ -25,10 +25,8 @@ class RouteEventSubscriber implements EventSubscriberInterface
      * @param AnnotationDirectoryLoader $annotationDirectoryLoader
      * @param string $rootPath
      */
-    public function __construct(
-        AnnotationDirectoryLoader $annotationDirectoryLoader,
-        $rootPath
-    ) {
+    public function __construct(AnnotationDirectoryLoader $annotationDirectoryLoader, $rootPath)
+    {
         ConfigurationLoader::load();
 
         $this->annotationDirectoryLoader = $annotationDirectoryLoader;
