@@ -118,9 +118,5 @@ class AnnotationsTest extends KernelTestBase
         $this->assertResponseContents(Request::create('/test/security/csrf', 'GET', [
             'token' => $this->kernel->getContainer()->get('csrf_token')->get('test/security/csrf')
         ]), 'OK');
-
-        // entity
-        $this->setAnonymousAccount();
-        $this->assertForbidden(Request::create('/test/security/entity/1'));
     }
 }
