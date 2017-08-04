@@ -19,5 +19,26 @@ class ConfigurationLoader
         AnnotationRegistry::registerFile($configurationPath.'Route.php');
         AnnotationRegistry::registerFile($configurationPath.'Security.php');
         AnnotationRegistry::registerFile($configurationPath.'Template.php');
+
+        self::registerDirectoryRecursive(dirname(__DIR__) . '/RouteModifier');
+    }
+
+    /**
+     * @param string $dir
+     */
+    private static function registerDirectoryRecursive($dir) {
+
+        foreach (scandir($dir,0) as $entry) {
+            if ('.' === $entry[0]) {
+                continue;
+            }
+            $path = $dir . '/' . $entry;
+            if (is_file($path)) {
+                require_once $path;
+            }
+            elseif (is_dir($path)) {
+                self::registerDirectoryRecursive($path);
+            }
+        }
     }
 }
