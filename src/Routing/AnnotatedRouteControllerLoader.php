@@ -3,8 +3,8 @@
 namespace Drupal\controller_annotations\Routing;
 
 use Drupal\controller_annotations\Configuration\Method;
-use Drupal\controller_annotations\Configuration\Security;
 use Drupal\controller_annotations\Configuration\Route as RouteConfiguration;
+use Drupal\controller_annotations\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Routing\AnnotatedRouteControllerLoader as BaseAnnotatedRouteControllerLoader;
 use Symfony\Component\Routing\Route;
 
