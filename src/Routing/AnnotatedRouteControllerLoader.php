@@ -5,6 +5,8 @@ namespace Drupal\controller_annotations\Routing;
 use Drupal\controller_annotations\Configuration\Method;
 use Drupal\controller_annotations\Configuration\Route as RouteConfiguration;
 use Drupal\controller_annotations\Configuration\Security;
+use Drupal\controller_annotations\RouteModifier\Annotated\AnnotatedRouteModifierInterface;
+use Drupal\controller_annotations\RouteModifier\RouteModifierInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Routing\AnnotatedRouteControllerLoader as BaseAnnotatedRouteControllerLoader;
 use Symfony\Component\Routing\Route;
 
@@ -29,6 +31,10 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
                 $this->setMethodConfiguration($route, $configuration);
             } elseif ($configuration instanceof Security) {
                 $this->setSecurityConfiguration($route, $configuration);
+            } elseif ($configuration instanceof AnnotatedRouteModifierInterface) {
+                $configuration->modifyAnnotatedRoute($route, $class, $method, $annot);
+            } elseif ($configuration instanceof RouteModifierInterface) {
+                $configuration->modifyRoute($route);
             } elseif ($configuration instanceof RouteConfiguration && $configuration->getService()) {
                 throw new \LogicException('The service option can only be specified at class level.');
             }
