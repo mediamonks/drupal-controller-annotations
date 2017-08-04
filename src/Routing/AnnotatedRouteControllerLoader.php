@@ -24,6 +24,14 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
     {
         $this->setController($route, $class, $method);
 
+        foreach ($this->reader->getClassAnnotations($class) as $classAnnot) {
+            if ($classAnnot instanceof AnnotatedRouteModifierInterface) {
+                $classAnnot->modifyAnnotatedRoute($route, $class, $method, $annot);
+            } elseif ($classAnnot instanceof RouteModifierInterface){
+                $classAnnot->modifyRoute($route);
+            }
+        }
+
         foreach ($this->reader->getMethodAnnotations($method) as $configuration) {
             if ($configuration instanceof RouteConfiguration) {
                 $this->setRouteConfiguration($route, $configuration);
