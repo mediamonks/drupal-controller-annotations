@@ -15,6 +15,8 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
      * @param \ReflectionClass $class
      * @param \ReflectionMethod $method
      * @param mixed $annot
+     *
+     * @throws \LogicException
      */
     protected function configureRoute(Route $route, \ReflectionClass $class, \ReflectionMethod $method, $annot)
     {
