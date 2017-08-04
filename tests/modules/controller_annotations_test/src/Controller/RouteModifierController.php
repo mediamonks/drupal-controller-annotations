@@ -12,10 +12,12 @@ use Drupal\controller_annotations\RouteModifier\RouteMethod;
 use Drupal\controller_annotations\RouteModifier\RouteMethodGET;
 use Drupal\controller_annotations\RouteModifier\RouteMethodPOST;
 use Drupal\controller_annotations\RouteModifier\RouteOptions;
+use Drupal\controller_annotations\RouteModifier\RouteParameters;
 use Drupal\controller_annotations\RouteModifier\RouteRequirements;
 use Drupal\controller_annotations\RouteModifier\RouteRequirePermission;
 use Drupal\controller_annotations\RouteModifier\RouteTitle;
 use Drupal\controller_annotations\RouteModifier\RouteTitleCallback;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * @Route("test/modifier/")
@@ -110,6 +112,18 @@ class RouteModifierController
      */
     public function optionsXY() {
         return ['#markup' => 'OK'];
+    }
+
+    /**
+     * @Route("parameters/{user}")
+     * @RouteParameters(user = "entity:user")
+     *
+     * @param \Drupal\Core\Entity\EntityInterface $user
+     *
+     * @return array
+     */
+    public function parameters(EntityInterface $user) {
+        return ['#markup' => Html::escape($user->label())];
     }
 
     /**
