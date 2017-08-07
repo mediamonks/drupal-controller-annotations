@@ -2,12 +2,12 @@
 
 namespace Drupal\controller_annotations\Configuration;
 
-use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\Route as RoutingRoute;
 
 interface RouteModifierInterface
 {
     /**
-     * @param Route $route
+     * @param RoutingRoute $route
      */
-    public function modifyRoute(Route $route);
+    public function modifyRoute(RoutingRoute $route);
 }
