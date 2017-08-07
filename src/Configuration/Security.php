@@ -3,11 +3,12 @@
 namespace Drupal\controller_annotations\Configuration;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation;
+use Symfony\Component\Routing\Route;
 
 /**
  * @Annotation
  */
-class Security extends ConfigurationAnnotation
+class Security extends ConfigurationAnnotation implements RouteModifierInterface
 {
     /**
      * @var string
@@ -193,5 +194,30 @@ class Security extends ConfigurationAnnotation
     public function allowArray()
     {
         return false;
+    }
+
+    /**
+     * @param Route $route
+     */
+    public function modifyRoute(Route $route)
+    {
+        if ($this->isAccess()) {
+            $route->setRequirement('_access', 'TRUE');
+        }
+        if ($this->hasPermission()) {
+            $route->setRequirement('_permission', $this->getPermission());
+        }
+        if ($this->hasRole()) {
+            $route->setRequirement('_role', $this->getRole());
+        }
+        if ($this->hasEntity()) {
+            $route->setRequirement('_entity_access', $this->getEntity());
+        }
+        if ($this->hasCsrf()) {
+            $route->setRequirement('_csrf_token', 'TRUE');
+        }
+        if ($this->hasCustom()) {
+            $route->setRequirement('_custom_access', $this->getCustom());
+        }
     }
 }

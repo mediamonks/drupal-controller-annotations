@@ -83,11 +83,7 @@ class TemplateResolver
             );
         }
 
-        return sprintf(
-          'modules/%s/templates/%s.html.twig',
-          $module,
-          $templateName
-        );
+        return sprintf('modules/%s/templates/%s.html.twig', $module, $templateName);
     }
 
     /**

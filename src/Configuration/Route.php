@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as BaseRoute;
 /**
  * @Annotation
  */
-class Route extends BaseRoute
+class Route extends BaseRoute implements RouteModifierInterface
 {
     /**
      * @var bool
@@ -31,5 +31,15 @@ class Route extends BaseRoute
         $this->admin = $admin;
 
         return $this;
+    }
+
+    /**
+     * @param \Symfony\Component\Routing\Route $route
+     */
+    public function modifyRoute(\Symfony\Component\Routing\Route $route)
+    {
+        if ($this->isAdmin()) {
+            $route->setOption('_admin_route', true);
+        }
     }
 }
