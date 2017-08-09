@@ -45,7 +45,6 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
             if ($configuration instanceof RouteModifierInterface) {
                 $configuration->modifyRoute($route);
             }
-
             if ($configuration instanceof RouteConfiguration && $configuration->getService()) {
                 throw new \LogicException('The service option can only be specified at class level.');
             }

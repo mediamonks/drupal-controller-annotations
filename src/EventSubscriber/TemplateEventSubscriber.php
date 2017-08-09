@@ -145,7 +145,6 @@ class TemplateEventSubscriber implements EventSubscriberInterface
      */
     private function resolveDefaultParameters(Request $request, Template $template, $controller, $action)
     {
-        $parameters = [];
         $arguments = $template->getVars();
 
         if (0 === count($arguments)) {
@@ -157,8 +156,20 @@ class TemplateEventSubscriber implements EventSubscriberInterface
             }
         }
 
-        // fetch the arguments of @Template.vars or everything if desired
-        // and assign them to the designated template
+        return $this->resolveParametersWithReflection($request, $arguments);
+    }
+
+    /**
+     * fetch the arguments of @Template.vars or everything if desired
+     * and assign them to the designated template
+     *
+     * @param Request $request
+     * @param array $arguments
+     * @return array
+     */
+    private function resolveParametersWithReflection(Request $request, array $arguments)
+    {
+        $parameters = [];
         foreach ($arguments as $argument) {
             if ($argument instanceof \ReflectionParameter) {
                 $name = $argument->getName();

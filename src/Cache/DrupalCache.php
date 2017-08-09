@@ -2,7 +2,6 @@
 
 namespace Drupal\controller_annotations\Cache;
 
-use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider;
 use Drupal\Core\Cache\CacheBackendInterface;
 
@@ -34,7 +33,7 @@ class DrupalCache extends CacheProvider
      */
     protected function doContains($id)
     {
-        return $this->fetch($id) !== false;
+        return $this->doFetch($id) !== false;
     }
 
     /**
@@ -42,7 +41,14 @@ class DrupalCache extends CacheProvider
      */
     protected function doSave($id, $data, $lifeTime = 0)
     {
-        $this->cache->set($id, $data, time() + $lifeTime);
+        if ($lifeTime === 0) {
+            $this->cache->set($id, $data);
+        }
+        else {
+            $this->cache->set($id, $data, time() + $lifeTime);
+        }
+
+        return true;
     }
 
     /**
@@ -51,6 +57,8 @@ class DrupalCache extends CacheProvider
     protected function doDelete($id)
     {
         $this->cache->delete($id);
+
+        return true;
     }
 
     /**
@@ -59,6 +67,8 @@ class DrupalCache extends CacheProvider
     protected function doFlush()
     {
         $this->cache->deleteAll();
+
+        return true;
     }
 
     /**
@@ -66,12 +76,6 @@ class DrupalCache extends CacheProvider
      */
     protected function doGetStats()
     {
-        return array(
-            Cache::STATS_HITS               => null,
-            Cache::STATS_MISSES             => null,
-            Cache::STATS_UPTIME             => null,
-            Cache::STATS_MEMORY_USAGE       => null,
-            Cache::STATS_MEMORY_AVAILABLE   => null,
-        );
+        return;
     }
 }
