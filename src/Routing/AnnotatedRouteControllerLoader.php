@@ -18,7 +18,29 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
     protected function configureRoute(Route $route, \ReflectionClass $class, \ReflectionMethod $method, $annotation)
     {
         $this->setController($route, $class, $method);
+        $this->configureClassAnnotations($route, $class);
+        $this->configureMethodAnnotations($route, $method);
+    }
 
+    /**
+     * @param Route $route
+     * @param \ReflectionClass $class
+     */
+    protected function configureClassAnnotations(Route $route, \ReflectionClass $class)
+    {
+        foreach ($this->reader->getClassAnnotations($class) as $configuration) {
+            if ($configuration instanceof RouteModifierInterface) {
+                $configuration->modifyRoute($route);
+            }
+        }
+    }
+
+    /**
+     * @param Route $route
+     * @param \ReflectionMethod $method
+     */
+    protected function configureMethodAnnotations(Route $route, \ReflectionMethod $method)
+    {
         foreach ($this->reader->getMethodAnnotations($method) as $configuration) {
             if ($configuration instanceof RouteModifierInterface) {
                 $configuration->modifyRoute($route);

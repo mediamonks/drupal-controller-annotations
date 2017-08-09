@@ -31,6 +31,7 @@ class AnnotatedRouteControllerLoaderTest extends UnitTestCase
             $routeConfiguration,
             $methodConfiguration
         ]);
+        $reader->shouldReceive('getClassAnnotations')->andReturn([]);
 
         $route = m::mock(Route::class);
         $route->shouldReceive('setDefault')->once();

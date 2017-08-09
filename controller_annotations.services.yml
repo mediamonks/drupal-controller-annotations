@@ -1,9 +1,22 @@
 services:
+    controller_annotations.doctrine_drupal_cache:
+        class: Drupal\controller_annotations\Cache\DrupalCache
+        arguments:
+            - '@cache.default'
+        calls:
+            - [setNamespace, ['controller_annotations']]
+
     controller_annotations.file_locator:
         class: Symfony\Component\Config\FileLocator
         public: false
 
     controller_annotations.annotation_reader:
+        class: Doctrine\Common\Annotations\CachedReader
+        arguments:
+            - '@controller_annotations.annotation_reader_inner'
+            - '@controller_annotations.doctrine_drupal_cache'
+
+    controller_annotations.annotation_reader_inner:
         class: Doctrine\Common\Annotations\AnnotationReader
         calls:
             - [addGlobalIgnoredName, ['endlink']]
