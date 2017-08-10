@@ -2,8 +2,8 @@
 
 namespace Drupal\controller_annotations\Routing;
 
-use Drupal\controller_annotations\Configuration\RouteModifierInterface;
-use Drupal\controller_annotations\Configuration\Route as RouteConfiguration;
+use Drupal\controller_annotations\Configuration\RouteModifierClassInterface;
+use Drupal\controller_annotations\Configuration\RouteModifierMethodInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Routing\AnnotatedRouteControllerLoader as BaseAnnotatedRouteControllerLoader;
 use Symfony\Component\Routing\Route;
 
@@ -18,35 +18,20 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
     protected function configureRoute(Route $route, \ReflectionClass $class, \ReflectionMethod $method, $annotation)
     {
         $this->setController($route, $class, $method);
-        $this->configureClassAnnotations($route, $class);
-        $this->configureMethodAnnotations($route, $method);
+        $this->configureClassAnnotations($route, $class, $method);
+        $this->configureMethodAnnotations($route, $class, $method);
     }
 
     /**
      * @param Route $route
      * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
      */
-    protected function configureClassAnnotations(Route $route, \ReflectionClass $class)
+    protected function configureClassAnnotations(Route $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
         foreach ($this->reader->getClassAnnotations($class) as $configuration) {
-            if ($configuration instanceof RouteModifierInterface) {
-                $configuration->modifyRoute($route);
-            }
-        }
-    }
-
-    /**
-     * @param Route $route
-     * @param \ReflectionMethod $method
-     */
-    protected function configureMethodAnnotations(Route $route, \ReflectionMethod $method)
-    {
-        foreach ($this->reader->getMethodAnnotations($method) as $configuration) {
-            if ($configuration instanceof RouteModifierInterface) {
-                $configuration->modifyRoute($route);
-            }
-            if ($configuration instanceof RouteConfiguration && $configuration->getService()) {
-                throw new \LogicException('The service option can only be specified at class level.');
+            if ($configuration instanceof RouteModifierClassInterface) {
+                $configuration->modifyRouteClass($route, $class, $method);
             }
         }
     }
@@ -56,13 +41,37 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
      * @param \ReflectionClass $class
      * @param \ReflectionMethod $method
      */
-    private function setController(Route $route, \ReflectionClass $class, \ReflectionMethod $method)
+    protected function configureMethodAnnotations(Route $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
-        $classAnnotation = $this->reader->getClassAnnotation($class, $this->routeAnnotationClass);
-        if ($classAnnotation instanceof RouteConfiguration && $service = $classAnnotation->getService()) {
-            $route->setDefault('_controller', $service . ':' . $method->getName());
-        } else {
-            $route->setDefault('_controller', $class->getName() . '::' . $method->getName());
+        foreach ($this->reader->getMethodAnnotations($method) as $configuration) {
+            if ($configuration instanceof RouteModifierMethodInterface) {
+                $configuration->modifyRouteMethod($route, $class, $method);
+            }
         }
+    }
+
+    /**
+     * @param Route $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
+     */
+    protected function setController(Route $route, \ReflectionClass $class, \ReflectionMethod $method)
+    {
+        $route->setDefault('_controller', $this->getControllerName($class, $method));
+    }
+
+    /**
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
+     * @return string
+     */
+    protected function getControllerName(\ReflectionClass $class, \ReflectionMethod $method)
+    {
+        $annotation = $this->reader->getClassAnnotation($class, $this->routeAnnotationClass);
+        if ($annotation instanceof \Drupal\controller_annotations\Configuration\Route && $service = $annotation->getService()) {
+            return sprintf('%s:%s', $service, $method->getName());
+        }
+
+        return sprintf('%s::%s', $class->getName(), $method->getName());
     }
 }

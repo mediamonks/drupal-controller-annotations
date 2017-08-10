@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Route as RoutingRoute;
 /**
  * @Annotation
  */
-class Security extends ConfigurationAnnotation implements RouteModifierInterface
+class Security extends ConfigurationAnnotation implements RouteModifierMethodInterface, RouteModifierClassInterface
 {
     /**
      * @var string
@@ -198,8 +198,28 @@ class Security extends ConfigurationAnnotation implements RouteModifierInterface
 
     /**
      * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
      */
-    public function modifyRoute(RoutingRoute $route)
+    public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
+    {
+        $this->modifyRoute($route);
+    }
+
+    /**
+     * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
+     */
+    public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
+    {
+        $this->modifyRoute($route);
+    }
+
+    /**
+     * @param RoutingRoute $route
+     */
+    protected function modifyRoute(RoutingRoute $route)
     {
         if ($this->isAccess()) {
             $route->setRequirement('_access', 'TRUE');

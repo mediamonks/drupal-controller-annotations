@@ -19,11 +19,13 @@ class AnnotatedRouteControllerLoaderTest extends UnitTestCase
         $routeConfiguration = m::mock(\Drupal\controller_annotations\Configuration\Route::class);
         $routeConfiguration->shouldReceive('getService')->andReturn(false);
         $routeConfiguration->shouldReceive('isAdmin')->andReturn(true);
-        $routeConfiguration->shouldReceive('modifyRoute')->andReturnNull();
+        $routeConfiguration->shouldReceive('modifyRouteMethod')->andReturnNull();
+        $routeConfiguration->shouldReceive('modifyRouteClass')->andReturnNull();
 
         $methodConfiguration = m::mock(Method::class);
         $methodConfiguration->shouldReceive('getMethods')->andReturn(['GET']);
-        $methodConfiguration->shouldReceive('modifyRoute')->andReturnNull();
+        $methodConfiguration->shouldReceive('modifyRouteMethod')->andReturnNull();
+        $methodConfiguration->shouldReceive('modifyRouteClass')->andReturnNull();
 
         $reader = m::mock(Reader::class);
         $reader->shouldReceive('getClassAnnotation')->andReturn($routeConfiguration);

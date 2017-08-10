@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Route as RoutingRoute;
 /**
  * @Annotation
  */
-class Route extends BaseRoute implements RouteModifierInterface
+class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModifierClassInterface
 {
     /**
      * @var bool
@@ -36,8 +36,34 @@ class Route extends BaseRoute implements RouteModifierInterface
 
     /**
      * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
      */
-    public function modifyRoute(RoutingRoute $route)
+    public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
+    {
+        $this->modifyRoute($route, $class, $method);
+    }
+
+    /**
+     * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
+     */
+    public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
+    {
+        if ($this->getService()) {
+            throw new \LogicException('The service option can only be specified at class level.');
+        }
+
+        $this->modifyRoute($route, $class, $method);
+    }
+
+    /**
+     * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
+     */
+    protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
         if ($this->isAdmin()) {
             $route->setOption('_admin_route', true);

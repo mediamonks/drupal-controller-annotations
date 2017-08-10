@@ -3,6 +3,7 @@
 namespace Drupal\controller_annotations_test\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\controller_annotations\Configuration\Method;
 use Drupal\controller_annotations\Configuration\Route;
 use Drupal\controller_annotations\Configuration\Security;
 use Drupal\node\Entity\Node;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("test/security/")
+ * @Method("GET")
  */
 class SecurityController extends ControllerBase
 {

@@ -7,11 +7,13 @@ use Drupal\controller_annotations\Configuration\Route;
 use Drupal\controller_annotations\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Security(access=true)
+ */
 class BasicController extends ControllerBase
 {
     /**
      * @Route("test/basic")
-     * @Security(access=true)
      */
     public function basicAction()
     {

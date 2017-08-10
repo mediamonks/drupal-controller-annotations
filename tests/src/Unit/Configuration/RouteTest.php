@@ -9,13 +9,29 @@ use Symfony\Component\Routing\Route;
 
 class RouteTest extends UnitTestCase
 {
-    public function testModify()
+    public function testModifyRouteClass()
     {
         $route = m::mock(Route::class);
         $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', true]);
 
-        $method = new RouteConfiguration(['admin' => true]);
-        $this->assertNull($method->modifyRoute($route));
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $routeConfig = new RouteConfiguration(['admin' => true]);
+        $this->assertNull($routeConfig->modifyRouteClass($route, $class, $method));
+
+        m::close();
+    }
+
+    public function testModifyMethodClass()
+    {
+        $route = m::mock(Route::class);
+
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $routeConfig = new RouteConfiguration([]);
+        $this->assertNull($routeConfig->modifyRouteMethod($route, $class, $method));
 
         m::close();
     }

@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Route;
 
 class SecurityTest extends UnitTestCase
 {
-    public function testModify()
+    public function testModifyRouteMethod()
     {
         $route = m::mock(Route::class);
         $route->shouldReceive('setRequirement')->once()->withArgs(['_access', true]);
@@ -19,7 +19,10 @@ class SecurityTest extends UnitTestCase
         $route->shouldReceive('setRequirement')->once()->withArgs(['_csrf_token', true]);
         $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'custom']);
 
-        $method = new Security([
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $security = new Security([
             'access' => true,
             'permission' => 'permission',
             'role' => 'role',
@@ -27,7 +30,7 @@ class SecurityTest extends UnitTestCase
             'csrf' => true,
             'custom' => 'custom'
         ]);
-        $this->assertNull($method->modifyRoute($route));
+        $this->assertNull($security->modifyRouteMethod($route, $class, $method));
 
         m::close();
     }

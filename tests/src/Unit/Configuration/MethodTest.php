@@ -9,13 +9,48 @@ use Symfony\Component\Routing\Route;
 
 class MethodTest extends UnitTestCase
 {
-    public function testModify()
+    public function testModifyRouteClass()
     {
         $route = m::mock(Route::class);
         $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
 
-        $method = new Method(['methods' => ['GET', 'POST']]);
-        $this->assertNull($method->modifyRoute($route));
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $methodConfig = new Method(['methods' => ['GET', 'POST']]);
+        $this->assertNull($methodConfig->modifyRouteClass($route, $class, $method));
+
+        m::close();
+    }
+
+    public function testModifyRouteMethod()
+    {
+        $route = m::mock(Route::class);
+        $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
+
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $methodConfig = new Method(['methods' => ['GET', 'POST']]);
+        $this->assertNull($methodConfig->modifyRouteMethod($route, $class, $method));
+
+        m::close();
+    }
+
+    public function testModify()
+    {
+        $route = m::mock(Route::class);
+        $route->shouldReceive('setMethods')->once()->withArgs([['GET']]);
+        $route->shouldReceive('setMethods')->once()->withArgs([['POST']]);
+
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $methodConfig = new Method(['methods' => ['GET']]);
+        $this->assertNull($methodConfig->modifyRouteClass($route, $class, $method));
+
+        $methodConfig = new Method(['methods' => ['POST']]);
+        $this->assertNull($methodConfig->modifyRouteMethod($route, $class, $method));
 
         m::close();
     }
