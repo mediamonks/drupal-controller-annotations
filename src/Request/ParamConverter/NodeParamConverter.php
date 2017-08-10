@@ -4,6 +4,7 @@ namespace Drupal\controller_annotations\Request\ParamConverter;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,6 +72,9 @@ class NodeParamConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration)
     {
-        return Node::class === $configuration->getClass();
+        return in_array($configuration->getClass(), [
+            NodeInterface::class,
+            Node::class
+        ]);
     }
 }
