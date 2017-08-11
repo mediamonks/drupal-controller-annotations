@@ -13,6 +13,7 @@ A full example will probably demonstrate quickly how this works:
     use Drupal\controller_annotations\Configuration\ParamConverter;
     use Drupal\controller_annotations\Configuration\Method;
     use Drupal\controller_annotations\Configuration\Security;
+    use Drupal\controller_annotations\Configuration\Title;
     use Drupal\node\Entity\Node;
 
     /**
@@ -40,6 +41,7 @@ A full example will probably demonstrate quickly how this works:
          * @Template("acme:article:show", vars={"article"})
          * @Cache(smaxage="15")
          * @Security(role="administrator")
+         * @Title("My Title")
          */
         public function editAction(Node $article) { }
     }
@@ -77,6 +79,8 @@ An added feature is to flag your route as being an admin route:
 
 .. code-block:: php
 
+    use Drupal\controller_annotations\Configuration\Route;
+
     /**
      * @Route("path/to/route", admin=true)
      */
@@ -92,6 +96,8 @@ Allow this route to be accessed under all circumstances:
 
 .. code-block:: php
 
+    use Drupal\controller_annotations\Configuration\Security;
+
     /**
      * @Security(access=true)
      */
@@ -99,6 +105,8 @@ Allow this route to be accessed under all circumstances:
 Require a specific permission:
 
 .. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Security;
 
     /**
      * @Security(permission="access content")
@@ -108,6 +116,8 @@ or role:
 
 .. code-block:: php
 
+    use Drupal\controller_annotations\Configuration\Security;
+
     /**
      * @Security(role="administrator")
      */
@@ -115,6 +125,8 @@ or role:
 or entity access:
 
 .. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Security;
 
     /**
      * @Security(entity="node.view")
@@ -124,13 +136,43 @@ or even point it to a custom access checker:
 
 .. code-block:: php
 
+    use Drupal\controller_annotations\Configuration\Security;
+
     /**
      * @Security(custom="Drupal\acme\Security\Custom::access")
      */
 
-You can also require a valid CSRF token for this endpoint:
+Or if the callback function is defined in your class you can omit the class name:
 
 .. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Security;
+    use Drupal\Core\Access\AccessResult;
+    use Drupal\Core\Session\AccountInterface;
+
+    /**
+     * @Security(custom="access")
+     */
+    public function customAction() {
+        return [];
+    }
+
+    /**
+     * @param AccountInterface $account
+     * @return AccessResult
+     */
+    public function access(AccountInterface $account)
+    {
+        return AccessResult::allowedIf($account->id() > 9000);
+    }
+
+
+You can also require a valid CSRF token for this endpoint:
+
+
+.. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Security;
 
     /**
      * @Security(access=true, csrf=true)
@@ -142,6 +184,8 @@ You can also require a valid CSRF token for this endpoint:
 The cache annotation is very flexible and supports many different options:
 
 .. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Cache;
 
     /**
      * @Cache(expires="tomorrow", public=true)
@@ -168,6 +212,7 @@ You can also be a little more explicit and require a specific bundle:
 
 .. code-block:: php
 
+    use Drupal\controller_annotations\Configuration\ParamConverter;
     use Drupal\node\Entity\Node;
 
     /**
@@ -193,6 +238,8 @@ You can manually change the rendered template by using these formats instead:
 
 .. code-block:: php
 
+    use Drupal\controller_annotations\Configuration\Template;
+
     /**
      * @Template("acme:articles")
      * @Template("acme:articles:index")
@@ -201,5 +248,72 @@ You can manually change the rendered template by using these formats instead:
 which will render to respectively ``modules/acme/templates/acme-articles.html.twig``
 and ``modules/acme/templates/acme-articles-index.html.twig``
 
+
+@Title
+------
+
+This one is specifically created for Drupal and allows to override the title
+
+Set the title to a hardcoded value:
+
+.. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Title;
+
+    /**
+     * @Title("Hello World")
+     */
+
+Add arguments:
+
+.. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Title;
+
+    /**
+     * @Title("Hello @name", arguments={"@name":"You"})
+     */
+
+Add context:
+
+.. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Title;
+
+    /**
+     * @Title("Hello @name", context={"option":"value"})
+     */
+
+Use a callback:
+
+.. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Title;
+
+    /**
+     * @Title(callback="\Drupal\controller_annotations_test\Title\Custom::title")
+     */
+
+Or if the callback function is defined in your class you can omit the class name:
+
+.. code-block:: php
+
+    use Drupal\controller_annotations\Configuration\Title;
+
+    /**
+     * @Title(callback="title")
+     */
+    public function callbackAction() {
+        return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function title() {
+        return 'Hello Callback';
+    }
+
+Please note that is has to be public since otherwise it is not accessible from where it is called.
 
 .. _`Symfony Framework Extra Bundle`: http://symfony.com/doc/master/bundles/SensioFrameworkExtraBundle/index.html
