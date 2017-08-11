@@ -66,8 +66,8 @@ services:
             - { name: controller_annotations.param_converter, priority: 0 }
         public: false
 
-    controller_annotations.param_converter.node:
-        class: Drupal\controller_annotations\Request\ParamConverter\NodeParamConverter
+    controller_annotations.param_converter.entity:
+        class: Drupal\controller_annotations\Request\ParamConverter\EntityParamConverter
         arguments:
             - '@entity_type.manager'
         tags:

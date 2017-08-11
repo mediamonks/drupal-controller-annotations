@@ -2,6 +2,10 @@
 
 namespace Drupal\controller_annotations\Request\ParamConverter;
 
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\Entity;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
@@ -10,8 +14,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class NodeParamConverter implements ParamConverterInterface
+class EntityParamConverter implements ParamConverterInterface
 {
+
     /**
      * @var EntityTypeManagerInterface
      */
@@ -28,6 +33,7 @@ class NodeParamConverter implements ParamConverterInterface
     /**
      * @param Request $request
      * @param ParamConverter $configuration
+     *
      * @return bool
      */
     public function apply(Request $request, ParamConverter $configuration)
@@ -39,22 +45,40 @@ class NodeParamConverter implements ParamConverterInterface
 
         $value = $request->attributes->get($param);
 
-        $request->attributes->set($param, $this->getNode($value, $configuration));
+        $request->attributes->set(
+          $param,
+          $this->getNode($value, $configuration)
+        );
     }
 
     /**
      * @param string $value
      * @param ParamConverter $configuration
-     * @return \Drupal\Core\Entity\EntityInterface|null
+     *
+     * @return EntityInterface|null
      */
     protected function getNode($value, ParamConverter $configuration)
     {
-        $options = $configuration->getOptions();
         $node = $this->entityTypeManager->getStorage('node')->load($value);
+        $this->assertValidNode($configuration, $node);
+
+        return $node;
+    }
+
+    /**
+     * @param ParamConverter $configuration
+     * @param EntityInterface $node
+     */
+    protected function assertValidNode(
+      ParamConverter $configuration,
+      EntityInterface $node = null
+    ) {
+        $options = $configuration->getOptions();
 
         if (
-            (is_null($node) && false === $configuration->isOptional())
-            || (!is_null($node) && isset($options['bundle']) && $node->bundle() !== $options['bundle'])
+          (is_null($node) && false === $configuration->isOptional())
+          || (!is_null($node) && isset($options['bundle']) && $node->bundle(
+            ) !== $options['bundle'])
         ) {
             $class = 'node';
             if (isset($options['bundle'])) {
@@ -62,19 +86,25 @@ class NodeParamConverter implements ParamConverterInterface
             }
             throw new NotFoundHttpException(sprintf('%s not found.', $class));
         }
-
-        return $node;
     }
 
     /**
      * @param ParamConverter $configuration
+     *
      * @return bool
      */
     public function supports(ParamConverter $configuration)
     {
-        return in_array($configuration->getClass(), [
+        return in_array(
+          $configuration->getClass(),
+          [
             NodeInterface::class,
-            Node::class
-        ]);
+            Node::class,
+            EntityInterface::class,
+            Entity::class,
+            ContentEntityInterface::class,
+            ContentEntityBase::class,
+          ]
+        );
     }
 }

@@ -4,7 +4,7 @@ namespace Drupal\Tests\controller_annotations\Unit\Request\ParamConverter;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\controller_annotations\Request\ParamConverter\NodeParamConverter;
+use Drupal\controller_annotations\Request\ParamConverter\EntityParamConverter;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
 use Mockery as m;
@@ -15,9 +15,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @group controller_annotations
  */
-class NodeParamConverterTest extends UnitTestCase
+class EntityParamConverterTest extends UnitTestCase
 {
-    private function getNodeParamConverter()
+    private function getEntityParamConverter()
     {
         $node = m::mock(Node::class);
 
@@ -27,21 +27,21 @@ class NodeParamConverterTest extends UnitTestCase
         $entityTypeManager = m::mock(EntityTypeManager::class);
         $entityTypeManager->shouldReceive('getStorage')->andReturn($entityInterface);
 
-        return new NodeParamConverter($entityTypeManager);
+        return new EntityParamConverter($entityTypeManager);
     }
 
     public function testSupports()
     {
         $paramConverter = m::mock(ParamConverter::class);
         $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $this->assertTrue($this->getNodeParamConverter()->supports($paramConverter));
+        $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
     }
 
     public function testNotSupports()
     {
         $paramConverter = m::mock(ParamConverter::class);
         $paramConverter->shouldReceive('getClass')->once()->andReturn(self::class);
-        $this->assertFalse($this->getNodeParamConverter()->supports($paramConverter));
+        $this->assertFalse($this->getEntityParamConverter()->supports($paramConverter));
     }
 
     public function testApply()
@@ -57,8 +57,8 @@ class NodeParamConverterTest extends UnitTestCase
         $paramConverter->shouldReceive('getName')->once()->andReturn($name);
         $paramConverter->shouldReceive('getOptions')->once()->andReturn([]);
 
-        $this->assertTrue($this->getNodeParamConverter()->supports($paramConverter));
-        $this->getNodeParamConverter()->apply($request, $paramConverter);
+        $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
+        $this->getEntityParamConverter()->apply($request, $paramConverter);
 
         $this->assertTrue($request->attributes->has($name));
         $this->assertEquals($node, $request->attributes->get($name));
@@ -78,7 +78,7 @@ class NodeParamConverterTest extends UnitTestCase
         $entityTypeManager = m::mock(EntityTypeManager::class);
         $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $nodeParamConverter = new NodeParamConverter($entityTypeManager);
+        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
         $name = 'test';
         $request = new Request();
@@ -112,7 +112,7 @@ class NodeParamConverterTest extends UnitTestCase
         $entityTypeManager = m::mock(EntityTypeManager::class);
         $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $nodeParamConverter = new NodeParamConverter($entityTypeManager);
+        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
         $name = 'test';
         $request = new Request();
@@ -138,7 +138,7 @@ class NodeParamConverterTest extends UnitTestCase
         $entityTypeManager = m::mock(EntityTypeManager::class);
         $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $nodeParamConverter = new NodeParamConverter($entityTypeManager);
+        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
         $name = 'test';
         $request = new Request();
@@ -168,7 +168,7 @@ class NodeParamConverterTest extends UnitTestCase
         $entityTypeManager = m::mock(EntityTypeManager::class);
         $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $nodeParamConverter = new NodeParamConverter($entityTypeManager);
+        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
         $name = 'test';
         $request = new Request();

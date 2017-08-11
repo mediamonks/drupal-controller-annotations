@@ -44,7 +44,7 @@ class TitleTest extends UnitTestCase
         $security = new Title([
             'callback' => 'callback'
         ]);
-        $this->assertNull($security->modifyRouteMethod($route, $class, $method));
+        $this->assertNull($security->modifyRouteClass($route, $class, $method));
 
         m::close();
     }

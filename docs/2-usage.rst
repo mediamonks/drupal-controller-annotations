@@ -221,6 +221,8 @@ You can also be a little more explicit and require a specific bundle:
     public function editAction(Node $article) { }
 
 
+This will also work for NodeInterface, Entity, EntityInterface, ContentEntity and ContentEntityInterface.
+
 Just like with Symfony Framework you can add your own converters by creating a service which implements
 ``Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface``
 and is tagged with ``controller_annotations.param_converter``.

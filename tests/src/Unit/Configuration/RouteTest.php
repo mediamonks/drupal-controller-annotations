@@ -35,4 +35,19 @@ class RouteTest extends UnitTestCase
 
         m::close();
     }
+
+    public function testServiceNotAllowedOnMethodLevel()
+    {
+        $this->setExpectedException(\LogicException::class);
+
+        $route = m::mock(Route::class);
+
+        $class = m::mock(\ReflectionClass::class);
+        $method = m::mock(\ReflectionMethod::class);
+
+        $routeConfig = new RouteConfiguration(['service' => 'foo']);
+        $this->assertNull($routeConfig->modifyRouteMethod($route, $class, $method));
+
+        m::close();
+    }
 }
