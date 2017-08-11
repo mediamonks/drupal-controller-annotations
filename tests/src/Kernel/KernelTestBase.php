@@ -82,6 +82,14 @@ abstract class KernelTestBase extends BaseKernelTestBase
 
     /**
      * @param Request $request
+     */
+    protected function assertTitleStartsWith(Request $request, $title)
+    {
+        $this->assertResponseContains($request, '<title>'.$title);
+    }
+
+    /**
+     * @param Request $request
      * @return Response
      */
     protected function request(Request $request)

@@ -203,7 +203,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
      */
     public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
-        $this->modifyRoute($route, $class, $method);
+        $this->modifyRoute($route, $class);
     }
 
     /**
@@ -213,15 +213,14 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
      */
     public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
-        $this->modifyRoute($route, $class, $method);
+        $this->modifyRoute($route, $class);
     }
 
     /**
      * @param RoutingRoute $route
      * @param \ReflectionClass $class
-     * @param \ReflectionMethod $method
      */
-    protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
+    protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class)
     {
         if ($this->isAccess()) {
             $route->setRequirement('_access', 'TRUE');

@@ -131,4 +131,12 @@ class AnnotationsTest extends KernelTestBase
             'token' => $this->kernel->getContainer()->get('csrf_token')->get('test/security/csrf')
         ]), 'OK');
     }
+
+    public function testTitle()
+    {
+        $this->assertTitleStartsWith(Request::create('/test/title/normal'), 'Hello World');
+        $this->assertTitleStartsWith(Request::create('/test/title/arguments'), 'Hello MediaMonks');
+        $this->assertTitleStartsWith(Request::create('/test/title/callback'), 'Hello Callback');
+        $this->assertTitleStartsWith(Request::create('/test/title/callback-inline'), 'Hello Callback Inline');
+    }
 }

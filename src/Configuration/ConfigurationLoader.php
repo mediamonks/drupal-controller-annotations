@@ -18,5 +18,6 @@ class ConfigurationLoader
         AnnotationRegistry::registerFile(__DIR__.'/Route.php');
         AnnotationRegistry::registerFile(__DIR__.'/Security.php');
         AnnotationRegistry::registerFile(__DIR__.'/Template.php');
+        AnnotationRegistry::registerFile(__DIR__.'/Title.php');
     }
 }
