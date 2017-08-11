@@ -17,7 +17,7 @@ class SecurityTest extends UnitTestCase
         $route->shouldReceive('setRequirement')->once()->withArgs(['_role', 'role']);
         $route->shouldReceive('setRequirement')->once()->withArgs(['_entity_access', 'entity']);
         $route->shouldReceive('setRequirement')->once()->withArgs(['_csrf_token', true]);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'custom']);
+        $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
 
         $class = m::mock(\ReflectionClass::class);
         $method = m::mock(\ReflectionMethod::class);
@@ -28,6 +28,24 @@ class SecurityTest extends UnitTestCase
             'role' => 'role',
             'entity' => 'entity',
             'csrf' => true,
+            'custom' => 'foo::custom'
+        ]);
+        $this->assertNull($security->modifyRouteMethod($route, $class, $method));
+
+        m::close();
+    }
+
+    public function testModifyRouteMethodInlineAccess()
+    {
+        $route = m::mock(Route::class);
+        $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
+
+        $class = m::mock(\ReflectionClass::class);
+        $class->shouldReceive('hasMethod')->andReturn('custom');
+        $class->shouldReceive('getName')->andReturn('foo');
+        $method = m::mock(\ReflectionMethod::class);
+
+        $security = new Security([
             'custom' => 'custom'
         ]);
         $this->assertNull($security->modifyRouteMethod($route, $class, $method));

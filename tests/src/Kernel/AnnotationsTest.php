@@ -113,6 +113,18 @@ class AnnotationsTest extends KernelTestBase
         ]));
         $this->assertResponseContents(Request::create('/test/security/custom'), 'OK');
 
+        // custom inline
+        $this->setAnonymousAccount();
+        $this->assertForbidden(Request::create('/test/security/custom-inline'));
+        $this->setAuthenticatedAccount();
+        $this->assertForbidden(Request::create('/test/security/custom-inline'));
+        $this->setAdministratorAccount();
+        $this->assertForbidden(Request::create('/test/security/custom-inline'));
+        $this->setAccount(new UserSession([
+            'uid' => 1337
+        ]));
+        $this->assertResponseContents(Request::create('/test/security/custom-inline'), 'OK');
+
         // csrf
         $this->assertForbidden(Request::create('/test/security/csrf'));
         $this->assertResponseContents(Request::create('/test/security/csrf', 'GET', [

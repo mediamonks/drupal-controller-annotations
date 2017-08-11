@@ -2,10 +2,12 @@
 
 namespace Drupal\controller_annotations_test\Controller;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\controller_annotations\Configuration\Method;
 use Drupal\controller_annotations\Configuration\Route;
 use Drupal\controller_annotations\Configuration\Security;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\node\Entity\Node;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -61,11 +63,29 @@ class SecurityController extends ControllerBase
     }
 
     /**
+     * @Route("custom-inline")
+     * @Security(custom="access")
+     */
+    public function customInlineAction()
+    {
+        return new Response('OK');
+    }
+
+    /**
      * @Route("csrf")
      * @Security(access=true, csrf=true)
      */
     public function csrfAction()
     {
         return new Response('OK');
+    }
+
+    /**
+     * @param AccountInterface $account
+     * @return AccessResult
+     */
+    public function access(AccountInterface $account)
+    {
+        return AccessResult::allowedIf($account->id() === 1337);
     }
 }

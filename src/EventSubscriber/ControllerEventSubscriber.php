@@ -9,6 +9,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ControllerEventSubscriber extends ControllerListener
 {
+    /**
+     * @param Reader $reader
+     */
     public function __construct(Reader $reader)
     {
         parent::__construct($reader);

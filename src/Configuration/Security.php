@@ -203,7 +203,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
      */
     public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
-        $this->modifyRoute($route);
+        $this->modifyRoute($route, $class, $method);
     }
 
     /**
@@ -213,13 +213,15 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
      */
     public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
-        $this->modifyRoute($route);
+        $this->modifyRoute($route, $class, $method);
     }
 
     /**
      * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     * @param \ReflectionMethod $method
      */
-    protected function modifyRoute(RoutingRoute $route)
+    protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
     {
         if ($this->isAccess()) {
             $route->setRequirement('_access', 'TRUE');
@@ -236,7 +238,20 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
         if ($this->hasCsrf()) {
             $route->setRequirement('_csrf_token', 'TRUE');
         }
+
+        $this->setCustomSecurity($route, $class);
+    }
+
+    /**
+     * @param RoutingRoute $route
+     * @param \ReflectionClass $class
+     */
+    protected function setCustomSecurity(RoutingRoute $route, \ReflectionClass $class)
+    {
         if ($this->hasCustom()) {
+            if (strpos($this->getCustom(), '::') === false && $class->hasMethod($this->getCustom())) {
+                $this->setCustom(sprintf('%s::%s', $class->getName(), $this->getCustom()));
+            }
             $route->setRequirement('_custom_access', $this->getCustom());
         }
     }
