@@ -7,6 +7,7 @@ use Doctrine\Common\Util\ClassUtils;
 use Drupal\controller_annotations\Configuration\ConfigurationInterface;
 use Drupal\controller_annotations\Configuration\ConfigurationLoader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -48,14 +49,36 @@ class ControllerEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $className = class_exists('Doctrine\Common\Util\ClassUtils') ? ClassUtils::getClass($controller[0]) : get_class($controller[0]);
+        $className = ClassUtils::getClass($controller[0]);
         $object = new \ReflectionClass($className);
         $method = $object->getMethod($controller[1]);
 
         $classConfigurations = $this->getConfigurations($this->reader->getClassAnnotations($object));
         $methodConfigurations = $this->getConfigurations($this->reader->getMethodAnnotations($method));
 
-        $configurations = array();
+        $this->setRequestAttributes($event->getRequest(), $this->mergeConfigurations($classConfigurations, $methodConfigurations));
+    }
+
+    /**
+     * @param Request $request
+     * @param array $configurations
+     */
+    protected function setRequestAttributes(Request $request, array $configurations)
+    {
+        foreach ($configurations as $key => $attributes) {
+            $request->attributes->set($key, $attributes);
+        }
+    }
+
+    /**
+     * @param array $classConfigurations
+     * @param array $methodConfigurations
+     *
+     * @return array
+     */
+    protected function mergeConfigurations(array $classConfigurations, array $methodConfigurations)
+    {
+        $configurations = [];
         foreach (array_merge(array_keys($classConfigurations), array_keys($methodConfigurations)) as $key) {
             if (!array_key_exists($key, $classConfigurations)) {
                 $configurations[$key] = $methodConfigurations[$key];
@@ -74,12 +97,14 @@ class ControllerEventSubscriber implements EventSubscriberInterface
             }
         }
 
-        $request = $event->getRequest();
-        foreach ($configurations as $key => $attributes) {
-            $request->attributes->set($key, $attributes);
-        }
+        return $configurations;
     }
 
+    /**
+     * @param array $annotations
+     *
+     * @return array
+     */
     protected function getConfigurations(array $annotations)
     {
         $configurations = [];

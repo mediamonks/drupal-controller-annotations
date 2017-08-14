@@ -43,11 +43,16 @@ class EntityParamConverter implements ParamConverterInterface
         }
 
         $value = $request->attributes->get($param);
+        if (!$value && $configuration->isOptional()) {
+            return false;
+        }
 
         $request->attributes->set(
           $param,
           $this->getNode($value, $configuration)
         );
+
+        return true;
     }
 
     /**

@@ -16,6 +16,9 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
      */
     protected $manager;
 
+    /**
+     * @var bool
+     */
     protected $autoConvert;
 
     /**
@@ -24,8 +27,6 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
     private $isParameterTypeSupported;
 
     /**
-     * Constructor.
-     *
      * @param ParamConverterManager $manager     A ParamConverterManager instance
      * @param bool                  $autoConvert Auto convert non-configured objects
      */
@@ -69,6 +70,13 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
         $this->manager->apply($request, $configurations);
     }
 
+    /**
+     * @param \ReflectionFunctionAbstract $r
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param array $configurations
+     *
+     * @return array
+     */
     private function autoConfigure(\ReflectionFunctionAbstract $r, Request $request, $configurations)
     {
         foreach ($r->getParameters() as $param) {

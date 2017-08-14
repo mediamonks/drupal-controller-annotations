@@ -20,7 +20,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     /**
      * @var \SplObjectStorage
      */
-    private $etags;
+    private $eTags;
 
     /**
      * @var ExpressionLanguage
@@ -32,7 +32,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     public function __construct()
     {
         $this->lastModifiedDates = new \SplObjectStorage();
-        $this->etags = new \SplObjectStorage();
+        $this->eTags = new \SplObjectStorage();
     }
 
     /**
@@ -55,10 +55,10 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             $response->setLastModified($lastModifiedDate);
         }
 
-        $etag = '';
+        $eTag = '';
         if ($configuration->getETag()) {
-            $etag = hash('sha256', $this->getExpressionLanguage()->evaluate($configuration->getETag(), $request->attributes->all()));
-            $response->setETag($etag);
+            $eTag = hash('sha256', $this->getExpressionLanguage()->evaluate($configuration->getETag(), $request->attributes->all()));
+            $response->setETag($eTag);
         }
 
         if ($response->isNotModified($request)) {
@@ -67,8 +67,8 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             });
             $event->stopPropagation();
         } else {
-            if ($etag) {
-                $this->etags[$request] = $etag;
+            if ($eTag) {
+                $this->eTags[$request] = $eTag;
             }
             if ($lastModifiedDate) {
                 $this->lastModifiedDates[$request] = $lastModifiedDate;
@@ -139,14 +139,15 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             unset($this->lastModifiedDates[$request]);
         }
 
-        if (isset($this->etags[$request])) {
-            $response->setETag($this->etags[$request]);
+        if (isset($this->eTags[$request])) {
+            $response->setETag($this->eTags[$request]);
 
-            unset($this->etags[$request]);
+            unset($this->eTags[$request]);
         }
     }
 
     /**
+     * @codeCoverageIgnore
      * @return ExpressionLanguage
      */
     private function getExpressionLanguage()

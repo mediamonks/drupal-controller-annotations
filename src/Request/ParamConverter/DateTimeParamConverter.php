@@ -22,35 +22,44 @@ class DateTimeParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $param = $configuration->getName();
-
         if (!$request->attributes->has($param)) {
             return false;
         }
 
-        $options = $configuration->getOptions();
         $value = $request->attributes->get($param);
-
         if (!$value && $configuration->isOptional()) {
             return false;
         }
 
+        $request->attributes->set($param,
+          $this->getDateTime($configuration, $value, $param));
+
+        return true;
+    }
+
+    /**
+     * @param ParamConverter $configuration
+     * @param string $value
+     * @param string $param
+     *
+     * @return \DateTime
+     */
+    protected function getDateTime(ParamConverter $configuration, $value, $param)
+    {
+        $options = $configuration->getOptions();
+
         if (isset($options['format'])) {
             $date = DateTime::createFromFormat($options['format'], $value);
-
-            if (!$date) {
-                throw new NotFoundHttpException(sprintf('Invalid date given for parameter "%s".', $param));
-            }
-        } else {
-            if (false === strtotime($value)) {
-                throw new NotFoundHttpException(sprintf('Invalid date given for parameter "%s".', $param));
-            }
-
+        } elseif(false !== strtotime($value)) {
             $date = new DateTime($value);
         }
 
-        $request->attributes->set($param, $date);
+        if (empty($date)) {
+            throw new NotFoundHttpException(
+              sprintf('Invalid date given for parameter "%s".', $param));
+        }
 
-        return true;
+        return $date;
     }
 
     /**
@@ -58,10 +67,6 @@ class DateTimeParamConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration)
     {
-        if (null === $configuration->getClass()) {
-            return false;
-        }
-
-        return 'DateTime' === $configuration->getClass();
+        return \DateTime::class === $configuration->getClass();
     }
 }
