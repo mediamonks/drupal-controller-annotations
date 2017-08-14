@@ -2,12 +2,13 @@
 
 namespace Drupal\controller_annotations\Routing;
 
+use Drupal\controller_annotations\Configuration\Method;
 use Drupal\controller_annotations\Configuration\RouteModifierClassInterface;
 use Drupal\controller_annotations\Configuration\RouteModifierMethodInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Routing\AnnotatedRouteControllerLoader as BaseAnnotatedRouteControllerLoader;
+use Symfony\Component\Routing\Loader\AnnotationClassLoader;
 use Symfony\Component\Routing\Route;
 
-class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
+class AnnotatedRouteControllerLoader extends AnnotationClassLoader
 {
     /**
      * @param Route $route
@@ -20,6 +21,23 @@ class AnnotatedRouteControllerLoader extends BaseAnnotatedRouteControllerLoader
         $this->setController($route, $class, $method);
         $this->configureClassAnnotations($route, $class, $method);
         $this->configureMethodAnnotations($route, $class, $method);
+    }
+
+    /**
+     * @param \ReflectionClass $class
+     * @return array
+     */
+    protected function getGlobals(\ReflectionClass $class)
+    {
+        $globals = parent::getGlobals($class);
+
+        foreach ($this->reader->getClassAnnotations($class) as $configuration) {
+            if ($configuration instanceof Method) {
+                $globals['methods'] = array_merge($globals['methods'], $configuration->getMethods());
+            }
+        }
+
+        return $globals;
     }
 
     /**

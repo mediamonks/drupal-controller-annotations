@@ -55,13 +55,13 @@ services:
         public: false
 
     controller_annotations.param_converter.manager:
-        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterManager
+        class: Drupal\controller_annotations\Request\ParamConverter\ParamConverterManager
         tags:
             - { name: service_collector, tag: controller_annotations.param_converter, call: add }
         public: false
 
     controller_annotations.param_converter.datetime:
-        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter
+        class: Drupal\controller_annotations\Request\ParamConverter\DateTimeParamConverter
         tags:
             - { name: controller_annotations.param_converter, priority: 0 }
         public: false

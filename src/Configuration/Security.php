@@ -2,7 +2,6 @@
 
 namespace Drupal\controller_annotations\Configuration;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation;
 use Symfony\Component\Routing\Route as RoutingRoute;
 
 /**

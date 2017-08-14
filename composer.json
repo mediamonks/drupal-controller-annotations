@@ -19,6 +19,11 @@
             "name": "Robert Slootjes",
             "email": "robert@mediamonks.com",
             "homepage": "https://github.com/slootjes"
+        },
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com",
+            "homepage": "https://sensiolabs.com/"
         }
     ],
     "autoload": {
@@ -33,7 +38,6 @@
     },
     "require": {
         "php": "~5.5|~7.0",
-        "sensio/framework-extra-bundle": "^3.0",
         "drupal/core": "~8.0"
     },
     "require-dev": {

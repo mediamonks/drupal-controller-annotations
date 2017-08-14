@@ -2,7 +2,7 @@
 
 namespace Drupal\controller_annotations\Configuration;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as BaseRoute;
+use Symfony\Component\Routing\Annotation\Route as BaseRoute;
 use Symfony\Component\Routing\Route as RoutingRoute;
 
 /**
@@ -10,10 +10,33 @@ use Symfony\Component\Routing\Route as RoutingRoute;
  */
 class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModifierClassInterface
 {
+
+    /**
+     * @var string
+     */
+    protected $service;
+
     /**
      * @var bool
      */
     protected $admin;
+
+    /**
+     * @param $service
+     */
+    public function setService($service)
+    {
+        // avoid a BC notice in case of @Route(service="") with sf ^2.7
+        if (null === $this->getPath()) {
+            $this->setPath('');
+        }
+        $this->service = $service;
+    }
+
+    public function getService()
+    {
+        return $this->service;
+    }
 
     /**
      * @return bool
@@ -32,6 +55,18 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
         $this->admin = $admin;
 
         return $this;
+    }
+
+    /**
+     * Multiple route annotations are allowed.
+     *
+     * @return bool
+     *
+     * @see ConfigurationInterface
+     */
+    public function allowArray()
+    {
+        return true;
     }
 
     /**

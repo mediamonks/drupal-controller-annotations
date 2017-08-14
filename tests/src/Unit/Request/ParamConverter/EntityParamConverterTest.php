@@ -2,13 +2,13 @@
 
 namespace Drupal\Tests\controller_annotations\Unit\Request\ParamConverter;
 
+use Drupal\controller_annotations\Configuration\ParamConverter;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\controller_annotations\Request\ParamConverter\EntityParamConverter;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
 use Mockery as m;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
