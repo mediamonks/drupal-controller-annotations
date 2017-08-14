@@ -42,7 +42,11 @@
         "drupal/core": "~8.0"
     },
     "require-dev": {
-        "mockery/mockery": "^0.9.9"
+        "mockery/mockery": "^0.9.9",
+        "symfony/expression-language": "~2.8|~3.0"
+    },
+    "suggest": {
+        "symfony/expression-language": "Add support for cache annotations based on request variables"
     },
     "extra": {
         "branch-alias": {
