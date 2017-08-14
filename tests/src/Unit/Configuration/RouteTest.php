@@ -50,4 +50,16 @@ class RouteTest extends UnitTestCase
 
         m::close();
     }
+
+    public function testAllowArray()
+    {
+        $routeConfig = new RouteConfiguration([]);
+        $this->assertTrue($routeConfig->allowArray());
+    }
+
+    public function testUnknownProperty()
+    {
+        $this->setExpectedException(\BadMethodCallException::class);
+        new RouteConfiguration(['foo' => 'bar']);
+    }
 }

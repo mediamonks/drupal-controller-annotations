@@ -48,4 +48,10 @@ class TitleTest extends UnitTestCase
 
         m::close();
     }
+
+    public function testUnknownProperty()
+    {
+        $this->setExpectedException(\RuntimeException::class);
+        new Title(['foo' => 'bar']);
+    }
 }

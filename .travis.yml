@@ -88,8 +88,8 @@ before_script:
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/drupal
 
   # Start a web server.
-  - cd $TRAVIS_BUILD_DIR/drupal
-  - drush runserver 127.0.0.1:8080 &
+  #- cd $TRAVIS_BUILD_DIR/drupal
+  #- drush runserver 127.0.0.1:8080 &
 
 script:
   # CodeSniffer

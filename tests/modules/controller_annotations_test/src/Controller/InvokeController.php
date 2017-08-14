@@ -2,21 +2,18 @@
 
 namespace Drupal\controller_annotations_test\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
 use Drupal\controller_annotations\Configuration\Route;
 use Drupal\controller_annotations\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @Route("test/invoke", service="controller.invoke")
  * @Security(access=true)
  */
-class BasicController extends ControllerBase
+class InvokeController
 {
-    /**
-     * @Route("test/basic")
-     */
-    public function basicAction()
+    public function __invoke()
     {
-        return new Response('BasicController::basicAction');
+        return new Response('InvokeController::__invoke');
     }
 }

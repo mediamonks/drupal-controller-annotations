@@ -1,3 +1,6 @@
 services:
     controller.service:
         class: Drupal\controller_annotations_test\Controller\ServiceController
+
+    controller.invoke:
+        class: Drupal\controller_annotations_test\Controller\InvokeController

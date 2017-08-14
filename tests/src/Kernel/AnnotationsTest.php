@@ -13,7 +13,7 @@ class AnnotationsTest extends KernelTestBase
     public function testRouting()
     {
         $response = $this->request(Request::create('/test/basic'));
-        $this->assertEquals('OK', $response->getContent());
+        $this->assertEquals('BasicController::basicAction', $response->getContent());
 
         $this->assertResponseContents(Request::create('/test/method', 'GET'), 'ClassRouteController::getAction');
         $this->assertResponseContents(Request::create('/test/method', 'POST'), 'ClassRouteController::postAction');

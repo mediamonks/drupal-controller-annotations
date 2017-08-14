@@ -16,12 +16,12 @@ class ParamConverterManager
     /**
      * @var array
      */
-    protected $converters = array();
+    protected $converters = [];
 
     /**
      * @var array
      */
-    protected $namedConverters = array();
+    protected $namedConverters = [];
 
     /**
      * Applies all converters to the passed configurations and stops when a
@@ -33,7 +33,7 @@ class ParamConverterManager
     public function apply(Request $request, $configurations)
     {
         if (is_object($configurations)) {
-            $configurations = array($configurations);
+            $configurations = [$configurations];
         }
 
         foreach ($configurations as $configuration) {
@@ -105,7 +105,7 @@ class ParamConverterManager
     {
         if ($priority !== null) {
             if (!isset($this->converters[$priority])) {
-                $this->converters[$priority] = array();
+                $this->converters[$priority] = [];
             }
 
             $this->converters[$priority][] = $converter;

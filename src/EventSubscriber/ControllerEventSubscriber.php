@@ -105,7 +105,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::CONTROLLER => [
-                ['onKernelController', 100],
+                ['onKernelController', 200],
             ]
         ];
     }
