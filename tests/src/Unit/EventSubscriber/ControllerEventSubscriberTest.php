@@ -36,7 +36,7 @@ class ControllerEventSubscriberTest extends UnitTestCase
         $eventSubscriber = new ControllerEventSubscriber($reader);
 
         $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getController')->once()->andReturn(new InvokableController);
+        $event->shouldReceive('getController')->once()->andReturn(new ControllerInvokableController);
         $event->shouldReceive('getRequest')->once()->andReturn(new Request);
 
         $this->assertNull($eventSubscriber->onKernelController($event));
@@ -58,14 +58,14 @@ class ControllerEventSubscriberTest extends UnitTestCase
         $eventSubscriber = new ControllerEventSubscriber($reader);
 
         $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getController')->once()->andReturn(new InvokableController);
+        $event->shouldReceive('getController')->once()->andReturn(new ControllerInvokableController);
         $event->shouldReceive('getRequest')->once()->andReturn(new Request);
 
         $this->assertNull($eventSubscriber->onKernelController($event));
     }
 }
 
-class InvokableController
+class ControllerInvokableController
 {
     public function __invoke()
     {

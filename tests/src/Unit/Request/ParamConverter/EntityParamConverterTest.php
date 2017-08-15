@@ -182,6 +182,30 @@ class EntityParamConverterTest extends UnitTestCase
         $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
     }
 
+    public function testOptional()
+    {
+        $id = 1;
+        $bundle = 'article';
+
+        $entityInterface = m::mock(EntityInterface::class);
+        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+
+        $entityTypeManager = m::mock(EntityTypeManager::class);
+        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+
+        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+
+        $name = 'test';
+        $request = new Request();
+
+        $paramConverter = m::mock(ParamConverter::class);
+        //$paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+        $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
+
+        $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
+    }
+
     public function tearDown()
     {
         m::close();

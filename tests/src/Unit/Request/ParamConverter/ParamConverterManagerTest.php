@@ -164,6 +164,31 @@ class ParamConverterManagerTest extends UnitTestCase
         $manager->apply($request, array($configuration));
     }
 
+    public function testApplyWithoutArray()
+    {
+        $converter = $this->createParamConverterMock();
+        $converter
+          ->expects($this->any())
+          ->method('supports')
+          ->will($this->returnValue(false))
+        ;
+
+        $converter
+          ->expects($this->never())
+          ->method('apply')
+        ;
+
+        $request = new Request();
+
+        $configuration = new Configuration\ParamConverter(array(
+          'name' => 'var',
+        ));
+
+        $manager = new ParamConverterManager();
+        $manager->add($converter);
+        $manager->apply($request, $configuration);
+    }
+
     protected function createParamConverterMock()
     {
         return $this->getMockBuilder(ParamConverterInterface::class)->getMock();
