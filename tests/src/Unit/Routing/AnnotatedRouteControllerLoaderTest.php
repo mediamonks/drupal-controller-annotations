@@ -5,6 +5,7 @@ namespace Drupal\Tests\controller_annotations\Unit\Templating;
 use Doctrine\Common\Annotations\Reader;
 use Drupal\controller_annotations\Configuration\Method;
 use Drupal\controller_annotations\Routing\AnnotatedRouteControllerLoader;
+use Drupal\Tests\controller_annotations\Unit\Helper;
 use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
@@ -44,21 +45,12 @@ class AnnotatedRouteControllerLoaderTest extends UnitTestCase
         $reflectionMethod = m::mock(\ReflectionMethod::class);
         $reflectionMethod->shouldReceive('getName')->once()->andReturn('action');
 
-        $method = self::getMethod(AnnotatedRouteControllerLoader::class, 'configureRoute');
+        $method = Helper::getProtectedMethod(AnnotatedRouteControllerLoader::class, 'configureRoute');
         $annotatedRouteControllerLoader = new AnnotatedRouteControllerLoader($reader);
         $method->invokeArgs($annotatedRouteControllerLoader, [$route, $reflectionClass, $reflectionMethod, null]);
 
         $this->assertTrue(true);
 
         m::close();
-    }
-
-    protected static function getMethod($class, $name)
-    {
-        $class = new \ReflectionClass($class);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method;
     }
 }

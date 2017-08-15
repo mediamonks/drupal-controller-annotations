@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DateTimeParamConverterTest extends UnitTestCase
 {
+
     private $converter;
 
     public function setUp()
@@ -33,37 +34,48 @@ class DateTimeParamConverterTest extends UnitTestCase
 
     public function testApply()
     {
-        $request = new Request(array(), array(), array('start' => '2012-07-21 00:00:00'));
+        $request = new Request([], [], ['start' => '2012-07-21 00:00:00']);
         $config = $this->createConfiguration('DateTime', 'start');
 
         $this->converter->apply($request, $config);
 
         $this->assertInstanceOf('DateTime', $request->attributes->get('start'));
-        $this->assertEquals('2012-07-21', $request->attributes->get('start')->format('Y-m-d'));
+        $this->assertEquals(
+          '2012-07-21',
+          $request->attributes->get('start')->format('Y-m-d')
+        );
     }
 
     public function testApplyInvalidDate404Exception()
     {
-        $request = new Request(array(), array(), array('start' => 'Invalid DateTime Format'));
+        $request = new Request([], [], ['start' => 'Invalid DateTime Format']);
         $config = $this->createConfiguration('DateTime', 'start');
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', 'Invalid date given for parameter "start".');
+        $this->setExpectedException(
+          'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
+          'Invalid date given for parameter "start".'
+        );
         $this->converter->apply($request, $config);
     }
 
     public function testApplyWithFormatInvalidDate404Exception()
     {
-        $request = new Request(array(), array(), array('start' => '2012-07-21'));
+        $request = new Request([], [], ['start' => '2012-07-21']);
         $config = $this->createConfiguration('DateTime', 'start');
-        $config->expects($this->any())->method('getOptions')->will($this->returnValue(array('format' => 'd.m.Y')));
+        $config->expects($this->any())->method('getOptions')->will(
+          $this->returnValue(['format' => 'd.m.Y'])
+        );
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', 'Invalid date given for parameter "start".');
+        $this->setExpectedException(
+          'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
+          'Invalid date given for parameter "start".'
+        );
         $this->converter->apply($request, $config);
     }
 
     public function testApplyOptionalWithEmptyAttribute()
     {
-        $request = new Request(array(), array(), array('start' => null));
+        $request = new Request([], [], ['start' => null]);
         $config = $this->createConfiguration('DateTime', 'start');
         $config->expects($this->once())
           ->method('isOptional')
@@ -73,11 +85,28 @@ class DateTimeParamConverterTest extends UnitTestCase
         $this->assertNull($request->attributes->get('start'));
     }
 
+    public function testApplyEmptyAttribute()
+    {
+        $request = new Request();
+        $config = $this->createConfiguration('DateTime', 'start');
+
+        $this->assertFalse($this->converter->apply($request, $config));
+    }
+
     public function createConfiguration($class = null, $name = null)
     {
         $config = $this
           ->getMockBuilder(ParamConverter::class)
-          ->setMethods(array('getClass', 'getAliasName', 'getOptions', 'getName', 'allowArray', 'isOptional'))
+          ->setMethods(
+            [
+              'getClass',
+              'getAliasName',
+              'getOptions',
+              'getName',
+              'allowArray',
+              'isOptional',
+            ]
+          )
           ->disableOriginalConstructor()
           ->getMock();
 

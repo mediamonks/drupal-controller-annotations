@@ -77,18 +77,18 @@ class EntityParamConverter implements ParamConverterInterface
       ParamConverter $configuration,
       EntityInterface $node = null
     ) {
+        if (is_null($node) && $configuration->isOptional()) {
+            return;
+        }
+        if (is_null($node)) {
+            throw new NotFoundHttpException('entity not found.');
+        }
         $options = $configuration->getOptions();
-
-        if (
-          (is_null($node) && false === $configuration->isOptional())
-          || (!is_null($node) && isset($options['bundle']) && $node->bundle(
-            ) !== $options['bundle'])
-        ) {
-            $class = 'node';
-            if (isset($options['bundle'])) {
-                $class = $options['bundle'];
-            }
-            throw new NotFoundHttpException(sprintf('%s not found.', $class));
+        if (isset($options['bundle']) && $node->bundle(
+          ) !== $options['bundle']) {
+            throw new NotFoundHttpException(
+              sprintf('%s not found.', $options['bundle'])
+            );
         }
     }
 

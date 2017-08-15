@@ -5,6 +5,7 @@ namespace Drupal\Tests\controller_annotations\Unit\EventSubscriber;
 use Doctrine\Common\Annotations\Reader;
 use Drupal\controller_annotations\Configuration\ConfigurationInterface;
 use Drupal\controller_annotations\EventSubscriber\ControllerEventSubscriber;
+use Drupal\Tests\controller_annotations\Unit\Helper;
 use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,6 +63,39 @@ class ControllerEventSubscriberTest extends UnitTestCase
         $event->shouldReceive('getRequest')->once()->andReturn(new Request);
 
         $this->assertNull($eventSubscriber->onKernelController($event));
+    }
+
+    public function testMergeConfigurations()
+    {
+        $classConfigurations = [
+          'foo' => 'bar'
+        ];
+        $methodConfigurations = [
+          'foo' => 'bar'
+        ];
+
+        $reader = m::mock(Reader::class);
+        $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
+        $eventSubscriber = new ControllerEventSubscriber($reader);
+        $result = $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
+        $this->assertEquals(['foo' => 'bar'], $result);
+    }
+
+    public function testMergeConfigurationsMismatch()
+    {
+        $this->setExpectedException(\UnexpectedValueException::class);
+
+        $classConfigurations = [
+          'foo' => ['bar']
+        ];
+        $methodConfigurations = [
+          'foo' => 'bar'
+        ];
+
+        $reader = m::mock(Reader::class);
+        $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
+        $eventSubscriber = new ControllerEventSubscriber($reader);
+        $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
     }
 }
 
