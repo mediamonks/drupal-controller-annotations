@@ -10,6 +10,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Mockery as m;
 
 class ParamConverterEventSubscriberTest extends UnitTestCase
 {
@@ -76,9 +77,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
      */
     public function testSettingOptionalParam($function, $isOptional)
     {
-        $kernel = $this->getMockBuilder(
-          'Symfony\Component\HttpKernel\HttpKernelInterface'
-        )->getMock();
+        $kernel = $this->getMockBuilder(HttpKernelInterface::class)->getMock();
         $request = new Request();
 
         $converter = new ParamConverter(
@@ -117,9 +116,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
      */
     public function testNoAutoConvert($controllerCallable)
     {
-        $kernel = $this->getMockBuilder(
-          'Symfony\Component\HttpKernel\HttpKernelInterface'
-        )->getMock();
+        $kernel = $this->getMockBuilder(HttpKernelInterface::class)->getMock();
         $request = new Request([], [], ['date' => '2014-03-14 09:00:00']);
 
         $eventSubscriber = new ParamConverterEventSubscriber(
@@ -143,18 +140,42 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
         ];
     }
 
-    protected function getParamConverterManager(
-      Request $request,
-      $configurations
-    ) {
-        $manager = $this->getMockBuilder(ParamConverterManager::class)->getMock(
-        );
+    protected function getParamConverterManager(Request $request, $configurations)
+    {
+        $manager = $this->getMockBuilder(ParamConverterManager::class)->getMock();
         $manager
           ->expects($this->once())
           ->method('apply')
           ->with($this->equalTo($request), $this->equalTo($configurations));
 
         return $manager;
+    }
+
+    public function testPredefinedConfigurations()
+    {
+        $configuration = m::mock(\stdClass::class);
+        $configuration->shouldReceive('getName')->andReturn('foo');
+
+        $configurations = [$configuration];
+
+        $kernel = m::mock(HttpKernelInterface::class);
+        $request = new Request();
+        $request->attributes->set('_converters', $configurations);
+
+        $event = new FilterControllerEvent(
+          $kernel,
+          function() {},
+          $request,
+          null
+        );
+
+        $manager = m::mock(ParamConverterManager::class);
+        $manager->shouldReceive('apply')->once()->withArgs([$request, ['foo' => $configuration]]);
+
+        $eventSubscriber = new ParamConverterEventSubscriber($manager, false);
+        $eventSubscriber->onKernelController($event);
+
+        $this->assertNull(m::close());
     }
 }
 

@@ -139,4 +139,11 @@ class AnnotationsTest extends KernelTestBase
         $this->assertTitleStartsWith(Request::create('/test/title/callback'), 'Hello Callback');
         $this->assertTitleStartsWith(Request::create('/test/title/callback-inline'), 'Hello Callback Inline');
     }
+
+    public function testParamConverter()
+    {
+        $this->assertResponseContents(Request::create('/test/param-converter/date/2017-08-15'), '2017-08-15');
+        $this->assertResponseContents(Request::create('/test/param-converter/date-format/15-08-2017'), '2017-08-15');
+        $this->assertResponseContents(Request::create('/test/param-converter/date-multiple/14-08-2017/15-08-2017'), '2017-08-14-2017-08-15');
+    }
 }
