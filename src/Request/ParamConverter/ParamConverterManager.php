@@ -3,11 +3,10 @@
 namespace Drupal\controller_annotations\Request\ParamConverter;
 
 use Drupal\controller_annotations\Configuration\ConfigurationInterface;
+use Drupal\controller_annotations\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Managers converters.
- *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Henrik Bjornskov <henrik@bjrnskov.dk>
  */
@@ -45,38 +44,21 @@ class ParamConverterManager
      * Apply converter on request based on the given configuration.
      *
      * @param Request                $request
-     * @param ConfigurationInterface $configuration
+     * @param ParamConverter $configuration
      */
-    protected function applyConverter(Request $request, ConfigurationInterface $configuration)
+    protected function applyConverter(Request $request, ParamConverter $configuration)
     {
         $value = $request->attributes->get($configuration->getName());
         $className = $configuration->getClass();
 
-        // If the value is already an instance of the class we are trying to convert it into
-        // we should continue as no conversion is required
+        // If the value is already an instance of the class we are trying to
+        // convert it into we should continue as no conversion is required
         if (is_object($value) && $value instanceof $className) {
             return;
         }
 
-        if ($converterName = $configuration->getConverter()) {
-            if (!isset($this->namedConverters[$converterName])) {
-                throw new \RuntimeException(sprintf(
-                    "No converter named '%s' found for conversion of parameter '%s'.",
-                    $converterName, $configuration->getName()
-                ));
-            }
-
-            $converter = $this->namedConverters[$converterName];
-
-            if (!$converter->supports($configuration)) {
-                throw new \RuntimeException(sprintf(
-                    "Converter '%s' does not support conversion of parameter '%s'.",
-                    $converterName, $configuration->getName()
-                ));
-            }
-
-            $converter->apply($request, $configuration);
-
+        if ($configuration->getConverter()) {
+            $this->applyNamedConverter($request, $configuration);
             return;
         }
 
@@ -87,6 +69,32 @@ class ParamConverterManager
                 }
             }
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param ParamConverter $configuration
+     */
+    protected function applyNamedConverter(Request $request, ParamConverter $configuration)
+    {
+        $converterName = $configuration->getConverter();
+        if (!isset($this->namedConverters[$converterName])) {
+            throw new \RuntimeException(sprintf(
+              "No converter named '%s' found for conversion of parameter '%s'.",
+              $converterName, $configuration->getName()
+            ));
+        }
+
+        $converter = $this->namedConverters[$converterName];
+
+        if (!$converter->supports($configuration)) {
+            throw new \RuntimeException(sprintf(
+              "Converter '%s' does not support conversion of parameter '%s'.",
+              $converterName, $configuration->getName()
+            ));
+        }
+
+        $converter->apply($request, $configuration);
     }
 
     /**

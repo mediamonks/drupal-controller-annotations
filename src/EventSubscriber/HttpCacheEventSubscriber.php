@@ -2,6 +2,8 @@
 
 namespace Drupal\controller_annotations\EventSubscriber;
 
+use Drupal\controller_annotations\Configuration\Cache;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -49,31 +51,70 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
 
         $response = new Response();
 
-        $lastModifiedDate = '';
         if ($configuration->getLastModified()) {
-            $lastModifiedDate = $this->getExpressionLanguage()->evaluate($configuration->getLastModified(), $request->attributes->all());
-            $response->setLastModified($lastModifiedDate);
+            $this->setLastModified($request, $response, $configuration);
         }
-
-        $eTag = '';
         if ($configuration->getETag()) {
-            $eTag = hash('sha256', $this->getExpressionLanguage()->evaluate($configuration->getETag(), $request->attributes->all()));
-            $response->setETag($eTag);
+            $this->setETag($request, $response, $configuration);
         }
-
         if ($response->isNotModified($request)) {
-            $event->setController(function () use ($response) {
-                return $response;
-            });
+            $event->setController(
+              function () use ($response) {
+                  return $response;
+              }
+            );
             $event->stopPropagation();
-        } else {
-            if ($eTag) {
-                $this->eTags[$request] = $eTag;
-            }
-            if ($lastModifiedDate) {
-                $this->lastModifiedDates[$request] = $lastModifiedDate;
-            }
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param Cache $configuration
+     */
+    protected function setLastModified(
+      Request $request,
+      Response $response,
+      Cache $configuration
+    ) {
+        $lastModifiedDate = $this->getExpressionLanguage()->evaluate(
+          $configuration->getLastModified(),
+          $request->attributes->all()
+        );
+        $response->setLastModified($lastModifiedDate);
+        $this->lastModifiedDates[$request] = $lastModifiedDate;
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param Cache $configuration
+     */
+    protected function setETag(
+      Request $request,
+      Response $response,
+      Cache $configuration
+    ) {
+        $eTag = $this->createETag($request, $configuration);
+        $response->setETag($eTag);
+        $this->eTags[$request] = $eTag;
+    }
+
+    /**
+     * @param Request $request
+     * @param Cache $configuration
+     *
+     * @return string
+     */
+    protected function createETag(Request $request, Cache $configuration)
+    {
+        return hash(
+          'sha256',
+          $this->getExpressionLanguage()->evaluate(
+            $configuration->getETag(),
+            $request->attributes->all()
+          )
+        );
     }
 
     /**
@@ -84,15 +125,12 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $request = $event->getRequest();
-
         if (!$configuration = $request->attributes->get('_cache')) {
             return;
         }
 
         $response = $event->getResponse();
-
-        // http://tools.ietf.org/html/draft-ietf-httpbis-p4-conditional-12#section-3.1
-        if (!in_array($response->getStatusCode(), array(200, 203, 300, 301, 302, 304, 404, 410))) {
+        if ($this->hasUncachableStatusCode($response)) {
             return;
         }
 
@@ -100,7 +138,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             if (!is_numeric($age)) {
                 $now = microtime(true);
 
-                $age = ceil(strtotime($configuration->getSMaxAge(), $now) - $now);
+                $age = ceil(
+                  strtotime($configuration->getSMaxAge(), $now) - $now
+                );
             }
 
             $response->setSharedMaxAge($age);
@@ -110,14 +150,20 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             if (!is_numeric($age)) {
                 $now = microtime(true);
 
-                $age = ceil(strtotime($configuration->getMaxAge(), $now) - $now);
+                $age = ceil(
+                  strtotime($configuration->getMaxAge(), $now) - $now
+                );
             }
 
             $response->setMaxAge($age);
         }
 
         if (null !== $configuration->getExpires()) {
-            $date = \DateTime::createFromFormat('U', strtotime($configuration->getExpires()), new \DateTimeZone('UTC'));
+            $date = \DateTime::createFromFormat(
+              'U',
+              strtotime($configuration->getExpires()),
+              new \DateTimeZone('UTC')
+            );
             $response->setExpires($date);
         }
 
@@ -147,6 +193,25 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * http://tools.ietf.org/html/draft-ietf-httpbis-p4-conditional-12#section-3.1
+     *
+     * @param Response $response
+     *
+     * @return bool
+     */
+    protected function hasUncachableStatusCode(Response $response)
+    {
+        if (!in_array(
+          $response->getStatusCode(),
+          [200, 203, 300, 301, 302, 304, 404, 410]
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @codeCoverageIgnore
      * @return ExpressionLanguage
      */
@@ -154,7 +219,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     {
         if (null === $this->expressionLanguage) {
             if (!class_exists(ExpressionLanguage::class)) {
-                throw new \RuntimeException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
+                throw new \RuntimeException(
+                  'Unable to use expressions as the Symfony ExpressionLanguage component is not installed.'
+                );
             }
             $this->expressionLanguage = new ExpressionLanguage();
         }
@@ -168,12 +235,12 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => [
-                ['onKernelController', 0],
-            ],
-            KernelEvents::RESPONSE => [
-                ['onKernelResponse', 100],
-            ],
+          KernelEvents::CONTROLLER => [
+            ['onKernelController', 0],
+          ],
+          KernelEvents::RESPONSE => [
+            ['onKernelResponse', 100],
+          ],
         ];
     }
 }
