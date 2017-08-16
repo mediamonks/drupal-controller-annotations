@@ -81,6 +81,23 @@ class ControllerEventSubscriberTest extends UnitTestCase
         $this->assertEquals(['foo' => 'bar'], $result);
     }
 
+    public function testMergeConfigurationsArray()
+    {
+        $classConfigurations = [
+          'foo' => ['bar']
+        ];
+        $methodConfigurations = [
+          'foo' => ['baz']
+        ];
+
+        $reader = m::mock(Reader::class);
+        $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
+        $eventSubscriber = new ControllerEventSubscriber($reader);
+        $result = $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
+
+        $this->assertEquals(['foo' => ['bar', 'baz']], $result);
+    }
+
     public function testMergeConfigurationsMismatch()
     {
         $this->setExpectedException(\UnexpectedValueException::class);

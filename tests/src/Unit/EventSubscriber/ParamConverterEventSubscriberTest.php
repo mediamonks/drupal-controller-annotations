@@ -164,7 +164,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
 
         $event = new FilterControllerEvent(
           $kernel,
-          function() {},
+          'time',
           $request,
           null
         );
