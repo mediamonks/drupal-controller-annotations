@@ -118,6 +118,17 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param $age
+     *
+     * @return float
+     */
+    protected function calculateAge($age)
+    {
+        $now = microtime(true);
+        return ceil(strtotime($age, $now) - $now);
+    }
+
+    /**
      * Modifies the response to apply HTTP cache headers when needed.
      *
      * @param FilterResponseEvent $event
@@ -136,11 +147,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
 
         if (null !== $age = $configuration->getSMaxAge()) {
             if (!is_numeric($age)) {
-                $now = microtime(true);
-
-                $age = ceil(
-                  strtotime($configuration->getSMaxAge(), $now) - $now
-                );
+                $age = $this->calculateAge($configuration->getSMaxAge());
             }
 
             $response->setSharedMaxAge($age);
@@ -148,23 +155,14 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
 
         if (null !== $age = $configuration->getMaxAge()) {
             if (!is_numeric($age)) {
-                $now = microtime(true);
-
-                $age = ceil(
-                  strtotime($configuration->getMaxAge(), $now) - $now
-                );
+                $age = $this->calculateAge($configuration->getMaxAge());
             }
 
             $response->setMaxAge($age);
         }
 
         if (null !== $configuration->getExpires()) {
-            $date = \DateTime::createFromFormat(
-              'U',
-              strtotime($configuration->getExpires()),
-              new \DateTimeZone('UTC')
-            );
-            $response->setExpires($date);
+            $response->setExpires($this->calculateExpires($configuration));
         }
 
         if (null !== $configuration->getVary()) {
@@ -190,6 +188,20 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
 
             unset($this->eTags[$request]);
         }
+    }
+
+    /**
+     * @param Cache $configuration
+     *
+     * @return bool|\DateTime
+     */
+    protected function calculateExpires(Cache $configuration)
+    {
+        return \DateTime::createFromFormat(
+          'U',
+          strtotime($configuration->getExpires()),
+          new \DateTimeZone('UTC')
+        );
     }
 
     /**
