@@ -26,6 +26,7 @@ A full example will probably demonstrate quickly how this works:
          * @Route
          * @Template
          * @Security(permission="access content")
+         * @Title("My Title")
          */
         public function indexAction()
         {
@@ -38,10 +39,9 @@ A full example will probably demonstrate quickly how this works:
          * @Route("/{id}", name="article_edit")
          * @Method("GET")
          * @ParamConverter("article", options={"bundle": "article"})
-         * @Template("acme:article:show", vars={"article"})
+         * @Template("acme:article:edit", vars={"article"})
          * @Cache(smaxage="15")
          * @Security(role="administrator")
-         * @Title("My Title")
          */
         public function editAction(Node $article) { }
     }
