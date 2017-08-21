@@ -5,11 +5,13 @@
 
 # Drupal Controller Annotations
 
-A Drupal port of the controller annotations from [Symfony Framework](http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html)
+A Drupal port of the controller annotations from [Symfony Framework](http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html).
+
+View this project on the [Drupal.org project page](https://www.drupal.org/project/controller_annotations).
 
 ## Documentation
 
-Please refer to the files in the [/docs](/docs) folder.
+Please refer to the files in the [/docs](/docs) folder. 
 
 ## System Requirements
 
@@ -24,7 +26,7 @@ If you discover any security related issues, please email devmonk@mediamonks.com
 
 ## Credits
 
-- [SensioLabs](https://github.com/sensiolabs/SensioFrameworkExtraBundle) for creating the annotation feature for Symfony Framework
+- [SensioLabs](https://github.com/sensiolabs/SensioFrameworkExtraBundle) for creating their annotation bundle for Symfony Framework
 
 ## License
 

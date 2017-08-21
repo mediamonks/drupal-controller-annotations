@@ -45,7 +45,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     public function onKernelController(FilterControllerEvent $event)
     {
         $request = $event->getRequest();
-        if (!$configuration = $request->attributes->get('_cache')) {
+        if (!$configuration = $this->getConfiguration($request)) {
             return;
         }
 
@@ -65,6 +65,26 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             );
             $event->stopPropagation();
         }
+    }
+
+    /**
+     * Modifies the response to apply HTTP cache headers when needed.
+     *
+     * @param FilterResponseEvent $event
+     */
+    public function onKernelResponse(FilterResponseEvent $event)
+    {
+        $request = $event->getRequest();
+        if (!$configuration = $this->getConfiguration($request)) {
+            return;
+        }
+
+        $response = $event->getResponse();
+        if ($this->hasUncachableStatusCode($response)) {
+            return;
+        }
+
+        $this->setCacheProperties($request, $response, $configuration);
     }
 
     /**
@@ -125,26 +145,35 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     protected function calculateAge($age)
     {
         $now = microtime(true);
+
         return ceil(strtotime($age, $now) - $now);
     }
 
     /**
-     * Modifies the response to apply HTTP cache headers when needed.
+     * @param Request $request
      *
-     * @param FilterResponseEvent $event
+     * @return Cache|false
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    protected function getConfiguration(Request $request)
     {
-        $request = $event->getRequest();
-        if (!$configuration = $request->attributes->get('_cache')) {
-            return;
+        $configuration = $request->attributes->get('_cache');
+        if (empty($configuration) || !$configuration instanceof Cache) {
+            return false;
         }
 
-        $response = $event->getResponse();
-        if ($this->hasUncachableStatusCode($response)) {
-            return;
-        }
+        return $configuration;
+    }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param Cache $configuration
+     */
+    protected function setCacheProperties(
+      Request $request,
+      Response $response,
+      Cache $configuration
+    ) {
         if (null !== $age = $configuration->getSMaxAge()) {
             if (!is_numeric($age)) {
                 $age = $this->calculateAge($configuration->getSMaxAge());
