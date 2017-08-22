@@ -111,7 +111,10 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
             }
 
             if (isset($configurations[$name])) {
-                $configurations[$name]->setIsOptional($param->isOptional() || $param->isDefaultValueAvailable() || $hasType && $param->getType()->allowsNull());
+                $configurations[$name]->setIsOptional($param->isOptional()
+                    || $param->isDefaultValueAvailable()
+                    || $hasType && $param->getType()->allowsNull()
+                );
             }
         }
 

@@ -56,7 +56,10 @@ class ControllerEventSubscriber implements EventSubscriberInterface
         $classConfigurations = $this->getConfigurations($this->reader->getClassAnnotations($object));
         $methodConfigurations = $this->getConfigurations($this->reader->getMethodAnnotations($method));
 
-        $this->setRequestAttributes($event->getRequest(), $this->mergeConfigurations($classConfigurations, $methodConfigurations));
+        $this->setRequestAttributes(
+            $event->getRequest(),
+            $this->mergeConfigurations($classConfigurations, $methodConfigurations)
+        );
     }
 
     /**
@@ -115,7 +118,9 @@ class ControllerEventSubscriber implements EventSubscriberInterface
                 } elseif (!isset($configurations['_'.$configuration->getAliasName()])) {
                     $configurations['_'.$configuration->getAliasName()] = $configuration;
                 } else {
-                    throw new \LogicException(sprintf('Multiple "%s" annotations are not allowed.', $configuration->getAliasName()));
+                    throw new \LogicException(
+                        sprintf('Multiple "%s" annotations are not allowed.', $configuration->getAliasName())
+                    );
                 }
             }
         }
