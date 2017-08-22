@@ -59,9 +59,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
         }
         if ($response->isNotModified($request)) {
             $event->setController(
-              function () use ($response) {
-                  return $response;
-              }
+                function () use ($response) {
+                    return $response;
+                }
             );
             $event->stopPropagation();
         }
@@ -93,13 +93,13 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      * @param Cache $configuration
      */
     protected function setLastModified(
-      Request $request,
-      Response $response,
-      Cache $configuration
+        Request $request,
+        Response $response,
+        Cache $configuration
     ) {
         $lastModifiedDate = $this->getExpressionLanguage()->evaluate(
-          $configuration->getLastModified(),
-          $request->attributes->all()
+            $configuration->getLastModified(),
+            $request->attributes->all()
         );
         $response->setLastModified($lastModifiedDate);
         $this->lastModifiedDates[$request] = $lastModifiedDate;
@@ -111,9 +111,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      * @param Cache $configuration
      */
     protected function setETag(
-      Request $request,
-      Response $response,
-      Cache $configuration
+        Request $request,
+        Response $response,
+        Cache $configuration
     ) {
         $eTag = $this->createETag($request, $configuration);
         $response->setETag($eTag);
@@ -129,11 +129,11 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     protected function createETag(Request $request, Cache $configuration)
     {
         return hash(
-          'sha256',
-          $this->getExpressionLanguage()->evaluate(
-            $configuration->getETag(),
-            $request->attributes->all()
-          )
+            'sha256',
+            $this->getExpressionLanguage()->evaluate(
+                $configuration->getETag(),
+                $request->attributes->all()
+            )
         );
     }
 
@@ -170,9 +170,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      * @param Cache $configuration
      */
     protected function setCacheProperties(
-      Request $request,
-      Response $response,
-      Cache $configuration
+        Request $request,
+        Response $response,
+        Cache $configuration
     ) {
         if (null !== $age = $configuration->getSMaxAge()) {
             if (!is_numeric($age)) {
@@ -227,9 +227,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     protected function calculateExpires(Cache $configuration)
     {
         return \DateTime::createFromFormat(
-          'U',
-          strtotime($configuration->getExpires()),
-          new \DateTimeZone('UTC')
+            'U',
+            strtotime($configuration->getExpires()),
+            new \DateTimeZone('UTC')
         );
     }
 
@@ -243,8 +243,8 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     protected function hasUncachableStatusCode(Response $response)
     {
         if (!in_array(
-          $response->getStatusCode(),
-          [200, 203, 300, 301, 302, 304, 404, 410]
+            $response->getStatusCode(),
+            [200, 203, 300, 301, 302, 304, 404, 410]
         )) {
             return true;
         }
@@ -261,7 +261,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
         if (null === $this->expressionLanguage) {
             if (!class_exists(ExpressionLanguage::class)) {
                 throw new \RuntimeException(
-                  'Unable to use expressions as the Symfony ExpressionLanguage component is not installed.'
+                    'Unable to use expressions as the Symfony ExpressionLanguage component is not installed.'
                 );
             }
             $this->expressionLanguage = new ExpressionLanguage();

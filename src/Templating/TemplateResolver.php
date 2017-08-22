@@ -22,10 +22,9 @@ class TemplateResolver
         if (!empty($data)) {
             $module = $data[1];
             $controller = $data[2];
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException(
-              sprintf('Controller class "%s" not supported', $controllerClass)
+                sprintf('Controller class "%s" not supported', $controllerClass)
             );
         }
 
@@ -60,7 +59,7 @@ class TemplateResolver
         }
 
         throw new \InvalidArgumentException(
-          sprintf('Template pattern "%s" not supported', $template)
+            sprintf('Template pattern "%s" not supported', $template)
         );
     }
 
@@ -77,9 +76,9 @@ class TemplateResolver
         $templateName = sprintf('%s-%s', $module, $controller);
         if (!empty($action)) {
             $templateName = sprintf(
-              '%s-%s',
-              $templateName,
-              $this->normalizeString($action)
+                '%s-%s',
+                $templateName,
+                $this->normalizeString($action)
             );
         }
 

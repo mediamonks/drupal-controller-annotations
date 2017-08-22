@@ -31,8 +31,10 @@ class DateTimeParamConverter implements ParamConverterInterface
             return false;
         }
 
-        $request->attributes->set($param,
-          $this->getDateTime($configuration, $value, $param));
+        $request->attributes->set(
+            $param,
+            $this->getDateTime($configuration, $value, $param)
+        );
 
         return true;
     }
@@ -50,13 +52,14 @@ class DateTimeParamConverter implements ParamConverterInterface
 
         if (isset($options['format'])) {
             $date = DateTime::createFromFormat($options['format'], $value);
-        } elseif(false !== strtotime($value)) {
+        } elseif (false !== strtotime($value)) {
             $date = new DateTime($value);
         }
 
         if (empty($date)) {
             throw new NotFoundHttpException(
-              sprintf('Invalid date given for parameter "%s".', $param));
+                sprintf('Invalid date given for parameter "%s".', $param)
+            );
         }
 
         return $date;

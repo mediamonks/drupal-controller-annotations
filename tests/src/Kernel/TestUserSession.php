@@ -14,10 +14,11 @@ class TestUserSession extends UserSession
     /**
      * {@inheritdoc}
      */
-    public function hasPermission($permission) {
+    public function hasPermission($permission)
+    {
         // User #1 has all privileges.
         if ((int) $this->id() === 1) {
-            return TRUE;
+            return true;
         }
 
         return in_array($permission, $this->permissions);

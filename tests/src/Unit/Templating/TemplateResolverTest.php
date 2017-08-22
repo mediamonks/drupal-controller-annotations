@@ -24,16 +24,16 @@ class TemplateResolverTest extends UnitTestCase
      * @dataProvider controllerActionProvider
      */
     public function testResolveByControllerAndAction(
-      $controller,
-      $action,
-      $expected
+        $controller,
+        $action,
+        $expected
     ) {
         $this->assertEquals(
-          $expected,
-          $this->templateResolver->resolveByControllerAndAction(
-            $controller,
-            $action
-          )
+            $expected,
+            $this->templateResolver->resolveByControllerAndAction(
+                $controller,
+                $action
+            )
         );
     }
 
@@ -73,8 +73,8 @@ class TemplateResolverTest extends UnitTestCase
     public function testNormalize($template, $expected)
     {
         $this->assertEquals(
-          $expected,
-          $this->templateResolver->normalize($template)
+            $expected,
+            $this->templateResolver->normalize($template)
         );
     }
 

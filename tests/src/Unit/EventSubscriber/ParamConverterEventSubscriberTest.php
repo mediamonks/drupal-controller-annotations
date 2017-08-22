@@ -24,13 +24,13 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
         $request = new Request();
 
         $eventSubscriber = new ParamConverterEventSubscriber(
-          $this->getParamConverterManager($request, [])
+            $this->getParamConverterManager($request, [])
         );
         $event = new FilterControllerEvent(
-          $kernel,
-          $controllerCallable,
-          $request,
-          null
+            $kernel,
+            $controllerCallable,
+            $request,
+            null
         );
 
         $eventSubscriber->onKernelController($event);
@@ -50,22 +50,22 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
     public function testAutoConvert($controllerCallable)
     {
         $kernel = $this->getMockBuilder(
-          HttpKernelInterface::class
+            HttpKernelInterface::class
         )->getMock();
         $request = new Request([], [], ['date' => '2014-03-14 09:00:00']);
 
         $converter = new ParamConverter(
-          ['name' => 'date', 'class' => 'DateTime']
+            ['name' => 'date', 'class' => 'DateTime']
         );
 
         $eventSubscriber = new ParamConverterEventSubscriber(
-          $this->getParamConverterManager($request, ['date' => $converter])
+            $this->getParamConverterManager($request, ['date' => $converter])
         );
         $event = new FilterControllerEvent(
-          $kernel,
-          $controllerCallable,
-          $request,
-          null
+            $kernel,
+            $controllerCallable,
+            $request,
+            null
         );
 
         $eventSubscriber->onKernelController($event);
@@ -81,22 +81,22 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
         $request = new Request();
 
         $converter = new ParamConverter(
-          ['name' => 'param', 'class' => 'DateTime']
+            ['name' => 'param', 'class' => 'DateTime']
         );
         $converter->setIsOptional($isOptional);
 
         $eventSubscriber = new ParamConverterEventSubscriber(
-          $this->getParamConverterManager($request, ['param' => $converter]),
-          true
+            $this->getParamConverterManager($request, ['param' => $converter]),
+            true
         );
         $event = new FilterControllerEvent(
-          $kernel,
-          [
+            $kernel,
+            [
             new FooControllerNullableParameter(),
             $function,
-          ],
-          $request,
-          null
+            ],
+            $request,
+            null
         );
 
         $eventSubscriber->onKernelController($event);
@@ -120,13 +120,14 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
         $request = new Request([], [], ['date' => '2014-03-14 09:00:00']);
 
         $eventSubscriber = new ParamConverterEventSubscriber(
-          $this->getParamConverterManager($request, []), false
+            $this->getParamConverterManager($request, []),
+            false
         );
         $event = new FilterControllerEvent(
-          $kernel,
-          $controllerCallable,
-          $request,
-          null
+            $kernel,
+            $controllerCallable,
+            $request,
+            null
         );
 
         $eventSubscriber->onKernelController($event);
@@ -163,10 +164,10 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
         $request->attributes->set('_converters', $configurations);
 
         $event = new FilterControllerEvent(
-          $kernel,
-          'time',
-          $request,
-          null
+            $kernel,
+            'time',
+            $request,
+            null
         );
 
         $manager = m::mock(ParamConverterManager::class);

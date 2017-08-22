@@ -41,8 +41,8 @@ class DateTimeParamConverterTest extends UnitTestCase
 
         $this->assertInstanceOf('DateTime', $request->attributes->get('start'));
         $this->assertEquals(
-          '2012-07-21',
-          $request->attributes->get('start')->format('Y-m-d')
+            '2012-07-21',
+            $request->attributes->get('start')->format('Y-m-d')
         );
     }
 
@@ -52,8 +52,8 @@ class DateTimeParamConverterTest extends UnitTestCase
         $config = $this->createConfiguration('DateTime', 'start');
 
         $this->setExpectedException(
-          'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
-          'Invalid date given for parameter "start".'
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
+            'Invalid date given for parameter "start".'
         );
         $this->converter->apply($request, $config);
     }
@@ -63,12 +63,12 @@ class DateTimeParamConverterTest extends UnitTestCase
         $request = new Request([], [], ['start' => '2012-07-21']);
         $config = $this->createConfiguration('DateTime', 'start');
         $config->expects($this->any())->method('getOptions')->will(
-          $this->returnValue(['format' => 'd.m.Y'])
+            $this->returnValue(['format' => 'd.m.Y'])
         );
 
         $this->setExpectedException(
-          'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
-          'Invalid date given for parameter "start".'
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
+            'Invalid date given for parameter "start".'
         );
         $this->converter->apply($request, $config);
     }
@@ -98,14 +98,14 @@ class DateTimeParamConverterTest extends UnitTestCase
         $config = $this
           ->getMockBuilder(ParamConverter::class)
           ->setMethods(
-            [
+              [
               'getClass',
               'getAliasName',
               'getOptions',
               'getName',
               'allowArray',
               'isOptional',
-            ]
+              ]
           )
           ->disableOriginalConstructor()
           ->getMock();

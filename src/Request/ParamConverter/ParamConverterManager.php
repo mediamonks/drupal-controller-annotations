@@ -80,8 +80,9 @@ class ParamConverterManager
         $converterName = $configuration->getConverter();
         if (!isset($this->namedConverters[$converterName])) {
             throw new \RuntimeException(sprintf(
-              "No converter named '%s' found for conversion of parameter '%s'.",
-              $converterName, $configuration->getName()
+                "No converter named '%s' found for conversion of parameter '%s'.",
+                $converterName,
+                $configuration->getName()
             ));
         }
 
@@ -89,8 +90,9 @@ class ParamConverterManager
 
         if (!$converter->supports($configuration)) {
             throw new \RuntimeException(sprintf(
-              "Converter '%s' does not support conversion of parameter '%s'.",
-              $converterName, $configuration->getName()
+                "Converter '%s' does not support conversion of parameter '%s'.",
+                $converterName,
+                $configuration->getName()
             ));
         }
 
@@ -129,15 +131,15 @@ class ParamConverterManager
     *
     * @return array An array of param converters
     */
-   public function all()
-   {
-       krsort($this->converters);
+    public function all()
+    {
+        krsort($this->converters);
 
-       $converters = array();
-       foreach ($this->converters as $all) {
-           $converters = array_merge($converters, $all);
-       }
+        $converters = array();
+        foreach ($this->converters as $all) {
+            $converters = array_merge($converters, $all);
+        }
 
-       return $converters;
-   }
+        return $converters;
+    }
 }

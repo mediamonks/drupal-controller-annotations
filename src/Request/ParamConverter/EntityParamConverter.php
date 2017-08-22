@@ -48,8 +48,8 @@ class EntityParamConverter implements ParamConverterInterface
         }
 
         $request->attributes->set(
-          $param,
-          $this->getNode($value, $configuration)
+            $param,
+            $this->getNode($value, $configuration)
         );
 
         return true;
@@ -74,8 +74,8 @@ class EntityParamConverter implements ParamConverterInterface
      * @param EntityInterface $node
      */
     protected function assertValidNode(
-      ParamConverter $configuration,
-      EntityInterface $node = null
+        ParamConverter $configuration,
+        EntityInterface $node = null
     ) {
         if (is_null($node) && $configuration->isOptional()) {
             return;
@@ -85,9 +85,9 @@ class EntityParamConverter implements ParamConverterInterface
         }
         $options = $configuration->getOptions();
         if (isset($options['bundle']) && $node->bundle(
-          ) !== $options['bundle']) {
+        ) !== $options['bundle']) {
             throw new NotFoundHttpException(
-              sprintf('%s not found.', $options['bundle'])
+                sprintf('%s not found.', $options['bundle'])
             );
         }
     }
@@ -100,15 +100,15 @@ class EntityParamConverter implements ParamConverterInterface
     public function supports(ParamConverter $configuration)
     {
         return in_array(
-          $configuration->getClass(),
-          [
+            $configuration->getClass(),
+            [
             NodeInterface::class,
             Node::class,
             EntityInterface::class,
             Entity::class,
             ContentEntityInterface::class,
             ContentEntityBase::class,
-          ]
+            ]
         );
     }
 }
