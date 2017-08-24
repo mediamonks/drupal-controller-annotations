@@ -6,15 +6,17 @@ use Drupal\controller_annotations\Cache\DrupalCache;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Tests\UnitTestCase;
 use Mockery as m;
+use StdClass;
 
 class DrupalCacheTest extends UnitTestCase
 {
     public function testDoFetch()
     {
         $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn('bar');
+        $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
 
         $cache = new DrupalCache($drupalCache);
+
         $this->assertEquals('bar', $cache->fetch('foo'));
 
         m::close();
@@ -23,7 +25,7 @@ class DrupalCacheTest extends UnitTestCase
     public function testDoContains()
     {
         $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn('bar');
+        $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
         $drupalCache->shouldReceive('get')->once()->withArgs(['[bar][1]'])->andReturn(false);
 
         $cache = new DrupalCache($drupalCache);
@@ -83,5 +85,18 @@ class DrupalCacheTest extends UnitTestCase
         $drupalCache->shouldReceive('get')->withArgs(['DoctrineNamespaceCacheKey[]'])->andReturnNull();
 
         return $drupalCache;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return StdClass
+     */
+    protected function getCacheData($data)
+    {
+      $cacheData = new StdClass();
+      $cacheData->data = $data;
+
+      return $cacheData;
     }
 }
