@@ -72,7 +72,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
      * @return string
      * @throws \Exception
      */
-    public function getRoutePath(Route $route)
+    protected function getRoutePath(Route $route)
     {
         if ($route->hasOption('path')) {
             $path = $route->getOption('path');

@@ -53,7 +53,9 @@ the great documentation that is provided already.
 @Route
 ------
 
-The main difference is how the annotation is activated. In Drupal this should be added to your ``routing.yml`` file:
+The main difference is how the annotations are activated. In Drupal this should be added to your module routing
+file which in the case of a module called "acme" be should be named ``acme.routing.yml`` and should be placed in the
+root of your module folder.
 
 .. code-block:: yml
 
