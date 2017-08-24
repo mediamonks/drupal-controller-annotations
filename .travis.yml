@@ -36,9 +36,10 @@ mysql:
 before_install:
   # Decide if this build is used to push upstream changes to Drupal.org
   - if [ "$TRAVIS_PHP_VERSION" == "7.0" ] && [ "$DRUPAL_VERSION" == "8.3.x" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then export UPSTREAM="1"; else export UPSTREAM="0"; fi;
+  - if [ "$TRAVIS_PHP_VERSION" == "7.0" ] && [ "$DRUPAL_VERSION" == "8.3.x" ] ; then export INSPECT="1"; else export INSPECT="0"; fi;
 
   # Disable xdebug when we do not generate coverage files
-  - if [ "$UPSTREAM" == "0" ]; then phpenv config-rm xdebug.ini; fi;
+  - if [ "$INSPECT" == "0" ]; then phpenv config-rm xdebug.ini; fi;
 
   # Composer
   - sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
@@ -101,7 +102,7 @@ script:
 
   # PHPUnit
   - cd $TRAVIS_BUILD_DIR/drupal
-  - if [ "$UPSTREAM" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox; fi;
+  - if [ "$INSPECT" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox; fi;
 
   # Behat Tests - RUN THESE LAST OTHERWISE PHPUNIT WILL FAIL BECAUSE OF DEPENDENCY CONFLICTS
   #- cd $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME
@@ -109,10 +110,10 @@ script:
   #- vendor/bin/behat --config tests/behat/behat.yml
 
 after_success:
-  - if [ "$UPSTREAM" == "1" ]; then cd $TRAVIS_BUILD_DIR/module; fi;
-  - if [ "$UPSTREAM" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
-  - if [ "$UPSTREAM" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
-  - if [ "$UPSTREAM" == "1" ]; then rm coverage.clover; fi;
+  - if [ "$INSPECT" == "1" ]; then cd $TRAVIS_BUILD_DIR/module; fi;
+  - if [ "$INSPECT" == "1" ]; then mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover; fi;
+  - if [ "$INSPECT" == "1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
+  - if [ "$INSPECT" == "1" ]; then rm coverage.clover; fi;
   - if [ "$UPSTREAM" == "1" ]; then eval "$(ssh-agent -s)"; fi;
   - if [ "$UPSTREAM" == "1" ]; then echo $DRUPAL_ORG_KEY | base64 --decode > drupalorg_key.pem; fi;
   - if [ "$UPSTREAM" == "1" ]; then chmod 600 drupalorg_key.pem; fi;
