@@ -75,7 +75,19 @@ If you prefer to use a different path you can provide the path yourself manually
             type: annotation
             path: /modules/acme/src/SomewhereElse
 
-An added feature is to flag your route as being an admin route:
+
+You can give every route found within the supplied module or path a prefix by setting the path:
+
+.. code-block:: yml
+
+    acme_annotations:
+        path: acme/
+        options:
+            type: annotation
+            module: acme
+
+
+An added feature to ``@Route`` is to flag your route as being an admin route:
 
 .. code-block:: php
 
