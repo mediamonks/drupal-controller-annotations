@@ -30,4 +30,4 @@ If you discover any security related issues, please email devmonk@mediamonks.com
 
 ## License
 
-The GPL version 2. Please see [License File](LICENSE.txt) or read more about [Licensing in Drupal](https://www.drupal.org/about/licensing).
+The GPL version 2. Please read more about [Licensing in Drupal](https://www.drupal.org/about/licensing).

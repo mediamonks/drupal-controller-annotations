@@ -29,7 +29,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
     protected function assertResponseContents(Request $request, $contents)
     {
         $response = $this->request($request);
-        $this->assertEquals($contents, $response->getContent());
+        $this->assertEquals($contents, trim($response->getContent()));
     }
 
     /**
