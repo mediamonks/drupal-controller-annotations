@@ -25,7 +25,11 @@ class DrupalCache extends CacheProvider
      */
     protected function doFetch($id)
     {
-        return $this->cache->get($id);
+        if ($cache = $this->cache->get($id)) {
+          return $cache->data;
+        }
+
+        return false;
     }
 
     /**
