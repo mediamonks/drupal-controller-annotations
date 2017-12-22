@@ -68,7 +68,7 @@ install:
   # Merge the module requirements with the core requirements
   # (yes this is ugly but it works very well, let us know if there is a better way to do it please)
   - sed -i "s|\"core/composer.json\"|\"core/composer.json\",\"modules/$MODULE_NAME/composer.json\"|" composer.json
-  - composer config platform $TRAVIS_PHP_VERSION
+  - composer config platform.php $TRAVIS_PHP_VERSION
   - composer install
   - composer update
 
