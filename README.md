@@ -17,8 +17,8 @@ Please refer to the files in the [/docs](/docs) folder.
 
 You need:
 
-- **PHP >= 5.5.0**
-- **Drupal >= 8.0**
+- **PHP >= 5.6.0**
+- **Drupal >= 8.2**
 
 ## Security
 

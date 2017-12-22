@@ -18,8 +18,6 @@ class DrupalCacheTest extends UnitTestCase
         $cache = new DrupalCache($drupalCache);
 
         $this->assertEquals('bar', $cache->fetch('foo'));
-
-        m::close();
     }
 
     public function testDoContains()
@@ -31,8 +29,6 @@ class DrupalCacheTest extends UnitTestCase
         $cache = new DrupalCache($drupalCache);
         $this->assertTrue($cache->contains('foo'));
         $this->assertFalse($cache->contains('bar'));
-
-        m::close();
     }
 
     public function testSave()
@@ -65,7 +61,7 @@ class DrupalCacheTest extends UnitTestCase
 
         $cache = new DrupalCache($drupalCache);
 
-        $this->assertTrue($cache->flushAll('foo'));
+        $this->assertTrue($cache->flushAll());
     }
 
     public function testGetStats()
@@ -98,5 +94,12 @@ class DrupalCacheTest extends UnitTestCase
       $cacheData->data = $data;
 
       return $cacheData;
+    }
+
+    protected function tearDown()
+    {
+        m::close();
+
+        parent::tearDown();
     }
 }
