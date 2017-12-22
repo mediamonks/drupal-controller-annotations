@@ -68,6 +68,7 @@ install:
   # Merge the module requirements with the core requirements
   # (yes this is ugly but it works very well, let us know if there is a better way to do it please)
   - sed -i "s|\"core/composer.json\"|\"core/composer.json\",\"modules/$MODULE_NAME/composer.json\"|" composer.json
+  - composer config platform $TRAVIS_PHP_VERSION
   - composer install
   - composer update
 
@@ -102,7 +103,7 @@ script:
 
   # PHPUnit
   - cd $TRAVIS_BUILD_DIR/drupal
-  - if [ "$INSPECT" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --debug --testdox; fi;
+  - if [ "$INSPECT" == "1" ]; then vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME --coverage-clover=coverage.clover; else vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME; fi;
 
   # Behat Tests - RUN THESE LAST OTHERWISE PHPUNIT WILL FAIL BECAUSE OF DEPENDENCY CONFLICTS
   #- cd $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME
