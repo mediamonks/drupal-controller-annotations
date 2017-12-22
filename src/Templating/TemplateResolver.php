@@ -82,7 +82,8 @@ class TemplateResolver
             );
         }
 
-        return sprintf('modules/%s/templates/%s.html.twig', $module, $templateName);
+        return sprintf('%s/templates/%s.html.twig',
+            drupal_get_path('module', $module), $templateName);
     }
 
     /**
