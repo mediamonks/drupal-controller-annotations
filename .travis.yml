@@ -73,12 +73,10 @@ before_install:
   - shopt -s extglob dotglob
   - mv !(module) module
   - shopt -u dotglob
-  - git clone --branch $DRUPAL_VERSION $DRUPAL_REPO drupal --depth 1
+
+  # Install with composer
+  - composer create-project drupal-composer/drupal-project:$DRUPAL_VERSION-dev drupal --stability dev --no-interaction
 
   # Make sure Drupal can access our module by using a symlink
   - ln -s $PWD/module drupal/modules/$MODULE_NAME
   - cd drupal
-
-install:
-  # Install with composer
-  - composer create-project drupal-composer/drupal-project:$DRUPAL_VERSION-dev drupal --stability dev --no-interaction
