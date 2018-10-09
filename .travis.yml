@@ -3,16 +3,15 @@ language: php
 sudo: false
 
 php:
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 env:
   global:
     - MODULE_NAME="controller_annotations"
     - DRUSH_VERSION="^9.4"
-    - PHPCS_VERSION="^3.3"
     - CODER_VERSION="^8.2"
   matrix:
     - DRUPAL_VERSION="8.2"
@@ -62,9 +61,9 @@ before_install:
 
   # Load global dependencies
   - composer global require drush/drush:$DRUSH_VERSION
-  - composer global require squizlabs/php_codesniffer:$PHPCS_VERSION
   - composer global require drupal/coder:$CODER_VERSION
-  - ln -s ~/.composer/vendor/drupal/coder/coder_sniffer/Drupal ~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
+  - export PATH="$PATH:$HOME/.composer/vendor/bin"
+  - phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
 
   # Ensure the PHP environment is ready
   - phpenv rehash
