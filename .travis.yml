@@ -48,6 +48,7 @@ before_install:
   - sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
   - source $HOME/.bashrc
   - composer self-update
+  - composer config --global discard-changes true
 
   # Load global dependencies
   - composer global require drush/drush:~8.1
