@@ -52,8 +52,8 @@ before_install:
   # Load global dependencies
   - composer global require drush/drush:~8.1
   - composer global require squizlabs/php_codesniffer:$PHPCS_VERSION
-  - composer global require drupal/coder:$CODER_VERSION
-  - ln -s ~/.composer/vendor/drupal/coder/coder_sniffer/Drupal ~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
+  #- composer global require drupal/coder:$CODER_VERSION
+  #- ln -s ~/.composer/vendor/drupal/coder/coder_sniffer/Drupal ~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
 
   # Ensure the PHP environment is ready
   - phpenv rehash
@@ -98,27 +98,6 @@ install:
   # Start a web server
   - cd $TRAVIS_BUILD_DIR/drupal
   - drush runserver 127.0.0.1:8080 &
-
-before_script:
-  # This fixes a fail when install Drupal.
-  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-
-  # Mysql might time out for long tests, increase the wait timeout.
-  - mysql -e 'SET @@GLOBAL.wait_timeout=1200'
-
-  # Install Drupal and enable the required modules (including this one).
-  - mysql -e 'create database drupal;'
-  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes site-install standard --db-url="mysql://root@127.0.0.1/drupal"
-  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes en $MODULE_NAME
-  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes en simpletest
-
-  # Export simpletest environment variables
-  - export SIMPLETEST_BASE_URL=http://localhost:8080
-  - export SIMPLETEST_DB=mysql://root:@127.0.0.1/drupal
-
-  # Start a web server.
-  #- cd $TRAVIS_BUILD_DIR/drupal
-  #- drush runserver 127.0.0.1:8080 &
 
 script:
   # Code Style
