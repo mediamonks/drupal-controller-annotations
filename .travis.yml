@@ -15,6 +15,7 @@ env:
     - DRUPAL_REPO="https://git.drupal.org/project/drupal.git"
     - PHPCS_VERSION="^2.7"
     - CODER_VERSION="^8.2"
+    - DRUSH_VERSION="^9.0"
   matrix:
     #- DRUPAL_VERSION="8.2.x"
     #- DRUPAL_VERSION="8.3.x"
@@ -51,10 +52,7 @@ before_install:
   - composer config --global discard-changes true
 
   # Load global dependencies
-  - composer global require drush/drush:~8.1
-  - composer global require squizlabs/php_codesniffer:$PHPCS_VERSION
-  #- composer global require drupal/coder:$CODER_VERSION
-  #- ln -s ~/.composer/vendor/drupal/coder/coder_sniffer/Drupal ~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
+  - composer global require drush/drush:$DRUSH_VERSION
 
   # Ensure the PHP environment is ready
   - phpenv rehash
@@ -101,9 +99,6 @@ install:
   - drush runserver 127.0.0.1:8080 &
 
 script:
-  # Code Style
-  #- phpcs --report=full --standard=Drupal --warning-severity=0 $TRAVIS_BUILD_DIR/drupal/modules/$MODULE_NAME --ignore=bin,*.css,gulpfile.js,libraries,modules/contrib,vendor
-
   # Static Analysis
   #- if [ "$INSPECT" == "true" ]; then
   #  composer require "phpstan/phpstan" --dev;
