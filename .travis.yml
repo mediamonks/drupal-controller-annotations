@@ -3,8 +3,6 @@ language: php
 sudo: false
 
 php:
-  #- 5.6
-  #- 7.0
   - 7.1
   - 7.2
   - 7.3
@@ -17,9 +15,6 @@ env:
     - CODER_VERSION="^8.2"
     - DRUSH_VERSION="^9.0"
   matrix:
-    #- DRUPAL_VERSION="8.2.x"
-    #- DRUPAL_VERSION="8.3.x"
-    #- DRUPAL_VERSION="8.4.x"
     - DRUPAL_VERSION="8.5.x"
     - DRUPAL_VERSION="8.6.x"
     - DRUPAL_VERSION="8.7.x"
@@ -85,11 +80,6 @@ install:
   - mysql -e 'create database drupal;'
   - cd $TRAVIS_BUILD_DIR/drupal && drush --yes site-install standard --db-url="mysql://root@127.0.0.1/drupal"
   - cd $TRAVIS_BUILD_DIR/drupal && drush --yes en $MODULE_NAME
-  - cd $TRAVIS_BUILD_DIR/drupal && drush --yes en simpletest
-
-  # Export simpletest environment variables
-  - export SIMPLETEST_BASE_URL=http://localhost:8080
-  - export SIMPLETEST_DB=mysql://root:@127.0.0.1/drupal
 
   # Do not break on deprecation warnings
   - export SYMFONY_DEPRECATIONS_HELPER=disabled

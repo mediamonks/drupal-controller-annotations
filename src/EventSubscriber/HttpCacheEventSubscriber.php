@@ -276,12 +276,12 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-          KernelEvents::CONTROLLER => [
-            ['onKernelController', 0],
-          ],
-          KernelEvents::RESPONSE => [
-            ['onKernelResponse', 100],
-          ],
+            KernelEvents::CONTROLLER => [
+                ['onKernelController', 0],
+            ],
+            KernelEvents::RESPONSE => [
+                ['onKernelResponse', 100],
+            ],
         ];
     }
 }

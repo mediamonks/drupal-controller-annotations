@@ -27,8 +27,8 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
     private $isParameterTypeSupported;
 
     /**
-     * @param ParamConverterManager $manager     A ParamConverterManager instance
-     * @param bool                  $autoConvert Auto convert non-configured objects
+     * @param ParamConverterManager $manager A ParamConverterManager instance
+     * @param bool $autoConvert Auto convert non-configured objects
      */
     public function __construct(ParamConverterManager $manager, $autoConvert = true)
     {
@@ -111,7 +111,8 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
             }
 
             if (isset($configurations[$name])) {
-                $configurations[$name]->setIsOptional($param->isOptional()
+                $configurations[$name]->setIsOptional(
+                    $param->isOptional()
                     || $param->isDefaultValueAvailable()
                     || $hasType && $param->getType()->allowsNull()
                 );

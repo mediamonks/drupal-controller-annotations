@@ -86,7 +86,8 @@ class AnnotatedRouteControllerLoader extends AnnotationClassLoader
     protected function getControllerName(\ReflectionClass $class, \ReflectionMethod $method)
     {
         $annotation = $this->reader->getClassAnnotation($class, $this->routeAnnotationClass);
-        if ($annotation instanceof \Drupal\controller_annotations\Configuration\Route && $service = $annotation->getService()) {
+        if ($annotation instanceof \Drupal\controller_annotations\Configuration\Route && $service = $annotation->getService(
+            )) {
             return sprintf('%s:%s', $service, $method->getName());
         }
 

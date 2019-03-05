@@ -84,8 +84,7 @@ class EntityParamConverter implements ParamConverterInterface
             throw new NotFoundHttpException('entity not found.');
         }
         $options = $configuration->getOptions();
-        if (isset($options['bundle']) && $node->bundle(
-        ) !== $options['bundle']) {
+        if (isset($options['bundle']) && $node->bundle() !== $options['bundle']) {
             throw new NotFoundHttpException(
                 sprintf('%s not found.', $options['bundle'])
             );
@@ -102,12 +101,12 @@ class EntityParamConverter implements ParamConverterInterface
         return in_array(
             $configuration->getClass(),
             [
-            NodeInterface::class,
-            Node::class,
-            EntityInterface::class,
-            Entity::class,
-            ContentEntityInterface::class,
-            ContentEntityBase::class,
+                NodeInterface::class,
+                Node::class,
+                EntityInterface::class,
+                Entity::class,
+                ContentEntityInterface::class,
+                ContentEntityBase::class,
             ]
         );
     }

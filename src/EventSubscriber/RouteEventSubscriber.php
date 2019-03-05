@@ -46,7 +46,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
             if ($route->hasOption('type')
                 && $route->getOption('type') === 'annotation'
             ) {
-                $routeCollection = $this->annotationDirectoryLoader->load($this->rootPath . $this->getRoutePath($route));
+                $routeCollection = $this->annotationDirectoryLoader->load($this->rootPath.$this->getRoutePath($route));
                 $routeCollection->addPrefix($route->getPath());
 
                 $event->getRouteCollection()->addCollection($routeCollection);
@@ -63,7 +63,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
         return [
             RoutingEvents::DYNAMIC => [
                 ['onRoutes', 0],
-            ]
+            ],
         ];
     }
 
@@ -83,6 +83,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
                 'Either the "resource" or "module"  option is required to load from annotations'
             );
         }
+
         return $path;
     }
 }

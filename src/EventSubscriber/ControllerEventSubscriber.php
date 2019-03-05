@@ -90,7 +90,9 @@ class ControllerEventSubscriber implements EventSubscriberInterface
             } else {
                 if (is_array($classConfigurations[$key])) {
                     if (!is_array($methodConfigurations[$key])) {
-                        throw new \UnexpectedValueException('Configurations should both be an array or both not be an array');
+                        throw new \UnexpectedValueException(
+                            'Configurations should both be an array or both not be an array'
+                        );
                     }
                     $configurations[$key] = array_merge($classConfigurations[$key], $methodConfigurations[$key]);
                 } else {
@@ -136,7 +138,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
         return [
             KernelEvents::CONTROLLER => [
                 ['onKernelController', 200],
-            ]
+            ],
         ];
     }
 }

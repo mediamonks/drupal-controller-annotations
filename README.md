@@ -15,10 +15,10 @@ Please refer to the files in the [/docs](/docs) folder.
 
 ## System Requirements
 
-You need:
+- **PHP >= 7.1**
+- **Drupal >= 8.6**
 
-- **PHP >= 5.6.0**
-- **Drupal >= 8.2**
+Older versions of PHP and Drupal will work however those versions are no longer supported.
 
 ## Security
 
