@@ -37,13 +37,13 @@
         }
     },
     "require": {
-        "php": "^5.5|^7.0",
-        "symfony/config": "^2.8|^3.0",
-        "drupal/core": "^8.0"
+        "php": "^7.1",
+        "symfony/config": "^3.0",
+        "drupal/core": "^8.5"
     },
     "require-dev": {
         "mockery/mockery": "^0.9.9",
-        "symfony/expression-language": "^2.8|^3.0"
+        "symfony/expression-language": "^3.0"
     },
     "suggest": {
         "symfony/expression-language": "Add support for cache annotations based on request variables"

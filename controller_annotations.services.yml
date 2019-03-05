@@ -1,95 +1,79 @@
 services:
-    controller_annotations.doctrine_drupal_cache:
-        class: Drupal\controller_annotations\Cache\DrupalCache
+    Drupal\controller_annotations\Cache\DrupalCache:
         arguments:
             - '@cache.default'
         calls:
             - [setNamespace, ['controller_annotations']]
 
-    controller_annotations.file_locator:
-        class: Symfony\Component\Config\FileLocator
+    Symfony\Component\Config\FileLocator:
         public: false
 
-    controller_annotations.annotation_reader:
-        class: Doctrine\Common\Annotations\CachedReader
+    Doctrine\Common\Annotations\CachedReader:
         arguments:
-            - '@controller_annotations.annotation_reader_inner'
-            - '@controller_annotations.doctrine_drupal_cache'
+            - '@Doctrine\Common\Annotations\AnnotationReader'
+            - '@Drupal\controller_annotations\Cache\DrupalCache'
 
-    controller_annotations.annotation_reader_inner:
-        class: Doctrine\Common\Annotations\AnnotationReader
+    Doctrine\Common\Annotations\AnnotationReader:
         calls:
             - [addGlobalIgnoredName, ['endlink']]
         public: false
 
-    controller_annotations.controller.event_subscriber:
-        class: Drupal\controller_annotations\EventSubscriber\ControllerEventSubscriber
+    Drupal\controller_annotations\EventSubscriber\ControllerEventSubscriber:
         arguments:
-            - '@controller_annotations.annotation_reader'
+            - '@Doctrine\Common\Annotations\CachedReader'
         tags:
             - { name: event_subscriber }
 
-    controller_annotations.cache.event_subscriber:
-        class: Drupal\controller_annotations\EventSubscriber\HttpCacheEventSubscriber
+    Drupal\controller_annotations\EventSubscriber\HttpCacheEventSubscriber:
         tags:
             - { name: event_subscriber }
 
-    controller_annotations.route.event_subscriber:
-        class: Drupal\controller_annotations\EventSubscriber\RouteEventSubscriber
+    Drupal\controller_annotations\EventSubscriber\RouteEventSubscriber:
         arguments:
-            - '@controller_annotations.routing.loader.annotation_dir'
+            - '@Symfony\Component\Routing\Loader\AnnotationDirectoryLoader'
             - '@app.root'
         tags:
             - { name: event_subscriber }
 
-    controller_annotations.template.event_subscriber:
-        class: Drupal\controller_annotations\EventSubscriber\TemplateEventSubscriber
+    Drupal\controller_annotations\EventSubscriber\TemplateEventSubscriber:
         arguments:
             - '@twig'
-            - '@controller_annotations.templating.resolver'
+            - '@Drupal\controller_annotations\Templating\TemplateResolver'
         tags:
             - { name: event_subscriber }
 
-    controller_annotations.templating.resolver:
-        class: Drupal\controller_annotations\Templating\TemplateResolver
+    Drupal\controller_annotations\Templating\TemplateResolver:
         public: false
 
-    controller_annotations.param_converter.manager:
-        class: Drupal\controller_annotations\Request\ParamConverter\ParamConverterManager
+    Drupal\controller_annotations\Request\ParamConverter\ParamConverterManager:
         tags:
             - { name: service_collector, tag: controller_annotations.param_converter, call: add }
         public: false
 
-    controller_annotations.param_converter.datetime:
-        class: Drupal\controller_annotations\Request\ParamConverter\DateTimeParamConverter
+    Drupal\controller_annotations\Request\ParamConverter\DateTimeParamConverter:
         tags:
             - { name: controller_annotations.param_converter, priority: 0 }
         public: false
 
-    controller_annotations.param_converter.entity:
-        class: Drupal\controller_annotations\Request\ParamConverter\EntityParamConverter
+    Drupal\controller_annotations\Request\ParamConverter\EntityParamConverter:
         arguments:
             - '@entity_type.manager'
         tags:
             - { name: controller_annotations.param_converter, priority: 10 }
         public: false
 
-    controller_annotations.param_converter.event_subscriber:
-        class: Drupal\controller_annotations\EventSubscriber\ParamConverterEventSubscriber
-        arguments:
-            - '@controller_annotations.param_converter.manager'
+    Drupal\controller_annotations\EventSubscriber\ParamConverterEventSubscriber:
+        autowire: true
         tags:
             - { name: event_subscriber }
 
-    controller_annotations.routing.loader.annotation_dir:
-        class: Symfony\Component\Routing\Loader\AnnotationDirectoryLoader
+    Symfony\Component\Routing\Loader\AnnotationDirectoryLoader:
         arguments:
-            - '@controller_annotations.file_locator'
-            - '@controller_annotations.routing.loader.annotation_class'
+            - '@Symfony\Component\Config\FileLocator'
+            - '@Drupal\controller_annotations\Routing\AnnotatedRouteControllerLoader'
         public: false
 
-    controller_annotations.routing.loader.annotation_class:
-        class: Drupal\controller_annotations\Routing\AnnotatedRouteControllerLoader
+    Drupal\controller_annotations\Routing\AnnotatedRouteControllerLoader:
         arguments:
-            - '@controller_annotations.annotation_reader'
+            - '@Doctrine\Common\Annotations\CachedReader'
         public: false
