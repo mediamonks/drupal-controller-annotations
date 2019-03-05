@@ -94,29 +94,21 @@ install:
   # Do not break on deprecation warnings
   - export SYMFONY_DEPRECATIONS_HELPER=disabled
 
-  # Start a web server
-  - cd $TRAVIS_BUILD_DIR/drupal
-  - drush runserver 127.0.0.1:8080 &
-
 script:
-  # Static Analysis
-  #- if [ "$INSPECT" == "true" ]; then
-  #  composer require "phpstan/phpstan" --dev;
-  #  vendor/bin/phpstan analyse modules/$MODULE_NAME/src -c modules/$MODULE_NAME/phpstan.neon;
-  #  fi
-
   # PHPUnit
   - if [ "$INSPECT" == "true" ]; then export PHPUNIT_FLAGS="--coverage-clover=coverage.clover"; else export PHPUNIT_FLAGS=""; fi;
   - cd $TRAVIS_BUILD_DIR/drupal
   - vendor/bin/phpunit -c core/phpunit.xml.dist modules/$MODULE_NAME $PHPUNIT_FLAGS;
 
 after_success:
+  # Push code coverage to Scrutinizer
   - if [ "$INSPECT" == "true" ]; then
     cd $TRAVIS_BUILD_DIR/module;
     mv $TRAVIS_BUILD_DIR/drupal/coverage.clover coverage.clover;
     wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover;
     rm coverage.clover;
     fi
+  # Push code to drupal.org
   - if [ "$UPSTREAM" == "true" ]; then
     eval "$(ssh-agent -s)";
     echo $DRUPAL_ORG_KEY | base64 --decode > drupalorg_key.pem;
