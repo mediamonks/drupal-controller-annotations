@@ -7,17 +7,10 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 class ConfigurationLoader
 {
     /**
-     * Make all annotations available by loading the classes.
-     * Registering the namespaces itself won't work since core resets the registry multiple times
+     * The annotation registry does not seem configured yet at this point so we need to do it ourselves
      */
     public static function load()
     {
-        AnnotationRegistry::registerFile(__DIR__.'/Cache.php');
-        AnnotationRegistry::registerFile(__DIR__.'/Method.php');
-        AnnotationRegistry::registerFile(__DIR__.'/ParamConverter.php');
-        AnnotationRegistry::registerFile(__DIR__.'/Route.php');
-        AnnotationRegistry::registerFile(__DIR__.'/Security.php');
-        AnnotationRegistry::registerFile(__DIR__.'/Template.php');
-        AnnotationRegistry::registerFile(__DIR__.'/Title.php');
+        AnnotationRegistry::registerLoader('class_exists');
     }
 }

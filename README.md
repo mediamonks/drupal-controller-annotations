@@ -18,8 +18,6 @@ Please refer to the files in the [/docs](/docs) folder.
 - **PHP >= 7.1**
 - **Drupal >= 8.6**
 
-Older versions of Drupal will work however those versions are no longer supported.
-
 ## Security
 
 If you discover any security related issues, please email devmonk@mediamonks.com instead of using the issue tracker.

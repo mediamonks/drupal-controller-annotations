@@ -5,7 +5,6 @@ namespace Drupal\controller_annotations\EventSubscriber;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Util\ClassUtils;
 use Drupal\controller_annotations\Configuration\ConfigurationInterface;
-use Drupal\controller_annotations\Configuration\ConfigurationLoader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
@@ -19,15 +18,11 @@ class ControllerEventSubscriber implements EventSubscriberInterface
     protected $reader;
 
     /**
-     * Constructor.
-     *
-     * @param Reader $reader An Reader instance
+     * @param Reader $reader
      */
     public function __construct(Reader $reader)
     {
         $this->reader = $reader;
-
-        ConfigurationLoader::load();
     }
 
     /**
