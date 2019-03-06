@@ -35,7 +35,8 @@ class ControllerEventSubscriber implements EventSubscriberInterface
      * controllers annotations like the template to render or HTTP caching
      * configuration.
      *
-     * @param FilterControllerEvent $event A FilterControllerEvent instance
+     * @param FilterControllerEvent $event
+     * @throws \ReflectionException
      */
     public function onKernelController(FilterControllerEvent $event)
     {

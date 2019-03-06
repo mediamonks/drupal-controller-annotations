@@ -39,10 +39,10 @@
     "require": {
         "php": "^7.1",
         "symfony/config": "^3.0",
-        "drupal/core": "^8.5"
+        "drupal/core": "^8.6"
     },
     "require-dev": {
-        "mockery/mockery": "^0.9.9",
+        "mockery/mockery": "^0.9.11|^1.0",
         "symfony/expression-language": "^3.0"
     },
     "suggest": {
