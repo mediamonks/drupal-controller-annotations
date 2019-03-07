@@ -66,4 +66,13 @@ class TemplateController extends ControllerBase
     public function streamableAction()
     {
     }
+
+    /**
+     * @Route("vars/{name}")
+     * @Security(access=true)
+     * @Template()
+     */
+    public function varsAction($name = 'World')
+    {
+    }
 }

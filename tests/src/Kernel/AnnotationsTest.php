@@ -47,6 +47,19 @@ class AnnotationsTest extends KernelTestBase
 
     public function testTemplate()
     {
+        $this->setUpTemplate();
+        $this->assertResponseContents(Request::create('/test/template/empty'), 'empty');
+        $this->assertResponseContents(Request::create('/test/template/module-controller'), 'module-controller');
+        $this->assertResponseContents(Request::create('/test/template/module-controller-action'), 'module-controller-action');
+        $this->assertResponseContents(Request::create('/test/template/parameter'), 'value');
+        $this->assertResponseContents(Request::create('/test/template/parameter-url/foo'), 'foo default');
+        $this->assertResponseContents(Request::create('/test/template/vars'), 'Hello World');
+        $this->assertResponseContents(Request::create('/test/template/streamable'), 'streamed');
+        $this->assertResponseContents(Request::create('/test/template/vars/Monk'), 'Hello Monk');
+    }
+
+    private function setUpTemplate()
+    {
         $sourceModule = $this->getDrupalRoot() . '/modules/controller_annotations/tests/modules/controller_annotations_test/templates/';
 
         if (!file_exists($sourceModule)) {
@@ -64,13 +77,6 @@ class AnnotationsTest extends KernelTestBase
             }
             copy($sourceModule . $fileInfo->getFilename(), $destinationModule . $fileInfo->getFilename());
         }
-
-        $this->assertResponseContents(Request::create('/test/template/empty'), 'empty');
-        $this->assertResponseContents(Request::create('/test/template/module-controller'), 'module-controller');
-        $this->assertResponseContents(Request::create('/test/template/module-controller-action'), 'module-controller-action');
-        $this->assertResponseContents(Request::create('/test/template/parameter'), 'value');
-        $this->assertResponseContents(Request::create('/test/template/parameter-url/foo'), 'foo default');
-        $this->assertResponseContents(Request::create('/test/template/streamable'), 'streamed');
     }
 
     public function testSecurity()
@@ -146,5 +152,7 @@ class AnnotationsTest extends KernelTestBase
         $this->assertResponseContents(Request::create('/test/param-converter/date/2017-08-15'), '2017-08-15');
         $this->assertResponseContents(Request::create('/test/param-converter/date-format/15-08-2017'), '2017-08-15');
         $this->assertResponseContents(Request::create('/test/param-converter/date-multiple/14-08-2017/15-08-2017'), '2017-08-14-2017-08-15');
+        $this->assertResponseContents(Request::create('/test/param-converter/date-optional/03-04-1985'), '1985-04-03');
+        $this->assertResponseContents(Request::create('/test/param-converter/date-optional'), 'empty');
     }
 }

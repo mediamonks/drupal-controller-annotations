@@ -43,4 +43,17 @@ class ParamConverterController extends ControllerBase
     {
         return new Response($start->format('Y-m-d').'-'.$end->format('Y-m-d'));
     }
+
+    /**
+     * @Route("date-optional/{start}")
+     * @Security(access=true)
+     * @ParamConverter()
+     */
+    public function optionalDateAction(\DateTime $start = null)
+    {
+        if (empty($start)) {
+            return new Response('empty');
+        }
+        return new Response($start->format('Y-m-d'));
+    }
 }
