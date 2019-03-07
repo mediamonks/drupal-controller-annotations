@@ -9,6 +9,7 @@ use Drupal\Tests\controller_annotations\Kernel\TestUserSession as UserSession;
 use Drupal\KernelTests\KernelTestBase as BaseKernelTestBase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class KernelTestBase extends BaseKernelTestBase
 {
@@ -29,7 +30,17 @@ abstract class KernelTestBase extends BaseKernelTestBase
     protected function assertResponseContents(Request $request, $contents)
     {
         $response = $this->request($request);
-        $this->assertEquals($contents, trim($response->getContent()));
+        if ($response instanceof StreamedResponse) {
+            ob_start();
+            $response->sendContent();
+            $actual = ob_get_contents();
+            ob_end_clean();
+        }
+        else {
+            $actual = $response->getContent();
+        }
+
+        $this->assertEquals($contents, trim($actual));
     }
 
     /**

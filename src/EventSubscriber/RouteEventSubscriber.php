@@ -2,9 +2,9 @@
 
 namespace Drupal\controller_annotations\EventSubscriber;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Drupal\Core\Routing\RouteBuildEvent;
 use Drupal\Core\Routing\RoutingEvents;
-use Drupal\controller_annotations\Configuration\ConfigurationLoader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Loader\AnnotationDirectoryLoader;
 use Symfony\Component\Routing\Route;
@@ -25,12 +25,19 @@ class RouteEventSubscriber implements EventSubscriberInterface
      * @param AnnotationDirectoryLoader $annotationDirectoryLoader
      * @param string $rootPath
      */
-    public function __construct(AnnotationDirectoryLoader $annotationDirectoryLoader, $rootPath)
+    public function __construct(AnnotationDirectoryLoader $annotationDirectoryLoader, string $rootPath)
     {
-        ConfigurationLoader::load();
-
+        $this->registerAnnotations();
         $this->annotationDirectoryLoader = $annotationDirectoryLoader;
         $this->rootPath = $rootPath;
+    }
+
+    /**
+     * Configure the annotation registry to make routing annotations available
+     */
+    private function registerAnnotations()
+    {
+        AnnotationRegistry::registerLoader('class_exists');
     }
 
     /**

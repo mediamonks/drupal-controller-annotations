@@ -57,4 +57,13 @@ class TemplateController extends ControllerBase
     public function parameterUrlAction($parameter, $default = 'default')
     {
     }
+
+    /**
+     * @Route("streamable")
+     * @Security(access=true)
+     * @Template(isStreamable=true)
+     */
+    public function streamableAction()
+    {
+    }
 }

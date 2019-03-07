@@ -28,12 +28,14 @@ services:
         arguments:
             - '@controller_annotations.Doctrine\Common\Annotations\AnnotationReader'
             - '@Drupal\controller_annotations\Cache\DrupalCache'
+        public: false
 
     Drupal\controller_annotations\Cache\DrupalCache:
         arguments:
             - '@cache.default'
         calls:
             - [setNamespace, ['controller_annotations']]
+        public: false
 
     # templating
     Drupal\controller_annotations\Templating\TemplateResolver:

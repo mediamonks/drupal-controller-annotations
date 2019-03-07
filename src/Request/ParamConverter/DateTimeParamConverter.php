@@ -41,10 +41,10 @@ class DateTimeParamConverter implements ParamConverterInterface
 
     /**
      * @param ParamConverter $configuration
-     * @param string $value
-     * @param string $param
-     *
-     * @return \DateTime
+     * @param $value
+     * @param $param
+     * @return bool|DateTime
+     * @throws \Exception
      */
     protected function getDateTime(ParamConverter $configuration, $value, $param)
     {

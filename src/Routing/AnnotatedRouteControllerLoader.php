@@ -27,7 +27,7 @@ class AnnotatedRouteControllerLoader extends AnnotationClassLoader
      * @param \ReflectionClass $class
      * @return array
      */
-    protected function getGlobals(\ReflectionClass $class)
+    protected function getGlobals(\ReflectionClass $class): array
     {
         $globals = parent::getGlobals($class);
 

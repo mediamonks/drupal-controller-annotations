@@ -70,6 +70,7 @@ class AnnotationsTest extends KernelTestBase
         $this->assertResponseContents(Request::create('/test/template/module-controller-action'), 'module-controller-action');
         $this->assertResponseContents(Request::create('/test/template/parameter'), 'value');
         $this->assertResponseContents(Request::create('/test/template/parameter-url/foo'), 'foo default');
+        $this->assertResponseContents(Request::create('/test/template/streamable'), 'streamed');
     }
 
     public function testSecurity()
