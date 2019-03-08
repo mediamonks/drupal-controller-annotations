@@ -18,6 +18,8 @@ Please refer to the files in the [/docs](/docs) folder.
 - **PHP >= 7.1**
 - **Drupal >= 8.6**
 
+Older versions of this module are compatible with PHP 5.4+ and Drupal 8.2+ however it is highly recommenced to upgrade to the latest versions due to possible security issues.
+
 ## Security
 
 If you discover any security related issues, please email devmonk@mediamonks.com instead of using the issue tracker.
