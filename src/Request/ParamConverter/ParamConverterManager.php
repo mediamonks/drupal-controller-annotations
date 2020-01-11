@@ -2,7 +2,6 @@
 
 namespace Drupal\controller_annotations\Request\ParamConverter;
 
-use Drupal\controller_annotations\Configuration\ConfigurationInterface;
 use Drupal\controller_annotations\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 

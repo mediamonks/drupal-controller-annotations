@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\controller_annotations\Kernel;
 
-use Drupal\Core\DrupalKernel;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AnonymousUserSession;
 use Drupal\Tests\controller_annotations\Kernel\TestUserSession as UserSession;
