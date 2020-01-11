@@ -113,8 +113,8 @@ class ParamConverterManager {
    * @param int $priority The priority (between -10 and 10).
    * @param string $name Name of the converter.
    */
-  public function add(ParamConverterInterface $converter, $priority = 0, $name = null) {
-    if ($priority !== null) {
+  public function add(ParamConverterInterface $converter, $priority = 0, $name = NULL) {
+    if ($priority !== NULL) {
       if (!isset($this->converters[$priority])) {
         $this->converters[$priority] = [];
       }
@@ -122,7 +122,7 @@ class ParamConverterManager {
       $this->converters[$priority][] = $converter;
     }
 
-    if (null !== $name) {
+    if (NULL !== $name) {
       $this->namedConverters[$name] = $converter;
     }
   }

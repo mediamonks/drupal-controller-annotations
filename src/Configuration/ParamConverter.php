@@ -36,7 +36,7 @@ class ParamConverter extends ConfigurationAnnotation {
    *
    * @var bool
    */
-  protected $optional = false;
+  protected $optional = FALSE;
 
   /**
    * Use explicitly named converter instead of iterating by priorities.
@@ -163,7 +163,7 @@ class ParamConverter extends ConfigurationAnnotation {
    * @see ConfigurationInterface
    */
   public function allowArray() {
-    return true;
+    return TRUE;
   }
 
 }

@@ -62,7 +62,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    * @see ConfigurationInterface
    */
   public function allowArray() {
-    return false;
+    return FALSE;
   }
 
   /**

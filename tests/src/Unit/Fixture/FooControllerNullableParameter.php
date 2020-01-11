@@ -7,7 +7,7 @@ class FooControllerNullableParameter {
   public function requiredParamAction(\DateTime $param) {
   }
 
-  public function defaultParamAction(\DateTime $param = null) {
+  public function defaultParamAction(\DateTime $param = NULL) {
   }
 
   public function nullableParamAction(?\DateTime $param) {

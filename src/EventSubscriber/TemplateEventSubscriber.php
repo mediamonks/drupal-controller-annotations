@@ -124,7 +124,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
 
     // when the annotation declares no default vars and the action returns
     // null, all action method arguments are used as default vars
-    if (null === $parameters) {
+    if (NULL === $parameters) {
       $parameters = $this->resolveDefaultParameters($event->getRequest(), $template, $controller, $action);
     }
 

@@ -22,11 +22,11 @@ class CacheTest extends UnitTestCase {
     $this->assertFalse($cache->isPublic());
     $this->assertFalse($cache->isPrivate());
 
-    $cache->setPublic(true);
+    $cache->setPublic(TRUE);
     $this->assertTrue($cache->isPublic());
     $this->assertFalse($cache->isPrivate());
 
-    $cache->setPublic(false);
+    $cache->setPublic(FALSE);
     $this->assertFalse($cache->isPublic());
     $this->assertTrue($cache->isPrivate());
 

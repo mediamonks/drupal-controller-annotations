@@ -76,7 +76,7 @@ class EntityParamConverterTest extends UnitTestCase {
     $paramConverter = m::mock(ParamConverter::class);
     $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
     $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-    $paramConverter->shouldReceive('isOptional')->once()->andReturn(false);
+    $paramConverter->shouldReceive('isOptional')->once()->andReturn(FALSE);
 
     $entityParamConverter = new EntityParamConverter($entityTypeManager);
 
@@ -149,7 +149,7 @@ class EntityParamConverterTest extends UnitTestCase {
     $id = 1;
 
     $entityInterface = m::mock(EntityInterface::class);
-    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
     $entityTypeManager = m::mock(EntityTypeManager::class);
     $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
@@ -163,13 +163,13 @@ class EntityParamConverterTest extends UnitTestCase {
     $paramConverter = m::mock(ParamConverter::class);
     $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
     $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-    $paramConverter->shouldReceive('isOptional')->once()->andReturn(true);
+    $paramConverter->shouldReceive('isOptional')->once()->andReturn(TRUE);
 
     $this->assertTrue($nodeParamConverter->supports($paramConverter));
     $nodeParamConverter->apply($request, $paramConverter);
 
     $this->assertTrue($request->attributes->has($name));
-    $this->assertEquals(null, $request->attributes->get($name));
+    $this->assertEquals(NULL, $request->attributes->get($name));
   }
 
   public function testApplyWithoutAttribute() {
@@ -177,7 +177,7 @@ class EntityParamConverterTest extends UnitTestCase {
     $bundle = 'article';
 
     $entityInterface = m::mock(EntityInterface::class);
-    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
     $entityTypeManager = m::mock(EntityTypeManager::class);
     $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
@@ -201,7 +201,7 @@ class EntityParamConverterTest extends UnitTestCase {
     $bundle = 'article';
 
     $entityInterface = m::mock(EntityInterface::class);
-    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
     $entityTypeManager = m::mock(EntityTypeManager::class);
     $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
@@ -223,7 +223,7 @@ class EntityParamConverterTest extends UnitTestCase {
     $bundle = 'article';
 
     $entityInterface = m::mock(EntityInterface::class);
-    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
     $entityTypeManager = m::mock(EntityTypeManager::class);
     $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
@@ -237,7 +237,7 @@ class EntityParamConverterTest extends UnitTestCase {
     $paramConverter = m::mock(ParamConverter::class);
     $paramConverter->shouldReceive('getName')->once()->andReturn($name);
     $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
-    $paramConverter->shouldReceive('isOptional')->once()->andReturn(true);
+    $paramConverter->shouldReceive('isOptional')->once()->andReturn(TRUE);
 
     $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
   }

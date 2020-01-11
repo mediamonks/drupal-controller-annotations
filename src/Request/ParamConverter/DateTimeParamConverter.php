@@ -22,12 +22,12 @@ class DateTimeParamConverter implements ParamConverterInterface {
   public function apply(Request $request, ParamConverter $configuration) {
     $param = $configuration->getName();
     if (!$request->attributes->has($param)) {
-      return false;
+      return FALSE;
     }
 
     $value = $request->attributes->get($param);
     if (!$value && $configuration->isOptional()) {
-      return false;
+      return FALSE;
     }
 
     $request->attributes->set(
@@ -35,7 +35,7 @@ class DateTimeParamConverter implements ParamConverterInterface {
       $this->getDateTime($configuration, $value, $param)
     );
 
-    return true;
+    return TRUE;
   }
 
   /**
@@ -51,7 +51,7 @@ class DateTimeParamConverter implements ParamConverterInterface {
     if (isset($options['format'])) {
       $date = DateTime::createFromFormat($options['format'], $value);
     }
-    elseif (false !== strtotime($value)) {
+    elseif (FALSE !== strtotime($value)) {
       $date = new DateTime($value);
     }
 

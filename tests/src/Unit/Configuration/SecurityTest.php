@@ -11,22 +11,22 @@ class SecurityTest extends UnitTestCase {
 
   public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
-    $route->shouldReceive('setRequirement')->once()->withArgs(['_access', true]);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_access', TRUE]);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_permission', 'permission']);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_role', 'role']);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_entity_access', 'entity']);
-    $route->shouldReceive('setRequirement')->once()->withArgs(['_csrf_token', true]);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_csrf_token', TRUE]);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
 
     $class = m::mock(\ReflectionClass::class);
     $method = m::mock(\ReflectionMethod::class);
 
     $security = new Security([
-      'access' => true,
+      'access' => TRUE,
       'permission' => 'permission',
       'role' => 'role',
       'entity' => 'entity',
-      'csrf' => true,
+      'csrf' => TRUE,
       'custom' => 'foo::custom'
     ]);
     $this->assertNull($security->modifyRouteMethod($route, $class, $method));

@@ -30,7 +30,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface {
    * @param ParamConverterManager $manager A ParamConverterManager instance
    * @param bool $autoConvert Auto convert non-configured objects
    */
-  public function __construct(ParamConverterManager $manager, $autoConvert = true) {
+  public function __construct(ParamConverterManager $manager, $autoConvert = TRUE) {
     $this->manager = $manager;
     $this->autoConvert = $autoConvert;
     $this->isParameterTypeSupported = method_exists('ReflectionParameter', 'getType');
@@ -101,7 +101,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface {
           $configurations[$name] = $configuration;
         }
 
-        if ($class && null === $configurations[$name]->getClass()) {
+        if ($class && NULL === $configurations[$name]->getClass()) {
           $configurations[$name]->setClass($class->getName());
         }
       }

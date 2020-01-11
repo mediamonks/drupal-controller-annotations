@@ -44,7 +44,7 @@ class HttpCacheListenerTest extends UnitTestCase {
 
   public function testResponseIsPublicIfConfigurationIsPublicTrue() {
     $request = $this->createRequest(new Cache(array(
-      'public' => true,
+      'public' => TRUE,
     )));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
@@ -55,7 +55,7 @@ class HttpCacheListenerTest extends UnitTestCase {
 
   public function testResponseIsPrivateIfConfigurationIsPublicFalse() {
     $request = $this->createRequest(new Cache(array(
-          'public' => false,
+          'public' => FALSE,
         )));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
@@ -132,7 +132,7 @@ class HttpCacheListenerTest extends UnitTestCase {
     $listener = new HttpCacheEventSubscriber();
     $controllerEvent = new FilterControllerEvent($this->getKernel(), function () {
       return new Response(500);
-    }, $request, null);
+    }, $request, NULL);
 
     $listener->onKernelController($controllerEvent);
     $response = call_user_func($controllerEvent->getController());
@@ -148,10 +148,10 @@ class HttpCacheListenerTest extends UnitTestCase {
     $listener = new HttpCacheEventSubscriber();
     $controllerEvent = new FilterControllerEvent($this->getKernel(), function () {
       return new Response();
-    }, $request, null);
+    }, $request, NULL);
     $listener->onKernelController($controllerEvent);
 
-    $responseEvent = new FilterResponseEvent($this->getKernel(), $request, null, call_user_func($controllerEvent->getController()));
+    $responseEvent = new FilterResponseEvent($this->getKernel(), $request, NULL, call_user_func($controllerEvent->getController()));
     $listener->onKernelResponse($responseEvent);
 
     $response = $responseEvent->getResponse();
@@ -169,7 +169,7 @@ class HttpCacheListenerTest extends UnitTestCase {
     $listener = new HttpCacheEventSubscriber();
     $controllerEvent = new FilterControllerEvent($this->getKernel(), function () {
       return new Response(500);
-    }, $request, null);
+    }, $request, NULL);
 
     $listener->onKernelController($controllerEvent);
     $response = call_user_func($controllerEvent->getController());
@@ -185,10 +185,10 @@ class HttpCacheListenerTest extends UnitTestCase {
     $listener = new HttpCacheEventSubscriber();
     $controllerEvent = new FilterControllerEvent($this->getKernel(), function () {
       return new Response();
-    }, $request, null);
+    }, $request, NULL);
     $listener->onKernelController($controllerEvent);
 
-    $responseEvent = new FilterResponseEvent($this->getKernel(), $request, null, call_user_func($controllerEvent->getController()));
+    $responseEvent = new FilterResponseEvent($this->getKernel(), $request, NULL, call_user_func($controllerEvent->getController()));
     $listener->onKernelResponse($responseEvent);
 
     $response = $responseEvent->getResponse();
@@ -198,7 +198,7 @@ class HttpCacheListenerTest extends UnitTestCase {
     $this->assertContains(hash('sha256', $entity->getId()), $response->headers->get('ETag'));
   }
 
-  private function createRequest(Cache $cache = null) {
+  private function createRequest(Cache $cache = NULL) {
     return new Request(array(), array(), array(
       '_cache' => $cache,
     ));

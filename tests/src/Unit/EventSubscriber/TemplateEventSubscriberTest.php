@@ -123,15 +123,15 @@ class TemplateEventSubscriberTest extends UnitTestCase {
 
     $template = m::mock(Template::class);
     $template->shouldReceive('getOwner')->andReturn(['controller', 'action']);
-    $template->shouldReceive('isStreamable')->andReturn(false);
+    $template->shouldReceive('isStreamable')->andReturn(FALSE);
     $template->shouldReceive('setOwner')->once()->withArgs([[]]);
     $template->shouldReceive('getTemplate')->once()->andReturn($templateName);
 
     $request = new Request();
     $request->attributes->set('_template', $template);
 
-    $property = null;
-    $value = null;
+    $property = NULL;
+    $value = NULL;
 
     $kernel = m::mock(HttpKernelInterface::class);
     $event = new GetResponseForControllerResultEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, []);
@@ -153,15 +153,15 @@ class TemplateEventSubscriberTest extends UnitTestCase {
 
     $template = m::mock(Template::class);
     $template->shouldReceive('getOwner')->andReturn(['controller', 'action']);
-    $template->shouldReceive('isStreamable')->andReturn(true);
+    $template->shouldReceive('isStreamable')->andReturn(TRUE);
     $template->shouldReceive('setOwner')->once()->withArgs([[]]);
     $template->shouldReceive('getTemplate')->once()->andReturn($templateName);
 
     $request = new Request();
     $request->attributes->set('_template', $template);
 
-    $property = null;
-    $value = null;
+    $property = NULL;
+    $value = NULL;
 
     $kernel = m::mock(HttpKernelInterface::class);
     $event = new GetResponseForControllerResultEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, []);
@@ -170,7 +170,7 @@ class TemplateEventSubscriberTest extends UnitTestCase {
     $eventSubscriber->onKernelView($event);
 
     $response = $event->getResponse();
-    $this->assertEquals(false, $response->getContent());
+    $this->assertEquals(FALSE, $response->getContent());
     $this->assertInstanceOf(StreamedResponse::class, $response);
 
     $response->sendContent();

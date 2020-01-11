@@ -28,7 +28,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
       $kernel,
       $controllerCallable,
       $request,
-      null
+      NULL
     );
 
     $eventSubscriber->onKernelController($event);
@@ -61,7 +61,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
       $kernel,
       $controllerCallable,
       $request,
-      null
+      NULL
     );
 
     $eventSubscriber->onKernelController($event);
@@ -82,7 +82,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
 
     $eventSubscriber = new ParamConverterEventSubscriber(
       $this->getParamConverterManager($request, ['param' => $converter]),
-      true
+      TRUE
     );
     $event = new FilterControllerEvent(
       $kernel,
@@ -91,7 +91,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
       $function,
       ],
       $request,
-      null
+      NULL
     );
 
     $eventSubscriber->onKernelController($event);
@@ -99,9 +99,9 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
 
   public function settingOptionalParamProvider() {
     return [
-      ['requiredParamAction', false],
-      ['defaultParamAction', true],
-      ['nullableParamAction', true],
+      ['requiredParamAction', FALSE],
+      ['defaultParamAction', TRUE],
+      ['nullableParamAction', TRUE],
     ];
   }
 
@@ -114,13 +114,13 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
 
     $eventSubscriber = new ParamConverterEventSubscriber(
       $this->getParamConverterManager($request, []),
-      false
+      FALSE
     );
     $event = new FilterControllerEvent(
       $kernel,
       $controllerCallable,
       $request,
-      null
+      NULL
     );
 
     $eventSubscriber->onKernelController($event);
@@ -157,13 +157,13 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
       $kernel,
       'time',
       $request,
-      null
+      NULL
     );
 
     $manager = m::mock(ParamConverterManager::class);
     $manager->shouldReceive('apply')->once()->withArgs([$request, ['foo' => $configuration]]);
 
-    $eventSubscriber = new ParamConverterEventSubscriber($manager, false);
+    $eventSubscriber = new ParamConverterEventSubscriber($manager, FALSE);
     $eventSubscriber->onKernelController($event);
 
     $this->assertNull(m::close());

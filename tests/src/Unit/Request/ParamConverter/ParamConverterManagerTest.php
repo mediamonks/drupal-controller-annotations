@@ -31,19 +31,19 @@ class ParamConverterManagerTest extends UnitTestCase {
     $supported
       ->expects($this->once())
       ->method('supports')
-      ->will($this->returnValue(true))
+      ->will($this->returnValue(TRUE))
     ;
     $supported
       ->expects($this->once())
       ->method('apply')
-      ->will($this->returnValue(false))
+      ->will($this->returnValue(FALSE))
     ;
 
     $invalid = $this->createParamConverterMock();
     $invalid
       ->expects($this->once())
       ->method('supports')
-      ->will($this->returnValue(false))
+      ->will($this->returnValue(FALSE))
     ;
     $invalid
       ->expects($this->never())
@@ -67,7 +67,7 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter
       ->expects($this->any())
       ->method('supports')
-      ->will($this->returnValue(true))
+      ->will($this->returnValue(TRUE))
     ;
 
     $converter
@@ -98,7 +98,7 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter
       ->expects($this->any())
       ->method('supports')
-      ->will($this->returnValue(false))
+      ->will($this->returnValue(FALSE))
     ;
 
     $request = new Request();
@@ -163,7 +163,7 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter
       ->expects($this->any())
       ->method('supports')
-      ->will($this->returnValue(false))
+      ->will($this->returnValue(FALSE))
     ;
 
     $converter

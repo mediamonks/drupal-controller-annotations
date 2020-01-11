@@ -138,7 +138,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
    * @return float
    */
   protected function calculateAge($age) {
-    $now = microtime(true);
+    $now = microtime(TRUE);
 
     return ceil(strtotime($age, $now) - $now);
   }
@@ -151,7 +151,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   protected function getConfiguration(Request $request) {
     $configuration = $request->attributes->get('_cache');
     if (empty($configuration) || !$configuration instanceof Cache) {
-      return false;
+      return FALSE;
     }
 
     return $configuration;
@@ -167,7 +167,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
     Response $response,
     Cache $configuration
   ) {
-    if (null !== $age = $configuration->getSMaxAge()) {
+    if (NULL !== $age = $configuration->getSMaxAge()) {
       if (!is_numeric($age)) {
         $age = $this->calculateAge($configuration->getSMaxAge());
       }
@@ -175,7 +175,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
       $response->setSharedMaxAge($age);
     }
 
-    if (null !== $age = $configuration->getMaxAge()) {
+    if (NULL !== $age = $configuration->getMaxAge()) {
       if (!is_numeric($age)) {
         $age = $this->calculateAge($configuration->getMaxAge());
       }
@@ -183,11 +183,11 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
       $response->setMaxAge($age);
     }
 
-    if (null !== $configuration->getExpires()) {
+    if (NULL !== $configuration->getExpires()) {
       $response->setExpires($this->calculateExpires($configuration));
     }
 
-    if (null !== $configuration->getVary()) {
+    if (NULL !== $configuration->getVary()) {
       $response->setVary($configuration->getVary());
     }
 
@@ -237,10 +237,10 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
       $response->getStatusCode(),
       [200, 203, 300, 301, 302, 304, 404, 410]
     )) {
-      return true;
+      return TRUE;
     }
 
-    return false;
+    return FALSE;
   }
 
   /**
@@ -248,7 +248,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
    * @return ExpressionLanguage
    */
   private function getExpressionLanguage() {
-    if (null === $this->expressionLanguage) {
+    if (NULL === $this->expressionLanguage) {
       if (!class_exists(ExpressionLanguage::class)) {
         throw new \RuntimeException(
           'Unable to use expressions as the Symfony ExpressionLanguage component is not installed.'

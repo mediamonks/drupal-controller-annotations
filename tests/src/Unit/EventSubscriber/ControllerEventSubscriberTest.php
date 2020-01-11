@@ -22,7 +22,7 @@ class ControllerEventSubscriberTest extends UnitTestCase {
     $eventSubscriber = new ControllerEventSubscriber($reader);
 
     $event = m::mock(FilterControllerEvent::class);
-    $event->shouldReceive('getController')->once()->andReturn(null);
+    $event->shouldReceive('getController')->once()->andReturn(NULL);
 
     $this->assertNull($eventSubscriber->onKernelController($event));
   }
@@ -43,7 +43,7 @@ class ControllerEventSubscriberTest extends UnitTestCase {
 
   public function testMultipleConfigurations() {
     $configuration = m::mock(ConfigurationInterface::class);
-    $configuration->shouldReceive('allowArray')->andReturn(true);
+    $configuration->shouldReceive('allowArray')->andReturn(TRUE);
     $configuration->shouldReceive('getAliasName')->andReturn('foo');
 
     $reader = m::mock(Reader::class);

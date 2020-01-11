@@ -11,12 +11,12 @@ class RouteTest extends UnitTestCase {
 
   public function testModifyRouteClass() {
     $route = m::mock(Route::class);
-    $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', true]);
+    $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', TRUE]);
 
     $class = m::mock(\ReflectionClass::class);
     $method = m::mock(\ReflectionMethod::class);
 
-    $routeConfig = new RouteConfiguration(['admin' => true]);
+    $routeConfig = new RouteConfiguration(['admin' => TRUE]);
     $this->assertNull($routeConfig->modifyRouteClass($route, $class, $method));
 
     m::close();

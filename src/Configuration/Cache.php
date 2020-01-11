@@ -120,7 +120,7 @@ class Cache extends ConfigurationAnnotation {
    * @return bool
    */
   public function isPublic() {
-    return $this->public === true;
+    return $this->public === TRUE;
   }
 
   /**
@@ -129,7 +129,7 @@ class Cache extends ConfigurationAnnotation {
    * @return bool
    */
   public function isPrivate() {
-    return $this->public === false;
+    return $this->public === FALSE;
   }
 
   /**
@@ -214,7 +214,7 @@ class Cache extends ConfigurationAnnotation {
    * @see ConfigurationInterface
    */
   public function allowArray() {
-    return false;
+    return FALSE;
   }
 
 }

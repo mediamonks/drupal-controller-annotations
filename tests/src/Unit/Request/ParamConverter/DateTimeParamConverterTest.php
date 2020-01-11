@@ -68,11 +68,11 @@ class DateTimeParamConverterTest extends UnitTestCase {
   }
 
   public function testApplyOptionalWithEmptyAttribute() {
-    $request = new Request([], [], ['start' => null]);
+    $request = new Request([], [], ['start' => NULL]);
     $config = $this->createConfiguration('DateTime', 'start');
     $config->expects($this->once())
       ->method('isOptional')
-      ->will($this->returnValue(true));
+      ->will($this->returnValue(TRUE));
 
     $this->assertFalse($this->converter->apply($request, $config));
     $this->assertNull($request->attributes->get('start'));
@@ -85,7 +85,7 @@ class DateTimeParamConverterTest extends UnitTestCase {
     $this->assertFalse($this->converter->apply($request, $config));
   }
 
-  public function createConfiguration($class = null, $name = null) {
+  public function createConfiguration($class = NULL, $name = NULL) {
     $config = $this
       ->getMockBuilder(ParamConverter::class)
       ->setMethods(
@@ -101,12 +101,12 @@ class DateTimeParamConverterTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->getMock();
 
-    if ($name !== null) {
+    if ($name !== NULL) {
       $config->expects($this->any())
         ->method('getName')
         ->will($this->returnValue($name));
     }
-    if ($class !== null) {
+    if ($class !== NULL) {
       $config->expects($this->any())
         ->method('getClass')
         ->will($this->returnValue($class));

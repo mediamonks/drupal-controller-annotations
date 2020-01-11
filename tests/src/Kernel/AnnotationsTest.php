@@ -63,7 +63,7 @@ class AnnotationsTest extends KernelTestBase {
     $destinationModule = $this->getDrupalRoot() . '/modules/controller_annotations_test/templates/';
 
     if (!file_exists($destinationModule)) {
-      mkdir($destinationModule, 0777, true);
+      mkdir($destinationModule, 0777, TRUE);
     }
     foreach (new \DirectoryIterator($sourceModule) as $fileInfo) {
       if (!$fileInfo->isFile()) {

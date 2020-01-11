@@ -131,7 +131,7 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
    * @return bool
    */
   public function allowArray() {
-    return false;
+    return FALSE;
   }
 
   /**
@@ -176,7 +176,7 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
    */
   protected function registerCallback(RoutingRoute $route, \ReflectionClass $class) {
     if ($this->hasCallback()) {
-      if (strpos($this->getCallback(), '::') === false && $class->hasMethod($this->getCallback())) {
+      if (strpos($this->getCallback(), '::') === FALSE && $class->hasMethod($this->getCallback())) {
         $this->setCallback(sprintf('%s::%s', $class->getName(), $this->getCallback()));
       }
       $route->setDefault('_title_callback', $this->getCallback());

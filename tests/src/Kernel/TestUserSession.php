@@ -17,7 +17,7 @@ class TestUserSession extends UserSession {
   public function hasPermission($permission) {
     // User #1 has all privileges.
     if ((int) $this->id() === 1) {
-      return true;
+      return TRUE;
     }
 
     return in_array($permission, $this->permissions);

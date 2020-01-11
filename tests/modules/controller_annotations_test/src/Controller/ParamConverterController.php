@@ -45,7 +45,7 @@ class ParamConverterController extends ControllerBase {
    * @Security(access=true)
    * @ParamConverter()
    */
-  public function optionalDateAction(\DateTime $start = null) {
+  public function optionalDateAction(\DateTime $start = NULL) {
     if (empty($start)) {
       return new Response('empty');
     }

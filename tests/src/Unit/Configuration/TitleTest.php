@@ -12,8 +12,8 @@ class TitleTest extends UnitTestCase {
   public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setDefault')->once()->withArgs(['_title', 'Hello World']);
-    $route->shouldReceive('setDefault')->once()->withArgs(['_title_arguments', ['arguments' => true]]);
-    $route->shouldReceive('setDefault')->once()->withArgs(['_title_context', ['context' => true]]);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title_arguments', ['arguments' => TRUE]]);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title_context', ['context' => TRUE]]);
     $route->shouldReceive('setDefault')->once()->withArgs(['_title_callback', 'foo::callback']);
 
     $class = m::mock(\ReflectionClass::class);
@@ -21,8 +21,8 @@ class TitleTest extends UnitTestCase {
 
     $security = new Title([
       'value' => 'Hello World',
-      'arguments' => ['arguments' => true],
-      'context' => ['context' => true],
+      'arguments' => ['arguments' => TRUE],
+      'context' => ['context' => TRUE],
       'callback' => 'foo::callback'
     ]);
     $this->assertNull($security->modifyRouteMethod($route, $class, $method));

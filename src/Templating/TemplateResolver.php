@@ -68,7 +68,7 @@ class TemplateResolver {
    * @param string $action
    * @return string
    */
-  private function format(string $module, string $controller, string $action = null): string {
+  private function format(string $module, string $controller, string $action = NULL): string {
     $controller = $this->normalizeString($controller);
 
     $templateName = sprintf('%s-%s', $module, $controller);

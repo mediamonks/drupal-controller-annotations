@@ -26,7 +26,7 @@ class Template extends ConfigurationAnnotation {
    *
    * @var bool
    */
-  protected $streamable = false;
+  protected $streamable = FALSE;
 
   /**
    * The controller (+action) this annotation is set to.
@@ -113,7 +113,7 @@ class Template extends ConfigurationAnnotation {
    * @see ConfigurationInterface
    */
   public function allowArray() {
-    return false;
+    return FALSE;
   }
 
   /**

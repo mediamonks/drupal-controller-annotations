@@ -49,7 +49,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   protected function assertResponseContains(Request $request, $contents) {
     $response = $this->request($request);
     //echo $response->getContent();
-    $this->assertTrue(strpos($response->getContent(), $contents) !== false);
+    $this->assertTrue(strpos($response->getContent(), $contents) !== FALSE);
   }
 
   /**
@@ -58,7 +58,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
    */
   protected function assertResponseNotContains(Request $request, $contents) {
     $response = $this->request($request);
-    $this->assertTrue(strpos($response->getContent(), $contents) === false);
+    $this->assertTrue(strpos($response->getContent(), $contents) === FALSE);
   }
 
   /**

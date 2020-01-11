@@ -25,7 +25,7 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
    */
   public function setService($service) {
     // avoid a BC notice in case of @Route(service="") with sf ^2.7
-    if (null === $this->getPath()) {
+    if (NULL === $this->getPath()) {
       $this->setPath('');
     }
     $this->service = $service;
@@ -60,7 +60,7 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
    * @see ConfigurationInterface
    */
   public function allowArray() {
-    return true;
+    return TRUE;
   }
 
   /**
@@ -92,7 +92,7 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
    */
   protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method) {
     if ($this->isAdmin()) {
-      $route->setOption('_admin_route', true);
+      $route->setOption('_admin_route', TRUE);
     }
   }
 

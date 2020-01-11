@@ -174,7 +174,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   }
 
   public function allowArray() {
-    return false;
+    return FALSE;
   }
 
   /**
@@ -225,7 +225,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    */
   protected function setCustomSecurity(RoutingRoute $route, \ReflectionClass $class) {
     if ($this->hasCustom()) {
-      if (strpos($this->getCustom(), '::') === false && $class->hasMethod($this->getCustom())) {
+      if (strpos($this->getCustom(), '::') === FALSE && $class->hasMethod($this->getCustom())) {
         $this->setCustom(sprintf('%s::%s', $class->getName(), $this->getCustom()));
       }
       $route->setRequirement('_custom_access', $this->getCustom());

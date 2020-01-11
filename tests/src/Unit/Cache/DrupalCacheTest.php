@@ -22,7 +22,7 @@ class DrupalCacheTest extends UnitTestCase {
   public function testDoContains() {
     $drupalCache = $this->getDrupalCacheMock();
     $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
-    $drupalCache->shouldReceive('get')->once()->withArgs(['[bar][1]'])->andReturn(false);
+    $drupalCache->shouldReceive('get')->once()->withArgs(['[bar][1]'])->andReturn(FALSE);
 
     $cache = new DrupalCache($drupalCache);
     $this->assertTrue($cache->contains('foo'));

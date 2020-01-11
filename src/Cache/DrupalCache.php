@@ -27,14 +27,14 @@ class DrupalCache extends CacheProvider {
       return $cache->data;
     }
 
-    return false;
+    return FALSE;
   }
 
   /**
    * @inheritdoc
    */
   protected function doContains($id) {
-    return $this->doFetch($id) !== false;
+    return $this->doFetch($id) !== FALSE;
   }
 
   /**
@@ -48,7 +48,7 @@ class DrupalCache extends CacheProvider {
       $this->cache->set($id, $data, time() + $lifeTime);
     }
 
-    return true;
+    return TRUE;
   }
 
   /**
@@ -57,7 +57,7 @@ class DrupalCache extends CacheProvider {
   protected function doDelete($id) {
     $this->cache->delete($id);
 
-    return true;
+    return TRUE;
   }
 
   /**
@@ -66,7 +66,7 @@ class DrupalCache extends CacheProvider {
   protected function doFlush() {
     $this->cache->deleteAll();
 
-    return true;
+    return TRUE;
   }
 
   /**

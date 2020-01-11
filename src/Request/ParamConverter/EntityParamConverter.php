@@ -36,12 +36,12 @@ class EntityParamConverter implements ParamConverterInterface {
   public function apply(Request $request, ParamConverter $configuration) {
     $param = $configuration->getName();
     if (!$request->attributes->has($param)) {
-      return false;
+      return FALSE;
     }
 
     $value = $request->attributes->get($param);
     if (!$value && $configuration->isOptional()) {
-      return false;
+      return FALSE;
     }
 
     $request->attributes->set(
@@ -49,7 +49,7 @@ class EntityParamConverter implements ParamConverterInterface {
       $this->getNode($value, $configuration)
     );
 
-    return true;
+    return TRUE;
   }
 
   /**
@@ -71,7 +71,7 @@ class EntityParamConverter implements ParamConverterInterface {
    */
   protected function assertValidNode(
     ParamConverter $configuration,
-    EntityInterface $node = null
+    EntityInterface $node = NULL
   ) {
     if (is_null($node) && $configuration->isOptional()) {
       return;
