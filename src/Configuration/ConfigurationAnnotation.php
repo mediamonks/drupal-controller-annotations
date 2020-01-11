@@ -7,8 +7,8 @@ namespace Drupal\controller_annotations\Configuration;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-abstract class ConfigurationAnnotation implements ConfigurationInterface
-{
+abstract class ConfigurationAnnotation implements ConfigurationInterface {
+
   public function __construct(array $values) {
     foreach ($values as $k => $v) {
       if (!method_exists($this, $name = 'set'.$k)) {

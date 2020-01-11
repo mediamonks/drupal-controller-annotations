@@ -8,8 +8,8 @@ use Drupal\controller_annotations\Configuration\RouteModifierMethodInterface;
 use Symfony\Component\Routing\Loader\AnnotationClassLoader;
 use Symfony\Component\Routing\Route;
 
-class AnnotatedRouteControllerLoader extends AnnotationClassLoader
-{
+class AnnotatedRouteControllerLoader extends AnnotationClassLoader {
+
   /**
    * @param Route $route
    * @param \ReflectionClass $class

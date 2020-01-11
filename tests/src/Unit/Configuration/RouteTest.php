@@ -7,8 +7,8 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class RouteTest extends UnitTestCase
-{
+class RouteTest extends UnitTestCase {
+
   public function testModifyRouteClass() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', true]);

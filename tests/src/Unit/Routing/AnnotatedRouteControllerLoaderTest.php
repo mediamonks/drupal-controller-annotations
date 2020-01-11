@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Route;
 /**
  * @group controller_annotations
  */
-class AnnotatedRouteControllerLoaderTest extends UnitTestCase
-{
+class AnnotatedRouteControllerLoaderTest extends UnitTestCase {
+
   public function testConfigureRoute() {
     $routeConfiguration = m::mock(\Drupal\controller_annotations\Configuration\Route::class);
     $routeConfiguration->shouldReceive('getService')->andReturn(false);

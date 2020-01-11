@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ParamConverterEventSubscriber implements EventSubscriberInterface
-{
+class ParamConverterEventSubscriber implements EventSubscriberInterface {
+
   /**
    * @var ParamConverterManager
    */

@@ -8,8 +8,7 @@ use Symfony\Component\Routing\Route as RoutingRoute;
 /**
  * @Annotation
  */
-class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModifierClassInterface
-{
+class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModifierClassInterface {
 
   /**
    * @var string

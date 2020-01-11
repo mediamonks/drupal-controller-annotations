@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Security(access=true)
  */
-class BasicController extends ControllerBase
-{
+class BasicController extends ControllerBase {
+
   /**
    * @Route("test/basic")
    */

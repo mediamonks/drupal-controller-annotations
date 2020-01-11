@@ -9,8 +9,8 @@ use Drupal\controller_annotations\Configuration\Security;
 /**
  * @Route("test/admin/")
  */
-class AdminController extends ControllerBase
-{
+class AdminController extends ControllerBase {
+
   /**
    * @Route("admin", admin=true)
    * @Security(role="administrator")

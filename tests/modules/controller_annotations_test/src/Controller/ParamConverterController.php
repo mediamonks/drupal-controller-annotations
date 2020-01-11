@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("test/param-converter/")
  */
-class ParamConverterController extends ControllerBase
-{
+class ParamConverterController extends ControllerBase {
 
   /**
    * @Route("date/{start}")

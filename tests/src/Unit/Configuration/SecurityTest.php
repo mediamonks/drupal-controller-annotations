@@ -7,8 +7,8 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class SecurityTest extends UnitTestCase
-{
+class SecurityTest extends UnitTestCase {
+
   public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_access', true]);

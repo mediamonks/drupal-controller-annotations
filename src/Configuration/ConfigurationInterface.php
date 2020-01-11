@@ -7,8 +7,8 @@ namespace Drupal\controller_annotations\Configuration;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface ConfigurationInterface
-{
+interface ConfigurationInterface {
+
   /**
    * Returns the alias name for an annotated configuration.
    *

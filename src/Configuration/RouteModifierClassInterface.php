@@ -4,8 +4,8 @@ namespace Drupal\controller_annotations\Configuration;
 
 use Symfony\Component\Routing\Route as RoutingRoute;
 
-interface RouteModifierClassInterface extends RouteModifierInterface
-{
+interface RouteModifierClassInterface extends RouteModifierInterface {
+
   /**
    * @param RoutingRoute $route
    * @param \ReflectionClass $class

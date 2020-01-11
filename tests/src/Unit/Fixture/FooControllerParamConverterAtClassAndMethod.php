@@ -7,8 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * @ParamConverter("test")
  */
-class FooControllerParamConverterAtClassAndMethod
-{
+class FooControllerParamConverterAtClassAndMethod {
+
   /**
    * @ParamConverter("test2")
    */

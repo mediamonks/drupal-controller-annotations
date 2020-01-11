@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Henrik Bjornskov <henrik@bjrnskov.dk>
  */
-class ParamConverterManager
-{
+class ParamConverterManager {
+
   /**
    * @var array
    */

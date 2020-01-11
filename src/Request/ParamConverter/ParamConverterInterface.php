@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface ParamConverterInterface
-{
+interface ParamConverterInterface {
+
   /**
    * Stores the object in the request.
    *

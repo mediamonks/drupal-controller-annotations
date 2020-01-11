@@ -9,8 +9,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Loader\AnnotationDirectoryLoader;
 use Symfony\Component\Routing\Route;
 
-class RouteEventSubscriber implements EventSubscriberInterface
-{
+class RouteEventSubscriber implements EventSubscriberInterface {
+
   /**
    * @var AnnotationDirectoryLoader
    */

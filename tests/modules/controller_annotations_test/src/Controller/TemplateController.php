@@ -10,8 +10,8 @@ use Drupal\controller_annotations\Configuration\Template;
 /**
  * @Route("test/template/")
  */
-class TemplateController extends ControllerBase
-{
+class TemplateController extends ControllerBase {
+
   /**
    * @Route("empty")
    * @Security(access=true)

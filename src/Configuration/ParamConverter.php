@@ -8,8 +8,7 @@ namespace Drupal\controller_annotations\Configuration;
  * @author Fabien Potencier <fabien@symfony.com>
  * @Annotation
  */
-class ParamConverter extends ConfigurationAnnotation
-{
+class ParamConverter extends ConfigurationAnnotation {
 
   /**
    * The parameter name.

@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\controller_annotations\Unit\Fixture;
 
-class FooControllerNullableParameter
-{
+class FooControllerNullableParameter {
+
   public function requiredParamAction(\DateTime $param) {
   }
 

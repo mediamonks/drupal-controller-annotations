@@ -15,8 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @group controller_annotations
  */
-class EntityParamConverterTest extends UnitTestCase
-{
+class EntityParamConverterTest extends UnitTestCase {
+
   private function getEntityParamConverter() {
     $node = m::mock(Node::class);
 

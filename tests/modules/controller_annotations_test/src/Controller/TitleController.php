@@ -10,8 +10,7 @@ use Drupal\controller_annotations\Configuration\Title;
 /**
  * @Route("test/title/")
  */
-class TitleController extends ControllerBase
-{
+class TitleController extends ControllerBase {
 
   /**
    * @Route("normal")

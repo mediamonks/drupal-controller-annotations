@@ -13,8 +13,7 @@ use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class EntityParamConverter implements ParamConverterInterface
-{
+class EntityParamConverter implements ParamConverterInterface {
 
   /**
    * @var EntityTypeManagerInterface

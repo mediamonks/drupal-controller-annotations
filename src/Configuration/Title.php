@@ -7,8 +7,8 @@ use Symfony\Component\Routing\Route as RoutingRoute;
 /**
  * @Annotation
  */
-class Title extends ConfigurationAnnotation implements RouteModifierMethodInterface, RouteModifierClassInterface
-{
+class Title extends ConfigurationAnnotation implements RouteModifierMethodInterface, RouteModifierClassInterface {
+
   /**
    * @var string
    */

@@ -5,8 +5,7 @@ namespace Drupal\controller_annotations\Configuration;
 /**
  * @Annotation
  */
-class Template extends ConfigurationAnnotation
-{
+class Template extends ConfigurationAnnotation {
 
   /**
    * The template reference.

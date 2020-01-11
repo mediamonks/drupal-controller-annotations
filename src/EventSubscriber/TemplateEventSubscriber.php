@@ -13,8 +13,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class TemplateEventSubscriber implements EventSubscriberInterface
-{
+class TemplateEventSubscriber implements EventSubscriberInterface {
+
   /**
    * @var \Twig_Environment
    */

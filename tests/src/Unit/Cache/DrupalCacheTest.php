@@ -8,8 +8,8 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use StdClass;
 
-class DrupalCacheTest extends UnitTestCase
-{
+class DrupalCacheTest extends UnitTestCase {
+
   public function testDoFetch() {
     $drupalCache = $this->getDrupalCacheMock();
     $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));

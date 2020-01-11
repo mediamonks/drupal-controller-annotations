@@ -14,8 +14,8 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 /**
  * @group controller_annotations
  */
-class ControllerEventSubscriberTest extends UnitTestCase
-{
+class ControllerEventSubscriberTest extends UnitTestCase {
+
   public function testOnKernelController() {
     $reader = m::mock(Reader::class);
 
@@ -110,8 +110,8 @@ class ControllerEventSubscriberTest extends UnitTestCase
   }
 }
 
-class ControllerInvokableController
-{
+class ControllerInvokableController {
+
   public function __invoke() {
   }
 }

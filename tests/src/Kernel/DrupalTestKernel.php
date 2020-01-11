@@ -6,8 +6,8 @@ use Drupal\Core\DrupalKernel;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
-class DrupalTestKernel extends DrupalKernel
-{
+class DrupalTestKernel extends DrupalKernel {
+
   /**
    * {@inheritdoc}
    */

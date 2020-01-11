@@ -17,8 +17,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @group controller_annotations
  */
-class TemplateEventSubscriberTest extends UnitTestCase
-{
+class TemplateEventSubscriberTest extends UnitTestCase {
+
   public function testOnKernelControllerWithoutTemplate() {
     $twig = m::mock(\Twig_Environment::class);
     $templateResolver = m::mock(TemplateResolver::class);

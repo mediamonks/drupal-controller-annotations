@@ -2,8 +2,8 @@
 
 namespace Drupal\controller_annotations\Templating;
 
-class TemplateResolver
-{
+class TemplateResolver {
+
   /**
    * Convert controller class
    * "Drupal\<module>\Controller\<controller>Controller"

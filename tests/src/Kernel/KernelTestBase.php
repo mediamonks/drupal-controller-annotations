@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class KernelTestBase extends BaseKernelTestBase
-{
+abstract class KernelTestBase extends BaseKernelTestBase {
+
   /**
    * @var DrupalKernel
    */

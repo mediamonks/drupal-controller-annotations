@@ -8,8 +8,8 @@ use Drupal\controller_annotations\Configuration\Security;
 use Drupal\controller_annotations\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
-class MethodController extends ControllerBase
-{
+class MethodController extends ControllerBase {
+
   /**
    * @Route("test/method")
    * @Method("GET")

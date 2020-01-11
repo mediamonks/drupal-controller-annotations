@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-class HttpCacheListenerTest extends UnitTestCase
-{
+class HttpCacheListenerTest extends UnitTestCase {
+
   public function setUp() {
     $this->listener = new HttpCacheEventSubscriber();
     $this->response = new Response();
@@ -229,8 +229,8 @@ class HttpCacheListenerTest extends UnitTestCase
   }
 }
 
-class TestEntity
-{
+class TestEntity {
+
   public function getDate() {
     return new \DateTime('Fri, 23 Aug 2013 00:00:00 GMT');
   }

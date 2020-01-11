@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route(service="controller.service")
  */
-class ServiceController
-{
+class ServiceController {
+
   /**
    * @Route("test/service")
    * @Security(access=true)

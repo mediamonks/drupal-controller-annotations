@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-class HttpCacheEventSubscriber implements EventSubscriberInterface
-{
+class HttpCacheEventSubscriber implements EventSubscriberInterface {
 
   /**
    * @var \SplObjectStorage

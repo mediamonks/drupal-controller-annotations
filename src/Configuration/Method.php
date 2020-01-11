@@ -7,8 +7,8 @@ use Symfony\Component\Routing\Route as RoutingRoute;
 /**
  * @Annotation
  */
-class Method extends ConfigurationAnnotation implements RouteModifierMethodInterface, RouteModifierClassInterface
-{
+class Method extends ConfigurationAnnotation implements RouteModifierMethodInterface, RouteModifierClassInterface {
+
   /**
    * An array of restricted HTTP methods.
    *

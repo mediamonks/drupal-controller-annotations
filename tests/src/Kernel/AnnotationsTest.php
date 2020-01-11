@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @group controller_annotations
  */
-class AnnotationsTest extends KernelTestBase
-{
+class AnnotationsTest extends KernelTestBase {
+
   public function testRouting() {
     $response = $this->request(Request::create('/test/basic'));
     $this->assertEquals('BasicController::basicAction', $response->getContent());

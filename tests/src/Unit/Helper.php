@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\controller_annotations\Unit;
 
-class Helper
-{
+class Helper {
+
   public static function getProtectedMethod($class, $name) {
     $class = new \ReflectionClass($class);
     $method = $class->getMethod($name);

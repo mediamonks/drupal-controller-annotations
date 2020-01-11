@@ -5,8 +5,8 @@ namespace Drupal\controller_annotations\Configuration;
 /**
  * @Annotation
  */
-class Cache extends ConfigurationAnnotation
-{
+class Cache extends ConfigurationAnnotation {
+
   /**
    * The expiration date as a valid date for the strtotime() function.
    *

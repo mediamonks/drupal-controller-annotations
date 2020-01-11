@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @group controller_annotations
  */
-class ParamConverterManagerTest extends UnitTestCase
-{
+class ParamConverterManagerTest extends UnitTestCase {
+
   public function testPriorities() {
     $manager = new ParamConverterManager();
     $this->assertEquals(array(), $manager->all());

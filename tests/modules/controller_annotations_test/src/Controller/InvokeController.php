@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @Route("test/invoke", service="controller.invoke")
  * @Security(access=true)
  */
-class InvokeController
-{
+class InvokeController {
+
   public function __invoke() {
     return new Response('InvokeController::__invoke');
   }

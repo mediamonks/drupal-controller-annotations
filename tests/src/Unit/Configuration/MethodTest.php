@@ -7,8 +7,8 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class MethodTest extends UnitTestCase
-{
+class MethodTest extends UnitTestCase {
+
   public function testModifyRouteClass() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);

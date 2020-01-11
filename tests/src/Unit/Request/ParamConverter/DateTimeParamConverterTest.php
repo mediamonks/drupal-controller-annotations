@@ -10,8 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @group controller_annotations
  */
-class DateTimeParamConverterTest extends UnitTestCase
-{
+class DateTimeParamConverterTest extends UnitTestCase {
 
   private $converter;
 

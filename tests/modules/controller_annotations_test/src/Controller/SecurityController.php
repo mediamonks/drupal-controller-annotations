@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @Route("test/security/")
  * @Method("GET")
  */
-class SecurityController extends ControllerBase
-{
+class SecurityController extends ControllerBase {
+
   /**
    * @Route("access")
    * @Security(access=true)

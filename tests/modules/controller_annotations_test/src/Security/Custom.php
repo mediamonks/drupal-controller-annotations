@@ -5,8 +5,8 @@ namespace Drupal\controller_annotations_test\Security;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 
-class Custom
-{
+class Custom {
+
   /**
    * @param AccountInterface $account
    * @return AccessResult

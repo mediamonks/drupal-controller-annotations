@@ -12,8 +12,8 @@ use DateTime;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class DateTimeParamConverter implements ParamConverterInterface
-{
+class DateTimeParamConverter implements ParamConverterInterface {
+
   /**
    * {@inheritdoc}
    *

@@ -5,8 +5,8 @@ namespace Drupal\controller_annotations\Cache;
 use Doctrine\Common\Cache\CacheProvider;
 use Drupal\Core\Cache\CacheBackendInterface;
 
-class DrupalCache extends CacheProvider
-{
+class DrupalCache extends CacheProvider {
+
   /**
    * @var CacheBackendInterface
    */

@@ -5,8 +5,8 @@ namespace Drupal\Tests\controller_annotations\Unit\EventSubscriber;
 use Drupal\controller_annotations\Configuration\Cache;
 use Drupal\Tests\UnitTestCase;
 
-class CacheTest extends UnitTestCase
-{
+class CacheTest extends UnitTestCase {
+
   public function testProperties() {
     $cache = new Cache([]);
 

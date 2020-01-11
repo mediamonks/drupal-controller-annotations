@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ControllerEventSubscriber implements EventSubscriberInterface
-{
+class ControllerEventSubscriber implements EventSubscriberInterface {
+
   /**
    * @var Reader
    */

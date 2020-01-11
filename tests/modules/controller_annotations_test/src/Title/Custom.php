@@ -2,8 +2,7 @@
 
 namespace Drupal\controller_annotations_test\Title;
 
-class Custom
-{
+class Custom {
 
   /**
    * @return string

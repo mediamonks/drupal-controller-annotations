@@ -4,8 +4,8 @@ namespace Drupal\Tests\controller_annotations\Kernel;
 
 use Drupal\Core\Session\UserSession;
 
-class TestUserSession extends UserSession
-{
+class TestUserSession extends UserSession {
+
   /**
    * @var array
    */

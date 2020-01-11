@@ -7,8 +7,8 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class TitleTest extends UnitTestCase
-{
+class TitleTest extends UnitTestCase {
+
   public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setDefault')->once()->withArgs(['_title', 'Hello World']);

@@ -13,8 +13,8 @@ use Symfony\Component\Routing\RouteCollection;
 /**
  * @group controller_annotations
  */
-class RouteEventSubscriberTest extends UnitTestCase
-{
+class RouteEventSubscriberTest extends UnitTestCase {
+
   /**
    * @var RouteCollection
    */

@@ -10,8 +10,8 @@ require_once __DIR__.'/../../polyfill.php';
 /**
  * @group controller_annotations
  */
-class TemplateResolverTest extends UnitTestCase
-{
+class TemplateResolverTest extends UnitTestCase {
+
   /**
    * @var TemplateResolver
    */

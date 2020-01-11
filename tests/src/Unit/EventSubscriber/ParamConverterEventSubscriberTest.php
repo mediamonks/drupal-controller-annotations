@@ -12,8 +12,7 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Mockery as m;
 
-class ParamConverterEventSubscriberTest extends UnitTestCase
-{
+class ParamConverterEventSubscriberTest extends UnitTestCase {
 
   /**
    * @dataProvider getControllerWithNoArgsFixtures
@@ -171,8 +170,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
   }
 }
 
-class ParamConverterTestController
-{
+class ParamConverterTestController {
 
   public function noArgAction(Request $request) {
   }
@@ -181,15 +179,13 @@ class ParamConverterTestController
   }
 }
 
-class ParamConverterInvokableNoArgController
-{
+class ParamConverterInvokableNoArgController {
 
   public function __invoke(Request $request) {
   }
 }
 
-class ParamConverterInvokableController
-{
+class ParamConverterInvokableController {
 
   public function __invoke(\DateTime $date) {
   }

@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("test/prefix")
  */
-class PrefixedRouteController extends ControllerBase
-{
+class PrefixedRouteController extends ControllerBase {
+
   /**
    * @Route
    * @Security(access=true)
