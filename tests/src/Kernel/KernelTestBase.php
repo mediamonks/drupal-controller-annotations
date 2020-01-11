@@ -47,7 +47,6 @@ abstract class KernelTestBase extends BaseKernelTestBase {
    */
   protected function assertResponseContains(Request $request, $contents) {
     $response = $this->request($request);
-    //echo $response->getContent();
     $this->assertTrue(strpos($response->getContent(), $contents) !== FALSE);
   }
 
