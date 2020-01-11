@@ -51,4 +51,5 @@ class MethodTest extends UnitTestCase {
 
     m::close();
   }
+
 }

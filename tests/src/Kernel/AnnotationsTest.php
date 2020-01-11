@@ -146,4 +146,5 @@ class AnnotationsTest extends KernelTestBase {
     $this->assertResponseContents(Request::create('/test/param-converter/date-optional/03-04-1985'), '1985-04-03');
     $this->assertResponseContents(Request::create('/test/param-converter/date-optional'), 'empty');
   }
+
 }

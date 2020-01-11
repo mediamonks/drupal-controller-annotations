@@ -75,4 +75,5 @@ class DrupalCache extends CacheProvider {
   protected function doGetStats() {
     return;
   }
+
 }

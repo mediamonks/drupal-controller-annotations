@@ -14,4 +14,5 @@ class Custom {
   public function access(AccountInterface $account) {
     return AccessResult::allowedIf($account->id() === 1337);
   }
+
 }

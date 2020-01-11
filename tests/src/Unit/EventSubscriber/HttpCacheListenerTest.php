@@ -227,6 +227,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   private function getKernel() {
     return $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock();
   }
+
 }
 
 class TestEntity {
@@ -238,4 +239,5 @@ class TestEntity {
   public function getId() {
     return '12345';
   }
+
 }

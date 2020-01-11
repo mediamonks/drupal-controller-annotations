@@ -245,4 +245,5 @@ class EntityParamConverterTest extends UnitTestCase {
   public function tearDown() {
     m::close();
   }
+
 }

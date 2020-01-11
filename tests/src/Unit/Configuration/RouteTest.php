@@ -57,4 +57,5 @@ class RouteTest extends UnitTestCase {
     $this->setExpectedException(\BadMethodCallException::class);
     new RouteConfiguration(['foo' => 'bar']);
   }
+
 }

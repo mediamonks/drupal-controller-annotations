@@ -27,4 +27,5 @@ class PrefixedRouteController extends ControllerBase {
   public function namedRouteAction() {
     return new Response('PrefixedBasicController::namedRouteAction');
   }
+
 }

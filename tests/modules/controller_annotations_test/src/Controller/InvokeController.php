@@ -15,4 +15,5 @@ class InvokeController {
   public function __invoke() {
     return new Response('InvokeController::__invoke');
   }
+
 }

@@ -216,4 +216,5 @@ class Cache extends ConfigurationAnnotation {
   public function allowArray() {
     return false;
   }
+
 }

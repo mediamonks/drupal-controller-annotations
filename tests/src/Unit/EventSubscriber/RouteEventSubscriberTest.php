@@ -113,4 +113,5 @@ class RouteEventSubscriberTest extends UnitTestCase {
 
     $this->triggerOnRoutes();
   }
+
 }

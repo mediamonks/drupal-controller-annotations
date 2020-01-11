@@ -87,4 +87,5 @@ class AnnotatedRouteControllerLoader extends AnnotationClassLoader {
 
     return sprintf('%s::%s', $class->getName(), $method->getName());
   }
+
 }

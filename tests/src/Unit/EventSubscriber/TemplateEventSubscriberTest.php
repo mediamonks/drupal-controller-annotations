@@ -179,4 +179,5 @@ class TemplateEventSubscriberTest extends UnitTestCase {
   public function tearDown() {
     m::close();
   }
+
 }

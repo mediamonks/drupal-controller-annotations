@@ -108,10 +108,12 @@ class ControllerEventSubscriberTest extends UnitTestCase {
     $eventSubscriber = new ControllerEventSubscriber($reader);
     $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
   }
+
 }
 
 class ControllerInvokableController {
 
   public function __invoke() {
   }
+
 }

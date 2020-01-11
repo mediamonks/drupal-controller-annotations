@@ -25,4 +25,5 @@ class DrupalTestKernel extends DrupalKernel {
     parent::initializeSettings($request);
     new Settings($settings);
   }
+
 }

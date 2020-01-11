@@ -94,4 +94,5 @@ class TemplateResolver {
   private function normalizeString(string $value): string {
     return str_replace('\\', '-', mb_strtolower($value));
   }
+
 }

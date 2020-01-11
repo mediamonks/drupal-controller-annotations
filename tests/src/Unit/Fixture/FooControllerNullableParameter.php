@@ -12,4 +12,5 @@ class FooControllerNullableParameter {
 
   public function nullableParamAction(?\DateTime $param) {
   }
+
 }

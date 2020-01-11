@@ -182,4 +182,5 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
       $route->setDefault('_title_callback', $this->getCallback());
     }
   }
+
 }

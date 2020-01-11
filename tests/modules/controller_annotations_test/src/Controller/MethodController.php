@@ -36,4 +36,5 @@ class MethodController extends ControllerBase {
   public function getAndPostAction() {
     return new Response('ClassRouteController::getAndPostAction');
   }
+
 }

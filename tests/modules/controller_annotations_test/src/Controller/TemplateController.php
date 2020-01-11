@@ -68,4 +68,5 @@ class TemplateController extends ControllerBase {
    */
   public function varsAction($name = 'World') {
   }
+
 }

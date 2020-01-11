@@ -52,4 +52,5 @@ class AnnotatedRouteControllerLoaderTest extends UnitTestCase {
 
     m::close();
   }
+
 }

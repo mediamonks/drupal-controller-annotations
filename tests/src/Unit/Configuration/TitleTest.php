@@ -51,4 +51,5 @@ class TitleTest extends UnitTestCase {
     $this->setExpectedException(\RuntimeException::class);
     new Title(['foo' => 'bar']);
   }
+
 }

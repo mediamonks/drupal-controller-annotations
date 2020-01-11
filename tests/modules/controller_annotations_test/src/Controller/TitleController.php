@@ -54,4 +54,5 @@ class TitleController extends ControllerBase {
   public function title() {
     return 'Hello Callback Inline';
   }
+
 }

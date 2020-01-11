@@ -70,4 +70,5 @@ class DateTimeParamConverter implements ParamConverterInterface {
   public function supports(ParamConverter $configuration) {
     return \DateTime::class === $configuration->getClass();
   }
+
 }

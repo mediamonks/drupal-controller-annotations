@@ -92,4 +92,5 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
   protected function modifyRoute(RoutingRoute $route) {
     $route->setMethods($this->getMethods());
   }
+
 }

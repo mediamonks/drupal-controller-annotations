@@ -18,4 +18,5 @@ abstract class ConfigurationAnnotation implements ConfigurationInterface {
       $this->$name($v);
     }
   }
+
 }

@@ -50,4 +50,5 @@ class SecurityTest extends UnitTestCase {
 
     m::close();
   }
+
 }

@@ -95,4 +95,5 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
       $route->setOption('_admin_route', true);
     }
   }
+
 }

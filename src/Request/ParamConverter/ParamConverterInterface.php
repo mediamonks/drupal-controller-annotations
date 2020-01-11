@@ -31,4 +31,5 @@ interface ParamConverterInterface {
    * @return bool True if the object is supported, else false
    */
   public function supports(ParamConverter $configuration);
+
 }

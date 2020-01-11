@@ -137,4 +137,5 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   protected function setAccount(AccountInterface $account) {
     $this->kernel->getContainer()->get('current_user')->setAccount($account);
   }
+
 }

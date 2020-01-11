@@ -188,4 +188,5 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
       KernelEvents::VIEW => ['onKernelView', 10],
     ];
   }
+
 }

@@ -10,4 +10,5 @@ class Custom {
   public function title() {
     return 'Hello Callback';
   }
+
 }

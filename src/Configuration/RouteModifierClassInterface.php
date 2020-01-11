@@ -12,4 +12,5 @@ interface RouteModifierClassInterface extends RouteModifierInterface {
    * @param \ReflectionMethod $method
    */
   public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method);
+
 }

@@ -131,4 +131,5 @@ class Template extends ConfigurationAnnotation {
   public function getOwner() {
     return $this->owner;
   }
+
 }

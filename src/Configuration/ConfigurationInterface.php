@@ -22,4 +22,5 @@ interface ConfigurationInterface {
    * @return bool
    */
   public function allowArray();
+
 }

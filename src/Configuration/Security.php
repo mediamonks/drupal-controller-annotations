@@ -231,4 +231,5 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
       $route->setRequirement('_custom_access', $this->getCustom());
     }
   }
+
 }

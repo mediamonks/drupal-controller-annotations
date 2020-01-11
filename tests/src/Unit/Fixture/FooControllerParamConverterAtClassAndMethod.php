@@ -14,4 +14,5 @@ class FooControllerParamConverterAtClassAndMethod {
    */
   public function barAction($test, $test2) {
   }
+
 }

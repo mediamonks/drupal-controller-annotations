@@ -168,6 +168,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase {
 
     $this->assertNull(m::close());
   }
+
 }
 
 class ParamConverterTestController {
@@ -177,16 +178,19 @@ class ParamConverterTestController {
 
   public function dateAction(\DateTime $date) {
   }
+
 }
 
 class ParamConverterInvokableNoArgController {
 
   public function __invoke(Request $request) {
   }
+
 }
 
 class ParamConverterInvokableController {
 
   public function __invoke(\DateTime $date) {
   }
+
 }

@@ -22,4 +22,5 @@ class TestUserSession extends UserSession {
 
     return in_array($permission, $this->permissions);
   }
+
 }

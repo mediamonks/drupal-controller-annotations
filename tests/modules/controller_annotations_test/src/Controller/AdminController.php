@@ -26,4 +26,5 @@ class AdminController extends ControllerBase {
   public function normalAction() {
     return [];
   }
+
 }

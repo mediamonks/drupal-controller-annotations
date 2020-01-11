@@ -51,4 +51,5 @@ class CacheTest extends UnitTestCase {
 
     $this->assertFalse($cache->allowArray());
   }
+
 }

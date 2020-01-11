@@ -97,4 +97,5 @@ class TemplateResolverTest extends UnitTestCase {
     $this->setExpectedException(\InvalidArgumentException::class);
     $this->templateResolver->resolveByControllerAndAction('Foo', 'fooAction');
   }
+
 }

@@ -165,4 +165,5 @@ class ParamConverter extends ConfigurationAnnotation {
   public function allowArray() {
     return true;
   }
+
 }
