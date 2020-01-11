@@ -42,7 +42,7 @@ class RouteEventSubscriberTest extends UnitTestCase {
    */
   protected function getRouteCollection() {
     if (empty($this->routeCollection)) {
-      $this->routeCollection = new RouteCollection;
+      $this->routeCollection = new RouteCollection();
     }
 
     return $this->routeCollection;
@@ -53,7 +53,7 @@ class RouteEventSubscriberTest extends UnitTestCase {
    */
   protected function getAnnotatedRouteCollection() {
     if (empty($this->annotatedRouteCollection)) {
-      $this->annotatedRouteCollection = new RouteCollection;
+      $this->annotatedRouteCollection = new RouteCollection();
     }
 
     return $this->annotatedRouteCollection;
