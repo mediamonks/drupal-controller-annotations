@@ -57,7 +57,8 @@ class ParamConverter extends ConfigurationAnnotation {
   /**
    * Sets the parameter name.
    *
-   * @param string $name The parameter name
+   * @param string $name
+   *   The parameter name.
    */
   public function setValue($name) {
     $this->setName($name);
@@ -66,7 +67,8 @@ class ParamConverter extends ConfigurationAnnotation {
   /**
    * Sets the parameter name.
    *
-   * @param string $name The parameter name
+   * @param string $name
+   *   The parameter name.
    */
   public function setName($name) {
     $this->name = $name;
@@ -84,7 +86,8 @@ class ParamConverter extends ConfigurationAnnotation {
   /**
    * Sets the parameter class name.
    *
-   * @param string $class The parameter class name
+   * @param string $class
+   *   The parameter class name.
    */
   public function setClass($class) {
     $this->class = $class;
@@ -102,7 +105,8 @@ class ParamConverter extends ConfigurationAnnotation {
   /**
    * Sets an array of options.
    *
-   * @param array $options An array of options
+   * @param array $options
+   *   An array of options.
    */
   public function setOptions($options) {
     $this->options = $options;
@@ -111,7 +115,8 @@ class ParamConverter extends ConfigurationAnnotation {
   /**
    * Sets whether or not the parameter is optional.
    *
-   * @param bool $optional Whether the parameter is optional
+   * @param bool $optional
+   *   Whether the parameter is optional.
    */
   public function setIsOptional($optional) {
     $this->optional = (bool)$optional;

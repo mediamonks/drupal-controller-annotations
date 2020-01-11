@@ -27,8 +27,10 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface {
   private $isParameterTypeSupported;
 
   /**
-   * @param \Drupal\controller_annotations\Configuration\ParamConverterManager $manager A ParamConverterManager instance
-   * @param bool $autoConvert Auto convert non-configured objects
+   * @param \Drupal\controller_annotations\Configuration\ParamConverterManager $manager
+   *   A ParamConverterManager instance.
+   * @param bool $autoConvert
+   *   Auto convert non-configured objects.
    */
   public function __construct(ParamConverterManager $manager, $autoConvert = TRUE) {
     $this->manager = $manager;
@@ -39,7 +41,8 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface {
   /**
    * Modifies the ParamConverterManager instance.
    *
-   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event A FilterControllerEvent instance
+   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
+   *   A FilterControllerEvent instance.
    */
   public function onKernelController(FilterControllerEvent $event) {
     $controller = $event->getController();

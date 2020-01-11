@@ -61,7 +61,8 @@ class Template extends ConfigurationAnnotation {
   /**
    * Sets the template variables.
    *
-   * @param array $vars The template variables
+   * @param array $vars
+   *   The template variables.
    */
   public function setVars($vars) {
     $this->vars = $vars;
@@ -70,7 +71,8 @@ class Template extends ConfigurationAnnotation {
   /**
    * Sets the template logic name.
    *
-   * @param string $template The template logic name
+   * @param string $template
+   *   The template logic name.
    */
   public function setValue($template) {
     $this->setTemplate($template);
@@ -88,7 +90,8 @@ class Template extends ConfigurationAnnotation {
   /**
    * Sets the template reference.
    *
-   * @param string $template The template reference
+   * @param string $template
+   *   The template reference.
    */
   public function setTemplate($template) {
     $this->template = $template;

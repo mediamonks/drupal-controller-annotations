@@ -38,7 +38,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
    * Guesses the template name to render and its variables and adds them to
    * the request object.
    *
-   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event A FilterControllerEvent instance
+   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
+   *   A FilterControllerEvent instance.
    */
   public function onKernelController(FilterControllerEvent $event) {
     $template = $this->getTemplateFromRequest($event);

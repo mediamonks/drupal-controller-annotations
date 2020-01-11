@@ -70,7 +70,8 @@ class Cache extends ConfigurationAnnotation {
   /**
    * Sets the expiration date for the Expires header field.
    *
-   * @param string $expires A valid php date
+   * @param string $expires
+   *   A valid php date.
    */
   public function setExpires($expires) {
     $this->expires = $expires;
@@ -79,7 +80,8 @@ class Cache extends ConfigurationAnnotation {
   /**
    * Sets the number of seconds for the max-age cache-control header field.
    *
-   * @param int $maxage A number of seconds
+   * @param int $maxage
+   *   A number of seconds.
    */
   public function setMaxAge($maxage) {
     $this->maxage = $maxage;
@@ -98,7 +100,8 @@ class Cache extends ConfigurationAnnotation {
   /**
    * Sets the number of seconds for the s-maxage cache-control header field.
    *
-   * @param int $smaxage A number of seconds
+   * @param int $smaxage
+   *   A number of seconds.
    */
   public function setSMaxAge($smaxage) {
     $this->smaxage = $smaxage;
@@ -135,7 +138,8 @@ class Cache extends ConfigurationAnnotation {
   /**
    * Sets a response public.
    *
-   * @param bool $public A boolean value
+   * @param bool $public
+   *   A boolean value.
    */
   public function setPublic($public) {
     $this->public = (bool)$public;

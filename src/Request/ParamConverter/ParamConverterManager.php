@@ -109,9 +109,12 @@ class ParamConverterManager {
    * added converter will not be part of the iteration chain and can only
    * be invoked explicitly.
    *
-   * @param \Drupal\controller_annotations\Configuration\ParamConverterInterface $converter A ParamConverterInterface instance
-   * @param int $priority The priority (between -10 and 10).
-   * @param string $name Name of the converter.
+   * @param \Drupal\controller_annotations\Configuration\ParamConverterInterface $converter
+   *   A ParamConverterInterface instance.
+   * @param int $priority
+   *   The priority (between -10 and 10).
+   * @param string $name
+   *   Name of the converter.
    */
   public function add(ParamConverterInterface $converter, $priority = 0, $name = NULL) {
     if ($priority !== NULL) {
