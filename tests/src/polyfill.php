@@ -1,6 +1,7 @@
 <?php
 
 if (!function_exists('drupal_get_path')) {
+
   function drupal_get_path($type, $name) {
     switch ($type) {
       case 'module':
@@ -11,4 +12,5 @@ if (!function_exists('drupal_get_path')) {
       sprintf('Type "%s" not implemented by this polyfill method', $type)
     );
   }
+
 }
