@@ -30,6 +30,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
    * configuration.
    *
    * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
+   *
    * @throws \ReflectionException
    */
   public function onKernelController(FilterControllerEvent $event) {

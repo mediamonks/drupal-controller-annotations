@@ -14,6 +14,7 @@ class TemplateResolver {
    *
    * @param string $controllerClass
    * @param string $action
+   *
    * @return string
    */
   public function resolveByControllerAndAction(string $controllerClass, string $action): string {
@@ -47,6 +48,7 @@ class TemplateResolver {
    * "modules/<module>/templates/<module>-<controller>(-<action>).html.twig"
    *
    * @param string $template
+   *
    * @return string
    */
   public function normalize(string $template): string {

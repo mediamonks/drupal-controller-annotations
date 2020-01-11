@@ -160,6 +160,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @param array $arguments
+   *
    * @return array
    */
   private function resolveParametersWithReflection(Request $request, array $arguments) {
