@@ -17,7 +17,8 @@ class DateTimeParamConverter implements ParamConverterInterface {
   /**
    * {@inheritdoc}
    *
-   * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException When invalid date given
+   * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+   *   When invalid date given.
    */
   public function apply(Request $request, ParamConverter $configuration) {
     $param = $configuration->getName();
