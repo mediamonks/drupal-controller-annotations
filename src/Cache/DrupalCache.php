@@ -73,7 +73,7 @@ class DrupalCache extends CacheProvider {
    * @inheritdoc
    */
   protected function doGetStats() {
-    return;
+    return NULL;
   }
 
 }
