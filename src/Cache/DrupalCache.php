@@ -7,78 +7,78 @@ use Drupal\Core\Cache\CacheBackendInterface;
 
 class DrupalCache extends CacheProvider
 {
-    /**
-     * @var CacheBackendInterface
-     */
-    private $cache;
+  /**
+   * @var CacheBackendInterface
+   */
+  private $cache;
 
-    /**
-     * @param CacheBackendInterface $cache
-     */
-    public function __construct(CacheBackendInterface $cache)
-    {
-        $this->cache = $cache;
+  /**
+   * @param CacheBackendInterface $cache
+   */
+  public function __construct(CacheBackendInterface $cache)
+  {
+    $this->cache = $cache;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  protected function doFetch($id)
+  {
+    if ($cache = $this->cache->get($id)) {
+      return $cache->data;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doFetch($id)
-    {
-        if ($cache = $this->cache->get($id)) {
-            return $cache->data;
-        }
+    return false;
+  }
 
-        return false;
+  /**
+   * @inheritdoc
+   */
+  protected function doContains($id)
+  {
+    return $this->doFetch($id) !== false;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  protected function doSave($id, $data, $lifeTime = 0)
+  {
+    if ($lifeTime === 0) {
+      $this->cache->set($id, $data);
+    } else {
+      $this->cache->set($id, $data, time() + $lifeTime);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doContains($id)
-    {
-        return $this->doFetch($id) !== false;
-    }
+    return true;
+  }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doSave($id, $data, $lifeTime = 0)
-    {
-        if ($lifeTime === 0) {
-            $this->cache->set($id, $data);
-        } else {
-            $this->cache->set($id, $data, time() + $lifeTime);
-        }
+  /**
+   * @inheritdoc
+   */
+  protected function doDelete($id)
+  {
+    $this->cache->delete($id);
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doDelete($id)
-    {
-        $this->cache->delete($id);
+  /**
+   * @inheritdoc
+   */
+  protected function doFlush()
+  {
+    $this->cache->deleteAll();
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doFlush()
-    {
-        $this->cache->deleteAll();
-
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function doGetStats()
-    {
-        return;
-    }
+  /**
+   * @inheritdoc
+   */
+  protected function doGetStats()
+  {
+    return;
+  }
 }

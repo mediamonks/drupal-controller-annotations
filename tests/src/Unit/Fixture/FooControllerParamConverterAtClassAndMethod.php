@@ -9,10 +9,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class FooControllerParamConverterAtClassAndMethod
 {
-    /**
-     * @ParamConverter("test2")
-     */
-    public function barAction($test, $test2)
-    {
-    }
+  /**
+   * @ParamConverter("test2")
+   */
+  public function barAction($test, $test2)
+  {
+  }
 }

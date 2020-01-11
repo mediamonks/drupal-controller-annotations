@@ -11,21 +11,21 @@ use Drupal\controller_annotations\Configuration\Security;
  */
 class AdminController extends ControllerBase
 {
-    /**
-     * @Route("admin", admin=true)
-     * @Security(role="administrator")
-     */
-    public function adminAction()
-    {
-        return [];
-    }
+  /**
+   * @Route("admin", admin=true)
+   * @Security(role="administrator")
+   */
+  public function adminAction()
+  {
+    return [];
+  }
 
-    /**
-     * @Route("normal")
-     * @Security(role="administrator")
-     */
-    public function normalAction()
-    {
-        return [];
-    }
+  /**
+   * @Route("normal")
+   * @Security(role="administrator")
+   */
+  public function normalAction()
+  {
+    return [];
+  }
 }

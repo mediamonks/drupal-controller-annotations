@@ -12,21 +12,21 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PrefixedRouteController extends ControllerBase
 {
-    /**
-     * @Route
-     * @Security(access=true)
-     */
-    public function emptyRouteAction()
-    {
-        return new Response('PrefixedBasicController::emptyRouteAction');
-    }
+  /**
+   * @Route
+   * @Security(access=true)
+   */
+  public function emptyRouteAction()
+  {
+    return new Response('PrefixedBasicController::emptyRouteAction');
+  }
 
-    /**
-     * @Route("/named", name="named_route")
-     * @Security(access=true)
-     */
-    public function namedRouteAction()
-    {
-        return new Response('PrefixedBasicController::namedRouteAction');
-    }
+  /**
+   * @Route("/named", name="named_route")
+   * @Security(access=true)
+   */
+  public function namedRouteAction()
+  {
+    return new Response('PrefixedBasicController::namedRouteAction');
+  }
 }

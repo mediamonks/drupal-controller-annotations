@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ServiceController
 {
-    /**
-     * @Route("test/service")
-     * @Security(access=true)
-     */
-    public function getAction()
-    {
-        return new Response('ServiceController::getAction');
-    }
+  /**
+   * @Route("test/service")
+   * @Security(access=true)
+   */
+  public function getAction()
+  {
+    return new Response('ServiceController::getAction');
+  }
 }

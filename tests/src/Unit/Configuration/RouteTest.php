@@ -9,57 +9,57 @@ use Symfony\Component\Routing\Route;
 
 class RouteTest extends UnitTestCase
 {
-    public function testModifyRouteClass()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', true]);
+  public function testModifyRouteClass()
+  {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', true]);
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        $routeConfig = new RouteConfiguration(['admin' => true]);
-        $this->assertNull($routeConfig->modifyRouteClass($route, $class, $method));
+    $routeConfig = new RouteConfiguration(['admin' => true]);
+    $this->assertNull($routeConfig->modifyRouteClass($route, $class, $method));
 
-        m::close();
-    }
+    m::close();
+  }
 
-    public function testModifyMethodClass()
-    {
-        $route = m::mock(Route::class);
+  public function testModifyMethodClass()
+  {
+    $route = m::mock(Route::class);
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        $routeConfig = new RouteConfiguration([]);
-        $this->assertNull($routeConfig->modifyRouteMethod($route, $class, $method));
+    $routeConfig = new RouteConfiguration([]);
+    $this->assertNull($routeConfig->modifyRouteMethod($route, $class, $method));
 
-        m::close();
-    }
+    m::close();
+  }
 
-    public function testServiceNotAllowedOnMethodLevel()
-    {
-        $this->setExpectedException(\LogicException::class);
+  public function testServiceNotAllowedOnMethodLevel()
+  {
+    $this->setExpectedException(\LogicException::class);
 
-        $route = m::mock(Route::class);
+    $route = m::mock(Route::class);
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        $routeConfig = new RouteConfiguration(['service' => 'foo']);
-        $this->assertNull($routeConfig->modifyRouteMethod($route, $class, $method));
+    $routeConfig = new RouteConfiguration(['service' => 'foo']);
+    $this->assertNull($routeConfig->modifyRouteMethod($route, $class, $method));
 
-        m::close();
-    }
+    m::close();
+  }
 
-    public function testAllowArray()
-    {
-        $routeConfig = new RouteConfiguration([]);
-        $this->assertTrue($routeConfig->allowArray());
-    }
+  public function testAllowArray()
+  {
+    $routeConfig = new RouteConfiguration([]);
+    $this->assertTrue($routeConfig->allowArray());
+  }
 
-    public function testUnknownProperty()
-    {
-        $this->setExpectedException(\BadMethodCallException::class);
-        new RouteConfiguration(['foo' => 'bar']);
-    }
+  public function testUnknownProperty()
+  {
+    $this->setExpectedException(\BadMethodCallException::class);
+    new RouteConfiguration(['foo' => 'bar']);
+  }
 }

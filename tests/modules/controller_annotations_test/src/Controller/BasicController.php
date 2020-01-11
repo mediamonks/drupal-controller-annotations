@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BasicController extends ControllerBase
 {
-    /**
-     * @Route("test/basic")
-     */
-    public function basicAction()
-    {
-        return new Response('BasicController::basicAction');
-    }
+  /**
+   * @Route("test/basic")
+   */
+  public function basicAction()
+  {
+    return new Response('BasicController::basicAction');
+  }
 }

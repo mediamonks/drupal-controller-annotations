@@ -10,96 +10,96 @@ use StdClass;
 
 class DrupalCacheTest extends UnitTestCase
 {
-    public function testDoFetch()
-    {
-        $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
+  public function testDoFetch()
+  {
+    $drupalCache = $this->getDrupalCacheMock();
+    $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
 
-        $cache = new DrupalCache($drupalCache);
+    $cache = new DrupalCache($drupalCache);
 
-        $this->assertEquals('bar', $cache->fetch('foo'));
-    }
+    $this->assertEquals('bar', $cache->fetch('foo'));
+  }
 
-    public function testDoContains()
-    {
-        $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
-        $drupalCache->shouldReceive('get')->once()->withArgs(['[bar][1]'])->andReturn(false);
+  public function testDoContains()
+  {
+    $drupalCache = $this->getDrupalCacheMock();
+    $drupalCache->shouldReceive('get')->once()->withArgs(['[foo][1]'])->andReturn($this->getCacheData('bar'));
+    $drupalCache->shouldReceive('get')->once()->withArgs(['[bar][1]'])->andReturn(false);
 
-        $cache = new DrupalCache($drupalCache);
-        $this->assertTrue($cache->contains('foo'));
-        $this->assertFalse($cache->contains('bar'));
-    }
+    $cache = new DrupalCache($drupalCache);
+    $this->assertTrue($cache->contains('foo'));
+    $this->assertFalse($cache->contains('bar'));
+  }
 
-    public function testSave()
-    {
-        $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('set')->once()->withArgs(['[foo][1]', 'bar'])->andReturnNull();
-        $drupalCache->shouldReceive('set')->once()->withArgs(['[foo][1]', 'bar', m::any()])->andReturnNull();
+  public function testSave()
+  {
+    $drupalCache = $this->getDrupalCacheMock();
+    $drupalCache->shouldReceive('set')->once()->withArgs(['[foo][1]', 'bar'])->andReturnNull();
+    $drupalCache->shouldReceive('set')->once()->withArgs(['[foo][1]', 'bar', m::any()])->andReturnNull();
 
-        $cache = new DrupalCache($drupalCache);
-        $this->assertTrue($cache->save('foo', 'bar'));
-        $this->assertTrue($cache->save('foo', 'bar', 1));
+    $cache = new DrupalCache($drupalCache);
+    $this->assertTrue($cache->save('foo', 'bar'));
+    $this->assertTrue($cache->save('foo', 'bar', 1));
 
-        m::close();
-    }
+    m::close();
+  }
 
-    public function testDelete()
-    {
-        $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('delete')->once()->withArgs(['[foo][1]'])->andReturnNull();
+  public function testDelete()
+  {
+    $drupalCache = $this->getDrupalCacheMock();
+    $drupalCache->shouldReceive('delete')->once()->withArgs(['[foo][1]'])->andReturnNull();
 
-        $cache = new DrupalCache($drupalCache);
+    $cache = new DrupalCache($drupalCache);
 
-        $this->assertTrue($cache->delete('foo'));
-    }
+    $this->assertTrue($cache->delete('foo'));
+  }
 
-    public function testFlushAll()
-    {
-        $drupalCache = $this->getDrupalCacheMock();
-        $drupalCache->shouldReceive('deleteAll')->once()->withNoArgs()->andReturnNull();
+  public function testFlushAll()
+  {
+    $drupalCache = $this->getDrupalCacheMock();
+    $drupalCache->shouldReceive('deleteAll')->once()->withNoArgs()->andReturnNull();
 
-        $cache = new DrupalCache($drupalCache);
+    $cache = new DrupalCache($drupalCache);
 
-        $this->assertTrue($cache->flushAll());
-    }
+    $this->assertTrue($cache->flushAll());
+  }
 
-    public function testGetStats()
-    {
-        $drupalCache = $this->getDrupalCacheMock();
-        $cache = new DrupalCache($drupalCache);
+  public function testGetStats()
+  {
+    $drupalCache = $this->getDrupalCacheMock();
+    $cache = new DrupalCache($drupalCache);
 
-        $this->assertNull($cache->getStats());
-    }
+    $this->assertNull($cache->getStats());
+  }
 
-    /**
-     * @return CacheBackendInterface
-     */
-    protected function getDrupalCacheMock()
-    {
-        $drupalCache = m::mock(CacheBackendInterface::class);
-        $drupalCache->shouldReceive('get')->withArgs(['DoctrineNamespaceCacheKey[]'])->andReturnNull();
+  /**
+   * @return CacheBackendInterface
+   */
+  protected function getDrupalCacheMock()
+  {
+    $drupalCache = m::mock(CacheBackendInterface::class);
+    $drupalCache->shouldReceive('get')->withArgs(['DoctrineNamespaceCacheKey[]'])->andReturnNull();
 
-        return $drupalCache;
-    }
+    return $drupalCache;
+  }
 
-    /**
-     * @param $data
-     *
-     * @return StdClass
-     */
-    protected function getCacheData($data)
-    {
-      $cacheData = new StdClass();
-      $cacheData->data = $data;
+  /**
+   * @param $data
+   *
+   * @return StdClass
+   */
+  protected function getCacheData($data)
+  {
+    $cacheData = new StdClass();
+    $cacheData->data = $data;
 
-      return $cacheData;
-    }
+    return $cacheData;
+  }
 
-    protected function tearDown()
-    {
-        m::close();
+  protected function tearDown()
+  {
+    m::close();
 
-        parent::tearDown();
-    }
+    parent::tearDown();
+  }
 }

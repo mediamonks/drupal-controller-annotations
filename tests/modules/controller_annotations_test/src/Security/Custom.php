@@ -7,12 +7,12 @@ use Drupal\Core\Session\AccountInterface;
 
 class Custom
 {
-    /**
-     * @param AccountInterface $account
-     * @return AccessResult
-     */
-    public function access(AccountInterface $account)
-    {
-        return AccessResult::allowedIf($account->id() === 1337);
-    }
+  /**
+   * @param AccountInterface $account
+   * @return AccessResult
+   */
+  public function access(AccountInterface $account)
+  {
+    return AccessResult::allowedIf($account->id() === 1337);
+  }
 }
