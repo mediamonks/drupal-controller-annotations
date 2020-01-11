@@ -14,7 +14,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @var array
    */
-  protected $methods = array();
+  protected $methods = [];
 
   /**
    * Returns the array of HTTP methods.
@@ -32,7 +32,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *   An HTTP method or an array of HTTP methods.
    */
   public function setMethods($methods) {
-    $this->methods = is_array($methods) ? $methods : array($methods);
+    $this->methods = is_array($methods) ? $methods : [$methods];
   }
 
   /**

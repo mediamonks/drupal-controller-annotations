@@ -138,7 +138,7 @@ class ParamConverterManager {
   public function all() {
     krsort($this->converters);
 
-    $converters = array();
+    $converters = [];
     foreach ($this->converters as $all) {
       $converters = array_merge($converters, $all);
     }

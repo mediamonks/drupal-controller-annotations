@@ -36,7 +36,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
     $controller = $event->getController();
 
     if (!is_array($controller) && method_exists($controller, '__invoke')) {
-      $controller = array($controller, '__invoke');
+      $controller = [$controller, '__invoke'];
     }
 
     if (!is_array($controller)) {

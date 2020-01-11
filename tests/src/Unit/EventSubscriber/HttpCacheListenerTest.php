@@ -15,7 +15,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   public function setUp() {
     $this->listener = new HttpCacheEventSubscriber();
     $this->response = new Response();
-    $this->cache = new Cache(array());
+    $this->cache = new Cache([]);
     $this->request = $this->createRequest($this->cache);
     $this->event = $this->createEventMock($this->request, $this->response);
   }
@@ -43,9 +43,9 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testResponseIsPublicIfConfigurationIsPublicTrue() {
-    $request = $this->createRequest(new Cache(array(
+    $request = $this->createRequest(new Cache([
       'public' => TRUE,
-    )));
+    ]));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
 
@@ -54,9 +54,9 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testResponseIsPrivateIfConfigurationIsPublicFalse() {
-    $request = $this->createRequest(new Cache(array(
+    $request = $this->createRequest(new Cache([
           'public' => FALSE,
-        )));
+        ]));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
 
@@ -65,8 +65,8 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testResponseVary() {
-    $vary = array('foobar');
-    $request = $this->createRequest(new Cache(array('vary' => $vary)));
+    $vary = ['foobar'];
+    $request = $this->createRequest(new Cache(['vary' => $vary]));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
     $this->assertTrue($this->response->hasVary());
@@ -75,8 +75,8 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testResponseVaryWhenVaryNotSet() {
-    $request = $this->createRequest(new Cache(array()));
-    $vary = array('foobar');
+    $request = $this->createRequest(new Cache([]));
+    $vary = ['foobar'];
     $this->response->setVary($vary);
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
@@ -87,7 +87,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testResponseIsPrivateIfConfigurationIsPublicNotSet() {
-    $request = $this->createRequest(new Cache(array()));
+    $request = $this->createRequest(new Cache([]));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
 
@@ -99,11 +99,11 @@ class HttpCacheListenerTest extends UnitTestCase {
     $this->assertInternalType('null', $this->response->getExpires());
     $this->assertFalse($this->response->headers->hasCacheControlDirective('s-maxage'));
 
-    $this->request->attributes->set('_cache', new Cache(array(
+    $this->request->attributes->set('_cache', new Cache([
       'expires' => 'tomorrow',
       'smaxage' => '15',
       'maxage' => '15',
-    )));
+    ]));
 
     $this->listener->onKernelResponse($this->event);
 
@@ -113,10 +113,10 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testCacheMaxAgeSupportsStrtotimeFormat() {
-    $this->request->attributes->set('_cache', new Cache(array(
+    $this->request->attributes->set('_cache', new Cache([
       'smaxage' => '1 day',
       'maxage' => '1 day',
-    )));
+    ]));
 
     $this->listener->onKernelResponse($this->event);
 
@@ -125,9 +125,9 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testLastModifiedNotModifiedResponse() {
-    $request = $this->createRequest(new Cache(array('lastModified' => 'test.getDate()')));
+    $request = $this->createRequest(new Cache(['lastModified' => 'test.getDate()']));
     $request->attributes->set('test', new TestEntity());
-    $request->headers->add(array('If-Modified-Since' => 'Fri, 23 Aug 2013 00:00:00 GMT'));
+    $request->headers->add(['If-Modified-Since' => 'Fri, 23 Aug 2013 00:00:00 GMT']);
 
     $listener = new HttpCacheEventSubscriber();
     $controllerEvent = new FilterControllerEvent($this->getKernel(), function () {
@@ -141,7 +141,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testLastModifiedHeader() {
-    $request = $this->createRequest(new Cache(array('lastModified' => 'test.getDate()')));
+    $request = $this->createRequest(new Cache(['lastModified' => 'test.getDate()']));
     $request->attributes->set('test', new TestEntity());
     $response = new Response();
 
@@ -162,9 +162,9 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testETagNotModifiedResponse() {
-    $request = $this->createRequest(new Cache(array('etag' => 'test.getId()')));
+    $request = $this->createRequest(new Cache(['etag' => 'test.getId()']));
     $request->attributes->set('test', $entity = new TestEntity());
-    $request->headers->add(array('If-None-Match' => sprintf('"%s"', hash('sha256', $entity->getId()))));
+    $request->headers->add(['If-None-Match' => sprintf('"%s"', hash('sha256', $entity->getId()))]);
 
     $listener = new HttpCacheEventSubscriber();
     $controllerEvent = new FilterControllerEvent($this->getKernel(), function () {
@@ -178,7 +178,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   public function testETagHeader() {
-    $request = $this->createRequest(new Cache(array('ETag' => 'test.getId()')));
+    $request = $this->createRequest(new Cache(['ETag' => 'test.getId()']));
     $request->attributes->set('test', $entity = new TestEntity());
     $response = new Response();
 
@@ -199,9 +199,9 @@ class HttpCacheListenerTest extends UnitTestCase {
   }
 
   private function createRequest(Cache $cache = NULL) {
-    return new Request(array(), array(), array(
+    return new Request([], [], [
       '_cache' => $cache,
-    ));
+    ]);
   }
 
   private function createEventMock(Request $request, Response $response) {
