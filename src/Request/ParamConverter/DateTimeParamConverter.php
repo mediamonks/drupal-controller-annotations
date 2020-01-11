@@ -50,7 +50,8 @@ class DateTimeParamConverter implements ParamConverterInterface {
 
     if (isset($options['format'])) {
       $date = DateTime::createFromFormat($options['format'], $value);
-    } elseif (false !== strtotime($value)) {
+    }
+    elseif (false !== strtotime($value)) {
       $date = new DateTime($value);
     }
 

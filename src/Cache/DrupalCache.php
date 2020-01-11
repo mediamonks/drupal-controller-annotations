@@ -43,7 +43,8 @@ class DrupalCache extends CacheProvider {
   protected function doSave($id, $data, $lifeTime = 0) {
     if ($lifeTime === 0) {
       $this->cache->set($id, $data);
-    } else {
+    }
+    else {
       $this->cache->set($id, $data, time() + $lifeTime);
     }
 

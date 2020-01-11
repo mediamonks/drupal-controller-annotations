@@ -78,9 +78,11 @@ class RouteEventSubscriber implements EventSubscriberInterface {
   protected function getRoutePath(Route $route) {
     if ($route->hasOption('path')) {
       $path = $route->getOption('path');
-    } elseif ($route->hasOption('module')) {
+    }
+    elseif ($route->hasOption('module')) {
       $path = sprintf('/%s/src/Controller', drupal_get_path('module', $route->getOption('module')));
-    } else {
+    }
+    else {
       throw new \Exception(
         'Either the "resource" or "module"  option is required to load from annotations'
       );

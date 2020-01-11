@@ -77,9 +77,11 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
     foreach (array_merge(array_keys($classConfigurations), array_keys($methodConfigurations)) as $key) {
       if (!array_key_exists($key, $classConfigurations)) {
         $configurations[$key] = $methodConfigurations[$key];
-      } elseif (!array_key_exists($key, $methodConfigurations)) {
+      }
+      elseif (!array_key_exists($key, $methodConfigurations)) {
         $configurations[$key] = $classConfigurations[$key];
-      } else {
+      }
+      else {
         if (is_array($classConfigurations[$key])) {
           if (!is_array($methodConfigurations[$key])) {
             throw new \UnexpectedValueException(
@@ -87,7 +89,8 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
             );
           }
           $configurations[$key] = array_merge($classConfigurations[$key], $methodConfigurations[$key]);
-        } else {
+        }
+        else {
           // method configuration overrides class configuration
           $configurations[$key] = $methodConfigurations[$key];
         }
@@ -108,9 +111,11 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
       if ($configuration instanceof ConfigurationInterface) {
         if ($configuration->allowArray()) {
           $configurations['_'.$configuration->getAliasName()][] = $configuration;
-        } elseif (!isset($configurations['_'.$configuration->getAliasName()])) {
+        }
+        elseif (!isset($configurations['_'.$configuration->getAliasName()])) {
           $configurations['_'.$configuration->getAliasName()] = $configuration;
-        } else {
+        }
+        else {
           throw new \LogicException(
             sprintf('Multiple "%s" annotations are not allowed.', $configuration->getAliasName())
           );

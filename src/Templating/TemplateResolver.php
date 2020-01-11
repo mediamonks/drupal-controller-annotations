@@ -21,7 +21,8 @@ class TemplateResolver {
     if (!empty($data)) {
       $module = $data[1];
       $controller = $data[2];
-    } else {
+    }
+    else {
       throw new \InvalidArgumentException(
         sprintf('Controller class "%s" not supported', $controllerClass)
       );

@@ -82,7 +82,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
         get_class($template->getOwner()[0]),
         $template->getOwner()[1]
       );
-    } else {
+    }
+    else {
       $templateFile = $this->resolver->normalize($template->getTemplate());
     }
 
@@ -104,7 +105,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
       };
 
       $event->setResponse(new StreamedResponse($callback));
-    } else {
+    }
+    else {
       $event->setResponse(new Response($this->twig->render($template->getTemplate(), $parameters)));
     }
   }
@@ -168,7 +170,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
         && $argument->isDefaultValueAvailable()
           ? $argument->getDefaultValue()
           : $request->attributes->get($name);
-      } else {
+      }
+      else {
         $parameters[$argument] = $request->attributes->get($argument);
       }
     }
