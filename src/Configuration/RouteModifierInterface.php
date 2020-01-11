@@ -2,6 +2,6 @@
 
 namespace Drupal\controller_annotations\Configuration;
 
-interface RouteModifierInterface
-{
+interface RouteModifierInterface {
+
 }

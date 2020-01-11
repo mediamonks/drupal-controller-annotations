@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+   See http://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php
+   See https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-Ruleset
+-->
+<ruleset name="DrupalFeatures">
+ <description>Drupal coding standard, relaxed for Features module</description>
+
+ <!-- Inherit everything from "Drupal" coding standard. -->
+ <rule ref="Drupal">
+
+  <!-- Ignore violations that we don't intend to fix any time soon. -->
+  <!-- Let's not touch .txt files for now. -->
+  <exclude name="Drupal.Files.TxtFileLineLength.TooLong"/>
+  <!-- Let's not add native 'array' type hints for now. -->
+  <exclude name="Drupal.Commenting.FunctionComment.TypeHintMissing"/>
+  <exclude name="Drupal.Commenting.FunctionComment.ParamCommentFullStop"/>
+  <exclude name="Drupal.Commenting.DocComment.MissingShort"/>
+  <exclude name="Drupal.Commenting.InlineComment.NotCapital"/>
+  <exclude name="Drupal.Commenting.FunctionComment.MissingParamComment"/>
+  <exclude name="Drupal.Commenting.ClassComment.Missing"/>
+  <exclude name="Drupal.Commenting.InlineComment.InvalidEndChar"/>
+  <exclude name="Drupal.Commenting.DocComment.ShortFullStop"/>
+  <exclude name="Drupal.Commenting.DocComment.ShortNotCapital"/>
+  <exclude name="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps"/>
+  <exclude name="Drupal.Commenting.DocComment.ShortSingleLine"/>
+  <exclude name="Drupal.Files.LineLength.TooLong"/>
+  <exclude name="Drupal.Arrays.Array.LongLineDeclaration"/>
+  <exclude name="Drupal.Commenting.VariableComment.Missing"/>
+  <exclude name="Drupal.Commenting.FileComment.Missing"/>
+  <!-- This would require a named alias, which we better avoid. -->
+  <exclude name="Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing"/>
+  <!-- False positives for annotation classes. -->
+  <exclude name="Drupal.Classes.UnusedUseStatement.UnusedUse"/>
+  <!--
+  <exclude name=""/>
+  <exclude name=""/>
+  <exclude name=""/>
+  -->
+
+  <!-- add later! -->
+  <exclude name="Drupal.Commenting.FunctionComment.Missing"/>
+  <exclude name="Drupal.Commenting.FunctionComment.MissingReturnComment"/>
+  <exclude name="Drupal.Commenting.FunctionComment.MissingParamType"/>
+  <exclude name="Drupal.Commenting.DocComment.Empty"/>
+  <exclude name="Drupal.Commenting.FunctionComment.ParamMissingDefinition"/>
+  <!--
+  <exclude name=""/>
+  <exclude name=""/>
+  <exclude name=""/>
+  <exclude name=""/>
+  <exclude name=""/>
+  <exclude name=""/>
+  <exclude name=""/>
+  -->
+
+  <!-- Ignore some rules that produce false positives. -->
+  <!-- This rule expects the wrong indentation for multiline expressions as
+       array values. -->
+  <exclude name="Drupal.Arrays.Array.ArrayIndentation"/>
+  <!-- Some strings for l() should not be translated. -->
+  <exclude name="Drupal.Semantics.LStringTranslatable.LArg"/>
+
+  <!-- More customizations for features. -->
+
+  <!-- Ignore some rules by choice. -->
+  <!-- Inline @var docs for local variables are very useful. -->
+  <exclude name="Drupal.Commenting.InlineComment.DocBlock"/>
+  <!-- Class names like "What_How" are preferable to "HowWhat". -->
+  <exclude name="Drupal.NamingConventions.ValidClassName.NoUnderscores"/>
+  <!-- Param and return docs on hooks may be redundant, but they are empowering
+       for the IDE. -->
+  <exclude name="Drupal.Commenting.HookComment.HookParamDoc"/>
+  <exclude name="Drupal.Commenting.HookComment.HookReturnDoc"/>
+ </rule>
+
+ <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+  <exclude-pattern>tests/features.test</exclude-pattern>
+ </rule>
+
+ <rule ref="Drupal.Files.LineLength.TooLong">
+  <!-- Two function docs have too long lines that cannot be shortened. -->
+  <exclude-pattern>includes/features.ctools.inc</exclude-pattern>
+ </rule>
+
+</ruleset>

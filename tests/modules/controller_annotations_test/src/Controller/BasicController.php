@@ -10,13 +10,13 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Security(access=true)
  */
-class BasicController extends ControllerBase
-{
-    /**
-     * @Route("test/basic")
-     */
-    public function basicAction()
-    {
-        return new Response('BasicController::basicAction');
-    }
+class BasicController extends ControllerBase {
+
+  /**
+   * @Route("test/basic")
+   */
+  public function basicAction() {
+    return new Response('BasicController::basicAction');
+  }
+
 }

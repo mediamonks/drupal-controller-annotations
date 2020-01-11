@@ -13,44 +13,44 @@ use Symfony\Component\Routing\Route;
 /**
  * @group controller_annotations
  */
-class AnnotatedRouteControllerLoaderTest extends UnitTestCase
-{
-    public function testConfigureRoute()
-    {
-        $routeConfiguration = m::mock(\Drupal\controller_annotations\Configuration\Route::class);
-        $routeConfiguration->shouldReceive('getService')->andReturn(false);
-        $routeConfiguration->shouldReceive('isAdmin')->andReturn(true);
-        $routeConfiguration->shouldReceive('modifyRouteMethod')->andReturnNull();
-        $routeConfiguration->shouldReceive('modifyRouteClass')->andReturnNull();
+class AnnotatedRouteControllerLoaderTest extends UnitTestCase {
 
-        $methodConfiguration = m::mock(Method::class);
-        $methodConfiguration->shouldReceive('getMethods')->andReturn(['GET']);
-        $methodConfiguration->shouldReceive('modifyRouteMethod')->andReturnNull();
-        $methodConfiguration->shouldReceive('modifyRouteClass')->andReturnNull();
+  public function testConfigureRoute() {
+    $routeConfiguration = m::mock(\Drupal\controller_annotations\Configuration\Route::class);
+    $routeConfiguration->shouldReceive('getService')->andReturn(FALSE);
+    $routeConfiguration->shouldReceive('isAdmin')->andReturn(TRUE);
+    $routeConfiguration->shouldReceive('modifyRouteMethod')->andReturnNull();
+    $routeConfiguration->shouldReceive('modifyRouteClass')->andReturnNull();
 
-        $reader = m::mock(Reader::class);
-        $reader->shouldReceive('getClassAnnotation')->andReturn($routeConfiguration);
-        $reader->shouldReceive('getMethodAnnotations')->andReturn([
-            $routeConfiguration,
-            $methodConfiguration
-        ]);
-        $reader->shouldReceive('getClassAnnotations')->andReturn([]);
+    $methodConfiguration = m::mock(Method::class);
+    $methodConfiguration->shouldReceive('getMethods')->andReturn(['GET']);
+    $methodConfiguration->shouldReceive('modifyRouteMethod')->andReturnNull();
+    $methodConfiguration->shouldReceive('modifyRouteClass')->andReturnNull();
 
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setDefault')->once();
+    $reader = m::mock(Reader::class);
+    $reader->shouldReceive('getClassAnnotation')->andReturn($routeConfiguration);
+    $reader->shouldReceive('getMethodAnnotations')->andReturn([
+      $routeConfiguration,
+      $methodConfiguration,
+    ]);
+    $reader->shouldReceive('getClassAnnotations')->andReturn([]);
 
-        $reflectionClass = m::mock(\ReflectionClass::class);
-        $reflectionClass->shouldReceive('getName')->once()->andReturn('Controller');
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setDefault')->once();
 
-        $reflectionMethod = m::mock(\ReflectionMethod::class);
-        $reflectionMethod->shouldReceive('getName')->once()->andReturn('action');
+    $reflectionClass = m::mock(\ReflectionClass::class);
+    $reflectionClass->shouldReceive('getName')->once()->andReturn('Controller');
 
-        $method = Helper::getProtectedMethod(AnnotatedRouteControllerLoader::class, 'configureRoute');
-        $annotatedRouteControllerLoader = new AnnotatedRouteControllerLoader($reader);
-        $method->invokeArgs($annotatedRouteControllerLoader, [$route, $reflectionClass, $reflectionMethod, null]);
+    $reflectionMethod = m::mock(\ReflectionMethod::class);
+    $reflectionMethod->shouldReceive('getName')->once()->andReturn('action');
 
-        $this->assertTrue(true);
+    $method = Helper::getProtectedMethod(AnnotatedRouteControllerLoader::class, 'configureRoute');
+    $annotatedRouteControllerLoader = new AnnotatedRouteControllerLoader($reader);
+    $method->invokeArgs($annotatedRouteControllerLoader, [$route, $reflectionClass, $reflectionMethod, NULL]);
 
-        m::close();
-    }
+    $this->assertTrue(TRUE);
+
+    m::close();
+  }
+
 }

@@ -7,49 +7,48 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class SecurityTest extends UnitTestCase
-{
-    public function testModifyRouteMethod()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_access', true]);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_permission', 'permission']);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_role', 'role']);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_entity_access', 'entity']);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_csrf_token', true]);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
+class SecurityTest extends UnitTestCase {
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModifyRouteMethod() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_access', TRUE]);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_permission', 'permission']);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_role', 'role']);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_entity_access', 'entity']);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_csrf_token', TRUE]);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
 
-        $security = new Security([
-            'access' => true,
-            'permission' => 'permission',
-            'role' => 'role',
-            'entity' => 'entity',
-            'csrf' => true,
-            'custom' => 'foo::custom'
-        ]);
-        $this->assertNull($security->modifyRouteMethod($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        m::close();
-    }
+    $security = new Security([
+      'access' => TRUE,
+      'permission' => 'permission',
+      'role' => 'role',
+      'entity' => 'entity',
+      'csrf' => TRUE,
+      'custom' => 'foo::custom',
+    ]);
+    $this->assertNull($security->modifyRouteMethod($route, $class, $method));
 
-    public function testModifyRouteMethodInlineAccess()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
+    m::close();
+  }
 
-        $class = m::mock(\ReflectionClass::class);
-        $class->shouldReceive('hasMethod')->andReturn('custom');
-        $class->shouldReceive('getName')->andReturn('foo');
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModifyRouteMethodInlineAccess() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
 
-        $security = new Security([
-            'custom' => 'custom'
-        ]);
-        $this->assertNull($security->modifyRouteMethod($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $class->shouldReceive('hasMethod')->andReturn('custom');
+    $class->shouldReceive('getName')->andReturn('foo');
+    $method = m::mock(\ReflectionMethod::class);
 
-        m::close();
-    }
+    $security = new Security([
+      'custom' => 'custom',
+    ]);
+    $this->assertNull($security->modifyRouteMethod($route, $class, $method));
+
+    m::close();
+  }
+
 }

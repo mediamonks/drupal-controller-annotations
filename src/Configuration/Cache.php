@@ -5,232 +5,220 @@ namespace Drupal\controller_annotations\Configuration;
 /**
  * @Annotation
  */
-class Cache extends ConfigurationAnnotation
-{
-    /**
-     * The expiration date as a valid date for the strtotime() function.
-     *
-     * @var string
-     */
-    protected $expires;
+class Cache extends ConfigurationAnnotation {
 
-    /**
-     * The number of seconds that the response is considered fresh by a private
-     * cache like a web browser.
-     *
-     * @var int
-     */
-    protected $maxage;
+  /**
+   * The expiration date as a valid date for the strtotime() function.
+   *
+   * @var string
+   */
+  protected $expires;
 
-    /**
-     * The number of seconds that the response is considered fresh by a public
-     * cache like a reverse proxy cache.
-     *
-     * @var int
-     */
-    protected $smaxage;
+  /**
+   * The number of seconds that the response is considered fresh by a private
+   * cache like a web browser.
+   *
+   * @var int
+   */
+  protected $maxage;
 
-    /**
-     * Whether the response is public or not.
-     *
-     * @var bool
-     */
-    protected $public;
+  /**
+   * The number of seconds that the response is considered fresh by a public
+   * cache like a reverse proxy cache.
+   *
+   * @var int
+   */
+  protected $smaxage;
 
-    /**
-     * Additional "Vary:"-headers.
-     *
-     * @var array
-     */
-    protected $vary;
+  /**
+   * Whether the response is public or not.
+   *
+   * @var bool
+   */
+  protected $public;
 
-    /**
-     * An expression to compute the Last-Modified HTTP header.
-     *
-     * @var string
-     */
-    protected $lastModified;
+  /**
+   * Additional "Vary:"-headers.
+   *
+   * @var array
+   */
+  protected $vary;
 
-    /**
-     * An expression to compute the ETag HTTP header.
-     *
-     * @var string
-     */
-    protected $etag;
+  /**
+   * An expression to compute the Last-Modified HTTP header.
+   *
+   * @var string
+   */
+  protected $lastModified;
 
-    /**
-     * Returns the expiration date for the Expires header field.
-     *
-     * @return string
-     */
-    public function getExpires()
-    {
-        return $this->expires;
-    }
+  /**
+   * An expression to compute the ETag HTTP header.
+   *
+   * @var string
+   */
+  protected $etag;
 
-    /**
-     * Sets the expiration date for the Expires header field.
-     *
-     * @param string $expires A valid php date
-     */
-    public function setExpires($expires)
-    {
-        $this->expires = $expires;
-    }
+  /**
+   * Returns the expiration date for the Expires header field.
+   *
+   * @return string
+   */
+  public function getExpires() {
+    return $this->expires;
+  }
 
-    /**
-     * Sets the number of seconds for the max-age cache-control header field.
-     *
-     * @param int $maxage A number of seconds
-     */
-    public function setMaxAge($maxage)
-    {
-        $this->maxage = $maxage;
-    }
+  /**
+   * Sets the expiration date for the Expires header field.
+   *
+   * @param string $expires
+   *   A valid php date.
+   */
+  public function setExpires($expires) {
+    $this->expires = $expires;
+  }
 
-    /**
-     * Returns the number of seconds the response is considered fresh by a
-     * private cache.
-     *
-     * @return int
-     */
-    public function getMaxAge()
-    {
-        return $this->maxage;
-    }
+  /**
+   * Sets the number of seconds for the max-age cache-control header field.
+   *
+   * @param int $maxage
+   *   A number of seconds.
+   */
+  public function setMaxAge($maxage) {
+    $this->maxage = $maxage;
+  }
 
-    /**
-     * Sets the number of seconds for the s-maxage cache-control header field.
-     *
-     * @param int $smaxage A number of seconds
-     */
-    public function setSMaxAge($smaxage)
-    {
-        $this->smaxage = $smaxage;
-    }
+  /**
+   * Returns the number of seconds the response is considered fresh by a
+   * private cache.
+   *
+   * @return int
+   */
+  public function getMaxAge() {
+    return $this->maxage;
+  }
 
-    /**
-     * Returns the number of seconds the response is considered fresh by a
-     * public cache.
-     *
-     * @return int
-     */
-    public function getSMaxAge()
-    {
-        return $this->smaxage;
-    }
+  /**
+   * Sets the number of seconds for the s-maxage cache-control header field.
+   *
+   * @param int $smaxage
+   *   A number of seconds.
+   */
+  public function setSMaxAge($smaxage) {
+    $this->smaxage = $smaxage;
+  }
 
-    /**
-     * Returns whether or not a response is public.
-     *
-     * @return bool
-     */
-    public function isPublic()
-    {
-        return $this->public === true;
-    }
+  /**
+   * Returns the number of seconds the response is considered fresh by a
+   * public cache.
+   *
+   * @return int
+   */
+  public function getSMaxAge() {
+    return $this->smaxage;
+  }
 
-    /**
-     * Returns whether or not a response is private.
-     *
-     * @return bool
-     */
-    public function isPrivate()
-    {
-        return $this->public === false;
-    }
+  /**
+   * Returns whether or not a response is public.
+   *
+   * @return bool
+   */
+  public function isPublic() {
+    return $this->public === TRUE;
+  }
 
-    /**
-     * Sets a response public.
-     *
-     * @param bool $public A boolean value
-     */
-    public function setPublic($public)
-    {
-        $this->public = (bool)$public;
-    }
+  /**
+   * Returns whether or not a response is private.
+   *
+   * @return bool
+   */
+  public function isPrivate() {
+    return $this->public === FALSE;
+  }
 
-    /**
-     * Returns the custom "Vary"-headers.
-     *
-     * @return array
-     */
-    public function getVary()
-    {
-        return $this->vary;
-    }
+  /**
+   * Sets a response public.
+   *
+   * @param bool $public
+   *   A boolean value.
+   */
+  public function setPublic($public) {
+    $this->public = (bool) $public;
+  }
 
-    /**
-     * Add additional "Vary:"-headers.
-     *
-     * @param array $vary
-     */
-    public function setVary($vary)
-    {
-        $this->vary = $vary;
-    }
+  /**
+   * Returns the custom "Vary"-headers.
+   *
+   * @return array
+   */
+  public function getVary() {
+    return $this->vary;
+  }
 
-    /**
-     * Sets the "Last-Modified"-header expression.
-     *
-     * @param string $expression
-     */
-    public function setLastModified($expression)
-    {
-        $this->lastModified = $expression;
-    }
+  /**
+   * Add additional "Vary:"-headers.
+   *
+   * @param array $vary
+   */
+  public function setVary($vary) {
+    $this->vary = $vary;
+  }
 
-    /**
-     * Returns the "Last-Modified"-header expression.
-     *
-     * @return string
-     */
-    public function getLastModified()
-    {
-        return $this->lastModified;
-    }
+  /**
+   * Sets the "Last-Modified"-header expression.
+   *
+   * @param string $expression
+   */
+  public function setLastModified($expression) {
+    $this->lastModified = $expression;
+  }
 
-    /**
-     * Sets the "ETag"-header expression.
-     *
-     * @param string $expression
-     */
-    public function setETag($expression)
-    {
-        $this->etag = $expression;
-    }
+  /**
+   * Returns the "Last-Modified"-header expression.
+   *
+   * @return string
+   */
+  public function getLastModified() {
+    return $this->lastModified;
+  }
 
-    /**
-     * Returns the "ETag"-header expression.
-     *
-     * @return string
-     */
-    public function getETag()
-    {
-        return $this->etag;
-    }
+  /**
+   * Sets the "ETag"-header expression.
+   *
+   * @param string $expression
+   */
+  public function setETag($expression) {
+    $this->etag = $expression;
+  }
 
-    /**
-     * Returns the annotation alias name.
-     *
-     * @return string
-     *
-     * @see ConfigurationInterface
-     */
-    public function getAliasName()
-    {
-        return 'cache';
-    }
+  /**
+   * Returns the "ETag"-header expression.
+   *
+   * @return string
+   */
+  public function getETag() {
+    return $this->etag;
+  }
 
-    /**
-     * Only one cache directive is allowed.
-     *
-     * @return bool
-     *
-     * @see ConfigurationInterface
-     */
-    public function allowArray()
-    {
-        return false;
-    }
+  /**
+   * Returns the annotation alias name.
+   *
+   * @return string
+   *
+   * @see ConfigurationInterface
+   */
+  public function getAliasName() {
+    return 'cache';
+  }
+
+  /**
+   * Only one cache directive is allowed.
+   *
+   * @return bool
+   *
+   * @see ConfigurationInterface
+   */
+  public function allowArray() {
+    return FALSE;
+  }
+
 }

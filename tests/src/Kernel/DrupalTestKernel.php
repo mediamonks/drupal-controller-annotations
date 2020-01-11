@@ -6,25 +6,24 @@ use Drupal\Core\DrupalKernel;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
-class DrupalTestKernel extends DrupalKernel
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function setSitePath($path)
-    {
-        if (empty($this->sitePath)) {
-            parent::setSitePath($path);
-        }
-    }
+class DrupalTestKernel extends DrupalKernel {
 
-    /**
-     * @param Request $request
-     */
-    protected function initializeSettings(Request $request)
-    {
-        $settings = Settings::getAll();
-        parent::initializeSettings($request);
-        new Settings($settings);
+  /**
+   * {@inheritdoc}
+   */
+  public function setSitePath($path) {
+    if (empty($this->sitePath)) {
+      parent::setSitePath($path);
     }
+  }
+
+  /**
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   */
+  protected function initializeSettings(Request $request) {
+    $settings = Settings::getAll();
+    parent::initializeSettings($request);
+    new Settings($settings);
+  }
+
 }

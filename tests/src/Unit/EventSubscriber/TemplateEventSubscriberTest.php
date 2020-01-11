@@ -17,173 +17,167 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @group controller_annotations
  */
-class TemplateEventSubscriberTest extends UnitTestCase
-{
-    public function testOnKernelControllerWithoutTemplate()
-    {
-        $twig = m::mock(\Twig_Environment::class);
-        $templateResolver = m::mock(TemplateResolver::class);
+class TemplateEventSubscriberTest extends UnitTestCase {
 
-        $request = new Request();
+  public function testOnKernelControllerWithoutTemplate() {
+    $twig = m::mock(\Twig_Environment::class);
+    $templateResolver = m::mock(TemplateResolver::class);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getRequest')->once()->andReturn($request);
+    $request = new Request();
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $this->assertNull($eventSubscriber->onKernelController($event));
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getRequest')->once()->andReturn($request);
 
-        $event = m::mock(GetResponseForControllerResultEvent::class);
-        $event->shouldReceive('getRequest')->once()->andReturn($request);
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $this->assertNull($eventSubscriber->onKernelController($event));
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $this->assertNull($eventSubscriber->onKernelView($event));
-    }
+    $event = m::mock(GetResponseForControllerResultEvent::class);
+    $event->shouldReceive('getRequest')->once()->andReturn($request);
 
-    public function testOnKernelControllerWithInvalidTemplate()
-    {
-        $twig = m::mock(\Twig_Environment::class);
-        $templateResolver = m::mock(TemplateResolver::class);
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $this->assertNull($eventSubscriber->onKernelView($event));
+  }
 
-        $request = new Request();
-        $request->attributes->set('_template', 'foo');
+  public function testOnKernelControllerWithInvalidTemplate() {
+    $twig = m::mock(\Twig_Environment::class);
+    $templateResolver = m::mock(TemplateResolver::class);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getRequest')->once()->andReturn($request);
+    $request = new Request();
+    $request->attributes->set('_template', 'foo');
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $this->assertNull($eventSubscriber->onKernelController($event));
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getRequest')->once()->andReturn($request);
 
-        $event = m::mock(GetResponseForControllerResultEvent::class);
-        $event->shouldReceive('getRequest')->once()->andReturn($request);
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $this->assertNull($eventSubscriber->onKernelController($event));
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $this->assertNull($eventSubscriber->onKernelView($event));
-    }
+    $event = m::mock(GetResponseForControllerResultEvent::class);
+    $event->shouldReceive('getRequest')->once()->andReturn($request);
 
-    public function testOnKernelControllerWithTemplate()
-    {
-        $templateName = 'resolved_template';
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $this->assertNull($eventSubscriber->onKernelView($event));
+  }
 
-        $twig = m::mock(\Twig_Environment::class);
-        $templateResolver = m::mock(TemplateResolver::class);
-        $templateResolver->shouldReceive('resolveByControllerAndAction')->once()->andReturn($templateName);
+  public function testOnKernelControllerWithTemplate() {
+    $templateName = 'resolved_template';
 
-        $template = new Template([]);
+    $twig = m::mock(\Twig_Environment::class);
+    $templateResolver = m::mock(TemplateResolver::class);
+    $templateResolver->shouldReceive('resolveByControllerAndAction')->once()->andReturn($templateName);
 
-        $request = new Request();
-        $request->attributes->set('_template', $template);
+    $template = new Template([]);
 
-        $controller = m::mock(ControllerBase::class);
-        $owner = [$controller, 'testAction'];
+    $request = new Request();
+    $request->attributes->set('_template', $template);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getRequest')->once()->andReturn($request);
-        $event->shouldReceive('getController')->once()->andReturn($owner);
+    $controller = m::mock(ControllerBase::class);
+    $owner = [$controller, 'testAction'];
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $eventSubscriber->onKernelController($event);
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getRequest')->once()->andReturn($request);
+    $event->shouldReceive('getController')->once()->andReturn($owner);
 
-        $this->assertEquals($templateName, $template->getTemplate());
-        $this->assertEquals($owner, $template->getOwner());
-    }
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $eventSubscriber->onKernelController($event);
 
-    public function testOnKernelControllerWithTemplateName()
-    {
-        $templateName = 'resolved_template';
+    $this->assertEquals($templateName, $template->getTemplate());
+    $this->assertEquals($owner, $template->getOwner());
+  }
 
-        $twig = m::mock(\Twig_Environment::class);
-        $templateResolver = m::mock(TemplateResolver::class);
-        $templateResolver->shouldReceive('normalize')->once()->andReturn($templateName);
+  public function testOnKernelControllerWithTemplateName() {
+    $templateName = 'resolved_template';
 
-        $template = new Template([
-          'template' => $templateName
-        ]);
+    $twig = m::mock(\Twig_Environment::class);
+    $templateResolver = m::mock(TemplateResolver::class);
+    $templateResolver->shouldReceive('normalize')->once()->andReturn($templateName);
 
-        $request = new Request();
-        $request->attributes->set('_template', $template);
+    $template = new Template([
+      'template' => $templateName,
+    ]);
 
-        $controller = m::mock(ControllerBase::class);
-        $owner = [$controller, 'testAction'];
+    $request = new Request();
+    $request->attributes->set('_template', $template);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getRequest')->once()->andReturn($request);
-        $event->shouldReceive('getController')->once()->andReturn($owner);
+    $controller = m::mock(ControllerBase::class);
+    $owner = [$controller, 'testAction'];
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $eventSubscriber->onKernelController($event);
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getRequest')->once()->andReturn($request);
+    $event->shouldReceive('getController')->once()->andReturn($owner);
 
-        $this->assertEquals($templateName, $template->getTemplate());
-        $this->assertEquals($owner, $template->getOwner());
-    }
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $eventSubscriber->onKernelController($event);
 
-    public function testOnKernelView()
-    {
-        $renderedContent = 'rendered_page';
-        $templateName = 'template.html.twig';
+    $this->assertEquals($templateName, $template->getTemplate());
+    $this->assertEquals($owner, $template->getOwner());
+  }
 
-        $twig = m::mock(\Twig_Environment::class);
-        $twig->shouldReceive('render')->once()->andReturn($renderedContent);
+  public function testOnKernelView() {
+    $renderedContent = 'rendered_page';
+    $templateName = 'template.html.twig';
 
-        $templateResolver = m::mock(TemplateResolver::class);
+    $twig = m::mock(\Twig_Environment::class);
+    $twig->shouldReceive('render')->once()->andReturn($renderedContent);
 
-        $template = m::mock(Template::class);
-        $template->shouldReceive('getOwner')->andReturn(['controller', 'action']);
-        $template->shouldReceive('isStreamable')->andReturn(false);
-        $template->shouldReceive('setOwner')->once()->withArgs([[]]);
-        $template->shouldReceive('getTemplate')->once()->andReturn($templateName);
+    $templateResolver = m::mock(TemplateResolver::class);
 
-        $request = new Request();
-        $request->attributes->set('_template', $template);
+    $template = m::mock(Template::class);
+    $template->shouldReceive('getOwner')->andReturn(['controller', 'action']);
+    $template->shouldReceive('isStreamable')->andReturn(FALSE);
+    $template->shouldReceive('setOwner')->once()->withArgs([[]]);
+    $template->shouldReceive('getTemplate')->once()->andReturn($templateName);
 
-        $property = null;
-        $value = null;
+    $request = new Request();
+    $request->attributes->set('_template', $template);
 
-        $kernel = m::mock(HttpKernelInterface::class);
-        $event = new GetResponseForControllerResultEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, []);
+    $property = NULL;
+    $value = NULL;
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $eventSubscriber->onKernelView($event);
+    $kernel = m::mock(HttpKernelInterface::class);
+    $event = new GetResponseForControllerResultEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, []);
 
-        $response = $event->getResponse();
-        $this->assertEquals($renderedContent, $response->getContent());
-    }
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $eventSubscriber->onKernelView($event);
 
-    public function testOnKernelViewStreamed()
-    {
-        $templateName = 'template.html.twig';
+    $response = $event->getResponse();
+    $this->assertEquals($renderedContent, $response->getContent());
+  }
 
-        $twig = m::mock(\Twig_Environment::class);
-        $twig->shouldReceive('display')->once()->withArgs([$templateName, []]);
+  public function testOnKernelViewStreamed() {
+    $templateName = 'template.html.twig';
 
-        $templateResolver = m::mock(TemplateResolver::class);
+    $twig = m::mock(\Twig_Environment::class);
+    $twig->shouldReceive('display')->once()->withArgs([$templateName, []]);
 
-        $template = m::mock(Template::class);
-        $template->shouldReceive('getOwner')->andReturn(['controller', 'action']);
-        $template->shouldReceive('isStreamable')->andReturn(true);
-        $template->shouldReceive('setOwner')->once()->withArgs([[]]);
-        $template->shouldReceive('getTemplate')->once()->andReturn($templateName);
+    $templateResolver = m::mock(TemplateResolver::class);
 
-        $request = new Request();
-        $request->attributes->set('_template', $template);
+    $template = m::mock(Template::class);
+    $template->shouldReceive('getOwner')->andReturn(['controller', 'action']);
+    $template->shouldReceive('isStreamable')->andReturn(TRUE);
+    $template->shouldReceive('setOwner')->once()->withArgs([[]]);
+    $template->shouldReceive('getTemplate')->once()->andReturn($templateName);
 
-        $property = null;
-        $value = null;
+    $request = new Request();
+    $request->attributes->set('_template', $template);
 
-        $kernel = m::mock(HttpKernelInterface::class);
-        $event = new GetResponseForControllerResultEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, []);
+    $property = NULL;
+    $value = NULL;
 
-        $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
-        $eventSubscriber->onKernelView($event);
+    $kernel = m::mock(HttpKernelInterface::class);
+    $event = new GetResponseForControllerResultEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, []);
 
-        $response = $event->getResponse();
-        $this->assertEquals(false, $response->getContent());
-        $this->assertInstanceOf(StreamedResponse::class, $response);
+    $eventSubscriber = new TemplateEventSubscriber($twig, $templateResolver);
+    $eventSubscriber->onKernelView($event);
 
-        $response->sendContent();
-    }
+    $response = $event->getResponse();
+    $this->assertEquals(FALSE, $response->getContent());
+    $this->assertInstanceOf(StreamedResponse::class, $response);
 
-    public function tearDown()
-    {
-        m::close();
-    }
+    $response->sendContent();
+  }
+
+  public function tearDown() {
+    m::close();
+  }
+
 }

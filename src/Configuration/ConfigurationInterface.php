@@ -7,19 +7,20 @@ namespace Drupal\controller_annotations\Configuration;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface ConfigurationInterface
-{
-    /**
-     * Returns the alias name for an annotated configuration.
-     *
-     * @return string
-     */
-    public function getAliasName();
+interface ConfigurationInterface {
 
-    /**
-     * Returns whether multiple annotations of this type are allowed.
-     *
-     * @return bool
-     */
-    public function allowArray();
+  /**
+   * Returns the alias name for an annotated configuration.
+   *
+   * @return string
+   */
+  public function getAliasName();
+
+  /**
+   * Returns whether multiple annotations of this type are allowed.
+   *
+   * @return bool
+   */
+  public function allowArray();
+
 }

@@ -15,246 +15,235 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @group controller_annotations
  */
-class EntityParamConverterTest extends UnitTestCase
-{
-    private function getEntityParamConverter()
-    {
-        $node = m::mock(Node::class);
-
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->andReturn($node);
+class EntityParamConverterTest extends UnitTestCase {
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->andReturn($entityInterface);
+  private function getEntityParamConverter() {
+    $node = m::mock(Node::class);
 
-        return new EntityParamConverter($entityTypeManager);
-    }
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->andReturn($node);
 
-    public function testSupports()
-    {
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
-    }
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->andReturn($entityInterface);
 
-    public function testNotSupports()
-    {
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(self::class);
-        $this->assertFalse($this->getEntityParamConverter()->supports($paramConverter));
-    }
+    return new EntityParamConverter($entityTypeManager);
+  }
 
-    public function testApply()
-    {
-        $name = 'test';
-        $request = new Request();
-        $request->attributes->set($name, 1);
+  public function testSupports() {
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
+  }
 
-        $node = m::mock(Node::class);
+  public function testNotSupports() {
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(self::class);
+    $this->assertFalse($this->getEntityParamConverter()->supports($paramConverter));
+  }
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->once()->andReturn([]);
+  public function testApply() {
+    $name = 'test';
+    $request = new Request();
+    $request->attributes->set($name, 1);
 
-        $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
-        $this->getEntityParamConverter()->apply($request, $paramConverter);
+    $node = m::mock(Node::class);
 
-        $this->assertTrue($request->attributes->has($name));
-        $this->assertEquals($node, $request->attributes->get($name));
-    }
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('getOptions')->once()->andReturn([]);
 
-    public function testApplyNonExistingEntity()
-    {
-        $this->setExpectedException(NotFoundHttpException::class);
+    $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
+    $this->getEntityParamConverter()->apply($request, $paramConverter);
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->andReturnNull();
+    $this->assertTrue($request->attributes->has($name));
+    $this->assertEquals($node, $request->attributes->get($name));
+  }
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->andReturn($entityInterface);
+  public function testApplyNonExistingEntity() {
+    $this->setExpectedException(NotFoundHttpException::class);
 
-        $name = 'test';
-        $request = new Request();
-        $request->attributes->set($name, 1);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->andReturnNull();
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('isOptional')->once()->andReturn(false);
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->andReturn($entityInterface);
 
-        $entityParamConverter = new EntityParamConverter($entityTypeManager);
+    $name = 'test';
+    $request = new Request();
+    $request->attributes->set($name, 1);
 
-        $this->assertTrue($entityParamConverter->supports($paramConverter));
-        $entityParamConverter->apply($request, $paramConverter);
-    }
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('isOptional')->once()->andReturn(FALSE);
 
-    public function testApplyWithBundle()
-    {
-        $id = 1;
-        $bundle = 'article';
+    $entityParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $node = m::mock(Node::class);
-        $node->shouldReceive('bundle')->once()->andReturn($bundle);
+    $this->assertTrue($entityParamConverter->supports($paramConverter));
+    $entityParamConverter->apply($request, $paramConverter);
+  }
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn($node);
+  public function testApplyWithBundle() {
+    $id = 1;
+    $bundle = 'article';
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+    $node = m::mock(Node::class);
+    $node->shouldReceive('bundle')->once()->andReturn($bundle);
 
-        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn($node);
 
-        $name = 'test';
-        $request = new Request();
-        $request->attributes->set($name, $id);
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->once()->andReturn(['bundle' => $bundle]);
+    $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $this->assertTrue($nodeParamConverter->supports($paramConverter));
-        $nodeParamConverter->apply($request, $paramConverter);
+    $name = 'test';
+    $request = new Request();
+    $request->attributes->set($name, $id);
 
-        $this->assertTrue($request->attributes->has($name));
-        $this->assertEquals($node, $request->attributes->get($name));
-    }
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('getOptions')->once()->andReturn(['bundle' => $bundle]);
 
-    public function testApplyWithWrongBundle()
-    {
-        $this->setExpectedException(NotFoundHttpException::class);
+    $this->assertTrue($nodeParamConverter->supports($paramConverter));
+    $nodeParamConverter->apply($request, $paramConverter);
 
-        $id = 1;
-        $bundle = 'article';
+    $this->assertTrue($request->attributes->has($name));
+    $this->assertEquals($node, $request->attributes->get($name));
+  }
 
-        $node = m::mock(Node::class);
-        $node->shouldReceive('bundle')->once()->andReturn('not_an_article');
+  public function testApplyWithWrongBundle() {
+    $this->setExpectedException(NotFoundHttpException::class);
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn($node);
+    $id = 1;
+    $bundle = 'article';
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+    $node = m::mock(Node::class);
+    $node->shouldReceive('bundle')->once()->andReturn('not_an_article');
 
-        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn($node);
 
-        $name = 'test';
-        $request = new Request();
-        $request->attributes->set($name, $id);
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->once()->andReturn(['bundle' => $bundle]);
+    $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $this->assertTrue($nodeParamConverter->supports($paramConverter));
-        $nodeParamConverter->apply($request, $paramConverter);
-    }
+    $name = 'test';
+    $request = new Request();
+    $request->attributes->set($name, $id);
 
-    public function testApplyOptionalWhenEmpty()
-    {
-        $id = 1;
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('getOptions')->once()->andReturn(['bundle' => $bundle]);
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $this->assertTrue($nodeParamConverter->supports($paramConverter));
+    $nodeParamConverter->apply($request, $paramConverter);
+  }
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+  public function testApplyOptionalWhenEmpty() {
+    $id = 1;
 
-        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
-        $name = 'test';
-        $request = new Request();
-        $request->attributes->set($name, $id);
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('isOptional')->once()->andReturn(true);
+    $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $this->assertTrue($nodeParamConverter->supports($paramConverter));
-        $nodeParamConverter->apply($request, $paramConverter);
+    $name = 'test';
+    $request = new Request();
+    $request->attributes->set($name, $id);
 
-        $this->assertTrue($request->attributes->has($name));
-        $this->assertEquals(null, $request->attributes->get($name));
-    }
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('isOptional')->once()->andReturn(TRUE);
 
-    public function testApplyWithoutAttribute()
-    {
-        $id = 1;
-        $bundle = 'article';
+    $this->assertTrue($nodeParamConverter->supports($paramConverter));
+    $nodeParamConverter->apply($request, $paramConverter);
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $this->assertTrue($request->attributes->has($name));
+    $this->assertEquals(NULL, $request->attributes->get($name));
+  }
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+  public function testApplyWithoutAttribute() {
+    $id = 1;
+    $bundle = 'article';
 
-        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
-        $name = 'test';
-        $request = new Request();
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
+    $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $this->assertTrue($nodeParamConverter->supports($paramConverter));
-        $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
-    }
+    $name = 'test';
+    $request = new Request();
 
-    public function testOptional()
-    {
-        $id = 1;
-        $bundle = 'article';
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $this->assertTrue($nodeParamConverter->supports($paramConverter));
+    $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
+  }
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+  public function testOptional() {
+    $id = 1;
+    $bundle = 'article';
 
-        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
-        $name = 'test';
-        $request = new Request();
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
+    $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
-    }
+    $name = 'test';
+    $request = new Request();
 
-    public function testOptionalEmptyAttribute()
-    {
-        $id = 1;
-        $bundle = 'article';
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
 
-        $entityInterface = m::mock(EntityInterface::class);
-        $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(null);
+    $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
+  }
 
-        $entityTypeManager = m::mock(EntityTypeManager::class);
-        $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
+  public function testOptionalEmptyAttribute() {
+    $id = 1;
+    $bundle = 'article';
 
-        $nodeParamConverter = new EntityParamConverter($entityTypeManager);
+    $entityInterface = m::mock(EntityInterface::class);
+    $entityInterface->shouldReceive('load')->withArgs([$id])->andReturn(NULL);
 
-        $name = 'test';
-        $request = new Request();
-        $request->attributes->set($name, '');
+    $entityTypeManager = m::mock(EntityTypeManager::class);
+    $entityTypeManager->shouldReceive('getStorage')->withArgs(['node'])->andReturn($entityInterface);
 
-        $paramConverter = m::mock(ParamConverter::class);
-        $paramConverter->shouldReceive('getName')->once()->andReturn($name);
-        $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
-        $paramConverter->shouldReceive('isOptional')->once()->andReturn(true);
+    $nodeParamConverter = new EntityParamConverter($entityTypeManager);
 
-        $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
-    }
+    $name = 'test';
+    $request = new Request();
+    $request->attributes->set($name, '');
 
-    public function tearDown()
-    {
-        m::close();
-    }
+    $paramConverter = m::mock(ParamConverter::class);
+    $paramConverter->shouldReceive('getName')->once()->andReturn($name);
+    $paramConverter->shouldReceive('getOptions')->never()->andReturn(['bundle' => $bundle]);
+    $paramConverter->shouldReceive('isOptional')->once()->andReturn(TRUE);
+
+    $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
+  }
+
+  public function tearDown() {
+    m::close();
+  }
+
 }

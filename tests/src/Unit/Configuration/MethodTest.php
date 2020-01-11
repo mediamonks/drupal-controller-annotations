@@ -7,51 +7,49 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class MethodTest extends UnitTestCase
-{
-    public function testModifyRouteClass()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
+class MethodTest extends UnitTestCase {
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModifyRouteClass() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
 
-        $methodConfig = new Method(['methods' => ['GET', 'POST']]);
-        $this->assertNull($methodConfig->modifyRouteClass($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        m::close();
-    }
+    $methodConfig = new Method(['methods' => ['GET', 'POST']]);
+    $this->assertNull($methodConfig->modifyRouteClass($route, $class, $method));
 
-    public function testModifyRouteMethod()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
+    m::close();
+  }
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModifyRouteMethod() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
 
-        $methodConfig = new Method(['methods' => ['GET', 'POST']]);
-        $this->assertNull($methodConfig->modifyRouteMethod($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        m::close();
-    }
+    $methodConfig = new Method(['methods' => ['GET', 'POST']]);
+    $this->assertNull($methodConfig->modifyRouteMethod($route, $class, $method));
 
-    public function testModify()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setMethods')->once()->withArgs([['GET']]);
-        $route->shouldReceive('setMethods')->once()->withArgs([['POST']]);
+    m::close();
+  }
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModify() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setMethods')->once()->withArgs([['GET']]);
+    $route->shouldReceive('setMethods')->once()->withArgs([['POST']]);
 
-        $methodConfig = new Method(['methods' => ['GET']]);
-        $this->assertNull($methodConfig->modifyRouteClass($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        $methodConfig = new Method(['methods' => ['POST']]);
-        $this->assertNull($methodConfig->modifyRouteMethod($route, $class, $method));
+    $methodConfig = new Method(['methods' => ['GET']]);
+    $this->assertNull($methodConfig->modifyRouteClass($route, $class, $method));
 
-        m::close();
-    }
+    $methodConfig = new Method(['methods' => ['POST']]);
+    $this->assertNull($methodConfig->modifyRouteMethod($route, $class, $method));
+
+    m::close();
+  }
+
 }

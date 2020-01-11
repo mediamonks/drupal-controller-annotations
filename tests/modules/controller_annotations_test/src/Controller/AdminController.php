@@ -9,23 +9,22 @@ use Drupal\controller_annotations\Configuration\Security;
 /**
  * @Route("test/admin/")
  */
-class AdminController extends ControllerBase
-{
-    /**
-     * @Route("admin", admin=true)
-     * @Security(role="administrator")
-     */
-    public function adminAction()
-    {
-        return [];
-    }
+class AdminController extends ControllerBase {
 
-    /**
-     * @Route("normal")
-     * @Security(role="administrator")
-     */
-    public function normalAction()
-    {
-        return [];
-    }
+  /**
+   * @Route("admin", admin=true)
+   * @Security(role="administrator")
+   */
+  public function adminAction() {
+    return [];
+  }
+
+  /**
+   * @Route("normal")
+   * @Security(role="administrator")
+   */
+  public function normalAction() {
+    return [];
+  }
+
 }

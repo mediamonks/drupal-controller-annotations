@@ -2,14 +2,13 @@
 
 namespace Drupal\controller_annotations_test\Title;
 
-class Custom
-{
+class Custom {
 
-    /**
-     * @return string
-     */
-    public function title()
-    {
-        return 'Hello Callback';
-    }
+  /**
+   * @return string
+   */
+  public function title() {
+    return 'Hello Callback';
+  }
+
 }

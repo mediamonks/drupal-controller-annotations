@@ -5,53 +5,51 @@ namespace Drupal\Tests\controller_annotations\Unit\EventSubscriber;
 use Drupal\controller_annotations\Configuration\Cache;
 use Drupal\Tests\UnitTestCase;
 
-class CacheTest extends UnitTestCase
-{
-    public function testProperties()
-    {
-        $cache = new Cache([]);
+class CacheTest extends UnitTestCase {
 
-        $cache->setExpires('tomorrow');
-        $this->assertEquals('tomorrow', $cache->getExpires());
+  public function testProperties() {
+    $cache = new Cache([]);
 
-        $cache->setMaxAge(60);
-        $this->assertEquals(60, $cache->getMaxAge());
+    $cache->setExpires('tomorrow');
+    $this->assertEquals('tomorrow', $cache->getExpires());
 
-        $cache->setSMaxAge(120);
-        $this->assertEquals(120, $cache->getSMaxAge());
+    $cache->setMaxAge(60);
+    $this->assertEquals(60, $cache->getMaxAge());
 
-        $this->assertFalse($cache->isPublic());
-        $this->assertFalse($cache->isPrivate());
+    $cache->setSMaxAge(120);
+    $this->assertEquals(120, $cache->getSMaxAge());
 
-        $cache->setPublic(true);
-        $this->assertTrue($cache->isPublic());
-        $this->assertFalse($cache->isPrivate());
+    $this->assertFalse($cache->isPublic());
+    $this->assertFalse($cache->isPrivate());
 
-        $cache->setPublic(false);
-        $this->assertFalse($cache->isPublic());
-        $this->assertTrue($cache->isPrivate());
+    $cache->setPublic(TRUE);
+    $this->assertTrue($cache->isPublic());
+    $this->assertFalse($cache->isPrivate());
 
-        $cache->setVary('vary');
-        $this->assertEquals('vary', $cache->getVary());
+    $cache->setPublic(FALSE);
+    $this->assertFalse($cache->isPublic());
+    $this->assertTrue($cache->isPrivate());
 
-        $cache->setETag('foobar');
-        $this->assertEquals('foobar', $cache->getETag());
+    $cache->setVary('vary');
+    $this->assertEquals('vary', $cache->getVary());
 
-        $cache->setLastModified('yesterday');
-        $this->assertEquals('yesterday', $cache->getLastModified());
-    }
+    $cache->setETag('foobar');
+    $this->assertEquals('foobar', $cache->getETag());
 
-    public function testGetAliasName()
-    {
-        $cache = new Cache([]);
+    $cache->setLastModified('yesterday');
+    $this->assertEquals('yesterday', $cache->getLastModified());
+  }
 
-        $this->assertEquals('cache', $cache->getAliasName());
-    }
+  public function testGetAliasName() {
+    $cache = new Cache([]);
 
-    public function testAllowArray()
-    {
-        $cache = new Cache([]);
+    $this->assertEquals('cache', $cache->getAliasName());
+  }
 
-        $this->assertFalse($cache->allowArray());
-    }
+  public function testAllowArray() {
+    $cache = new Cache([]);
+
+    $this->assertFalse($cache->allowArray());
+  }
+
 }

@@ -9,14 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route(service="controller.service")
  */
-class ServiceController
-{
-    /**
-     * @Route("test/service")
-     * @Security(access=true)
-     */
-    public function getAction()
-    {
-        return new Response('ServiceController::getAction');
-    }
+class ServiceController {
+
+  /**
+   * @Route("test/service")
+   * @Security(access=true)
+   */
+  public function getAction() {
+    return new Response('ServiceController::getAction');
+  }
+
 }

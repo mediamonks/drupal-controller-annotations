@@ -13,112 +13,105 @@ use Symfony\Component\Routing\RouteCollection;
 /**
  * @group controller_annotations
  */
-class RouteEventSubscriberTest extends UnitTestCase
-{
-    /**
-     * @var RouteCollection
-     */
-    protected $routeCollection;
+class RouteEventSubscriberTest extends UnitTestCase {
 
-    /**
-     * @var RouteCollection
-     */
-    protected $annotatedRouteCollection;
+  /**
+   * @var \Symfony\Component\Routing\RouteCollection
+   */
+  protected $routeCollection;
 
-    /**
-     * @var RouteEventSubscriber
-     */
-    protected $eventSubscriber;
+  /**
+   * @var \Symfony\Component\Routing\RouteCollection
+   */
+  protected $annotatedRouteCollection;
 
-    protected function setUpEventSubscriber()
-    {
-        $annotationDirectoryLoader = m::mock(AnnotationDirectoryLoader::class);
-        $annotationDirectoryLoader->shouldReceive('load')->andReturn($this->getAnnotatedRouteCollection());
+  /**
+   * @var \Drupal\controller_annotations\EventSubscriber\RouteEventSubscriber
+   */
+  protected $eventSubscriber;
 
-        $this->eventSubscriber = new RouteEventSubscriber($annotationDirectoryLoader, '');
+  protected function setUpEventSubscriber() {
+    $annotationDirectoryLoader = m::mock(AnnotationDirectoryLoader::class);
+    $annotationDirectoryLoader->shouldReceive('load')->andReturn($this->getAnnotatedRouteCollection());
+
+    $this->eventSubscriber = new RouteEventSubscriber($annotationDirectoryLoader, '');
+  }
+
+  /**
+   * @return \Symfony\Component\Routing\RouteCollection
+   */
+  protected function getRouteCollection() {
+    if (empty($this->routeCollection)) {
+      $this->routeCollection = new RouteCollection();
     }
 
-    /**
-     * @return RouteCollection
-     */
-    protected function getRouteCollection()
-    {
-        if (empty($this->routeCollection)) {
-            $this->routeCollection = new RouteCollection;
-        }
+    return $this->routeCollection;
+  }
 
-        return $this->routeCollection;
+  /**
+   * @return \Symfony\Component\Routing\RouteCollection
+   */
+  protected function getAnnotatedRouteCollection() {
+    if (empty($this->annotatedRouteCollection)) {
+      $this->annotatedRouteCollection = new RouteCollection();
     }
 
-    /**
-     * @return RouteCollection
-     */
-    protected function getAnnotatedRouteCollection()
-    {
-        if (empty($this->annotatedRouteCollection)) {
-            $this->annotatedRouteCollection = new RouteCollection;
-        }
+    return $this->annotatedRouteCollection;
+  }
 
-        return $this->annotatedRouteCollection;
+  protected function triggerOnRoutes() {
+    if (empty($this->eventSubscriber)) {
+      $this->setUpEventSubscriber();
     }
+    $this->eventSubscriber->onRoutes(new RouteBuildEvent($this->getRouteCollection()));
+  }
 
-    protected function triggerOnRoutes()
-    {
-        if (empty($this->eventSubscriber)) {
-            $this->setUpEventSubscriber();
-        }
-        $this->eventSubscriber->onRoutes(new RouteBuildEvent($this->getRouteCollection()));
-    }
+  public function testOnRoutesWithEmptyRouteCollection() {
+    $this->triggerOnRoutes();
+    $this->assertEquals(0, $this->getRouteCollection()->count());
+  }
 
-    public function testOnRoutesWithEmptyRouteCollection()
-    {
-        $this->triggerOnRoutes();
-        $this->assertEquals(0, $this->getRouteCollection()->count());
-    }
+  public function testOnRoutesWithoutAnnotatedRoutes() {
+    $route = new Route('/foo');
+    $route->setOption('type', 'annotation');
+    $route->setOption('path', 'foo');
 
-    public function testOnRoutesWithoutAnnotatedRoutes()
-    {
-        $route = new Route('/foo');
-        $route->setOption('type', 'annotation');
-        $route->setOption('path', 'foo');
+    $this->getRouteCollection()->add('foo', new Route('/foo'));
 
-        $this->getRouteCollection()->add('foo', new Route('/foo'));
+    $this->triggerOnRoutes();
+    $this->assertEquals(1, $this->getRouteCollection()->count());
+  }
 
-        $this->triggerOnRoutes();
-        $this->assertEquals(1, $this->getRouteCollection()->count());
-    }
+  public function testOnRoutesWithAnnotatedRoute() {
+    $annotatedRoute = new Route('/bar');
 
-    public function testOnRoutesWithAnnotatedRoute()
-    {
-        $annotatedRoute = new Route('/bar');
+    $annotatedRouteCollection = $this->getAnnotatedRouteCollection();
+    $annotatedRouteCollection->add('bar', $annotatedRoute);
 
-        $annotatedRouteCollection = $this->getAnnotatedRouteCollection();
-        $annotatedRouteCollection->add('bar', $annotatedRoute);
+    $route = new Route('/foo');
+    $route->setOption('type', 'annotation');
+    $route->setOption('path', 'foo');
 
-        $route = new Route('/foo');
-        $route->setOption('type', 'annotation');
-        $route->setOption('path', 'foo');
+    $this->getRouteCollection()->add('foo', $route);
+    $this->triggerOnRoutes();
+    $this->assertEquals(1, $this->getRouteCollection()->count());
+    $this->assertEquals($annotatedRoute, $this->getRouteCollection()->all()['bar']);
+  }
 
-        $this->getRouteCollection()->add('foo', $route);
-        $this->triggerOnRoutes();
-        $this->assertEquals(1, $this->getRouteCollection()->count());
-        $this->assertEquals($annotatedRoute, $this->getRouteCollection()->all()['bar']);
-    }
+  public function testOnRoutesWithoutRequiredOptions() {
+    $this->setExpectedException(\Exception::class);
 
-    public function testOnRoutesWithoutRequiredOptions()
-    {
-        $this->setExpectedException(\Exception::class);
+    $annotatedRoute = new Route('/bar');
 
-        $annotatedRoute = new Route('/bar');
+    $annotatedRouteCollection = $this->getAnnotatedRouteCollection();
+    $annotatedRouteCollection->add('bar', $annotatedRoute);
 
-        $annotatedRouteCollection = $this->getAnnotatedRouteCollection();
-        $annotatedRouteCollection->add('bar', $annotatedRoute);
+    $route = new Route('/foo');
+    $route->setOption('type', 'annotation');
 
-        $route = new Route('/foo');
-        $route->setOption('type', 'annotation');
+    $this->getRouteCollection()->add('foo', $route);
 
-        $this->getRouteCollection()->add('foo', $route);
+    $this->triggerOnRoutes();
+  }
 
-        $this->triggerOnRoutes();
-    }
 }

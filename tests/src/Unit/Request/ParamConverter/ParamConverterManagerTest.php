@@ -11,186 +11,168 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @group controller_annotations
  */
-class ParamConverterManagerTest extends UnitTestCase
-{
-    public function testPriorities()
-    {
-        $manager = new ParamConverterManager();
-        $this->assertEquals(array(), $manager->all());
+class ParamConverterManagerTest extends UnitTestCase {
 
-        $high = $this->createParamConverterMock();
-        $low = $this->createParamConverterMock();
+  public function testPriorities() {
+    $manager = new ParamConverterManager();
+    $this->assertEquals([], $manager->all());
 
-        $manager->add($low);
-        $manager->add($high, 10);
+    $high = $this->createParamConverterMock();
+    $low = $this->createParamConverterMock();
 
-        $this->assertEquals(array($high, $low), $manager->all());
-    }
+    $manager->add($low);
+    $manager->add($high, 10);
 
-    public function testApply()
-    {
-        $supported = $this->createParamConverterMock();
-        $supported
-          ->expects($this->once())
-          ->method('supports')
-          ->will($this->returnValue(true))
-        ;
-        $supported
-          ->expects($this->once())
-          ->method('apply')
-          ->will($this->returnValue(false))
-        ;
+    $this->assertEquals([$high, $low], $manager->all());
+  }
 
-        $invalid = $this->createParamConverterMock();
-        $invalid
-          ->expects($this->once())
-          ->method('supports')
-          ->will($this->returnValue(false))
-        ;
-        $invalid
-          ->expects($this->never())
-          ->method('apply')
-        ;
+  public function testApply() {
+    $supported = $this->createParamConverterMock();
+    $supported
+      ->expects($this->once())
+      ->method('supports')
+      ->will($this->returnValue(TRUE));
+    $supported
+      ->expects($this->once())
+      ->method('apply')
+      ->will($this->returnValue(FALSE));
 
-        $configurations = array(
-          new Configuration\ParamConverter(array(
-            'name' => 'var',
-          )),
-        );
+    $invalid = $this->createParamConverterMock();
+    $invalid
+      ->expects($this->once())
+      ->method('supports')
+      ->will($this->returnValue(FALSE));
+    $invalid
+      ->expects($this->never())
+      ->method('apply');
 
-        $manager = new ParamConverterManager();
-        $manager->add($supported);
-        $manager->add($invalid);
-        $manager->apply(new Request(), $configurations);
-    }
+    $configurations = [
+      new Configuration\ParamConverter([
+      'name' => 'var',
+      ]),
+    ];
 
-    public function testApplyNamedConverter()
-    {
-        $converter = $this->createParamConverterMock();
-        $converter
-          ->expects($this->any())
-          ->method('supports')
-          ->will($this->returnValue(true))
-        ;
+    $manager = new ParamConverterManager();
+    $manager->add($supported);
+    $manager->add($invalid);
+    $manager->apply(new Request(), $configurations);
+  }
 
-        $converter
-          ->expects($this->any())
-          ->method('apply')
-        ;
+  public function testApplyNamedConverter() {
+    $converter = $this->createParamConverterMock();
+    $converter
+      ->expects($this->any())
+      ->method('supports')
+      ->will($this->returnValue(TRUE));
 
-        $request = new Request();
-        $request->attributes->set('param', '1234');
+    $converter
+      ->expects($this->any())
+      ->method('apply');
 
-        $configuration = new Configuration\ParamConverter(array(
-          'name' => 'param',
-          'class' => 'stdClass',
-          'converter' => 'test',
-        ));
+    $request = new Request();
+    $request->attributes->set('param', '1234');
 
-        $manager = new ParamConverterManager();
-        $manager->add($converter, 0, 'test');
-        $this->assertNull($manager->apply($request, array($configuration)));
-    }
+    $configuration = new Configuration\ParamConverter([
+      'name' => 'param',
+      'class' => 'stdClass',
+      'converter' => 'test',
+    ]);
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Converter 'test' does not support conversion of parameter 'param'.
-     */
-    public function testApplyNamedConverterNotSupportsParameter()
-    {
-        $converter = $this->createParamConverterMock();
-        $converter
-          ->expects($this->any())
-          ->method('supports')
-          ->will($this->returnValue(false))
-        ;
+    $manager = new ParamConverterManager();
+    $manager->add($converter, 0, 'test');
+    $this->assertNull($manager->apply($request, [$configuration]));
+  }
 
-        $request = new Request();
-        $request->attributes->set('param', '1234');
+  /**
+   * @expectedException    \RuntimeException
+   * @expectedExceptionMessage Converter 'test' does not support conversion of parameter 'param'.
+   */
+  public function testApplyNamedConverterNotSupportsParameter() {
+    $converter = $this->createParamConverterMock();
+    $converter
+      ->expects($this->any())
+      ->method('supports')
+      ->will($this->returnValue(FALSE));
 
-        $configuration = new Configuration\ParamConverter(array(
-          'name' => 'param',
-          'class' => 'stdClass',
-          'converter' => 'test',
-        ));
+    $request = new Request();
+    $request->attributes->set('param', '1234');
 
-        $manager = new ParamConverterManager();
-        $manager->add($converter, 0, 'test');
-        $manager->apply($request, array($configuration));
-    }
+    $configuration = new Configuration\ParamConverter([
+      'name' => 'param',
+      'class' => 'stdClass',
+      'converter' => 'test',
+    ]);
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage No converter named 'test' found for conversion of parameter 'param'.
-     */
-    public function testApplyNamedConverterNoConverter()
-    {
-        $request = new Request();
-        $request->attributes->set('param', '1234');
+    $manager = new ParamConverterManager();
+    $manager->add($converter, 0, 'test');
+    $manager->apply($request, [$configuration]);
+  }
 
-        $configuration = new Configuration\ParamConverter(array(
-          'name' => 'param',
-          'class' => 'stdClass',
-          'converter' => 'test',
-        ));
+  /**
+   * @expectedException    \RuntimeException
+   * @expectedExceptionMessage No converter named 'test' found for conversion of parameter 'param'.
+   */
+  public function testApplyNamedConverterNoConverter() {
+    $request = new Request();
+    $request->attributes->set('param', '1234');
 
-        $manager = new ParamConverterManager();
-        $manager->apply($request, array($configuration));
-    }
+    $configuration = new Configuration\ParamConverter([
+      'name' => 'param',
+      'class' => 'stdClass',
+      'converter' => 'test',
+    ]);
 
-    public function testApplyNotCalledOnAlreadyConvertedObjects()
-    {
-        $converter = $this->createParamConverterMock();
-        $converter
-          ->expects($this->never())
-          ->method('supports')
-        ;
+    $manager = new ParamConverterManager();
+    $manager->apply($request, [$configuration]);
+  }
 
-        $converter
-          ->expects($this->never())
-          ->method('apply')
-        ;
+  public function testApplyNotCalledOnAlreadyConvertedObjects() {
+    $converter = $this->createParamConverterMock();
+    $converter
+      ->expects($this->never())
+      ->method('supports');
 
-        $request = new Request();
-        $request->attributes->set('converted', new \stdClass());
+    $converter
+      ->expects($this->never())
+      ->method('apply');
 
-        $configuration = new Configuration\ParamConverter(array(
-          'name' => 'converted',
-          'class' => 'stdClass',
-        ));
+    $request = new Request();
+    $request->attributes->set('converted', new \stdClass());
 
-        $manager = new ParamConverterManager();
-        $manager->add($converter);
-        $manager->apply($request, array($configuration));
-    }
+    $configuration = new Configuration\ParamConverter([
+      'name' => 'converted',
+      'class' => 'stdClass',
+    ]);
 
-    public function testApplyWithoutArray()
-    {
-        $converter = $this->createParamConverterMock();
-        $converter
-          ->expects($this->any())
-          ->method('supports')
-          ->will($this->returnValue(false))
-        ;
+    $manager = new ParamConverterManager();
+    $manager->add($converter);
+    $manager->apply($request, [$configuration]);
+  }
 
-        $converter
-          ->expects($this->never())
-          ->method('apply')
-        ;
+  public function testApplyWithoutArray() {
+    $converter = $this->createParamConverterMock();
+    $converter
+      ->expects($this->any())
+      ->method('supports')
+      ->will($this->returnValue(FALSE));
 
-        $request = new Request();
+    $converter
+      ->expects($this->never())
+      ->method('apply');
 
-        $configuration = new Configuration\ParamConverter(array(
-          'name' => 'var',
-        ));
+    $request = new Request();
 
-        $manager = new ParamConverterManager();
-        $manager->add($converter);
-        $manager->apply($request, $configuration);
-    }
+    $configuration = new Configuration\ParamConverter([
+      'name' => 'var',
+    ]);
 
-    protected function createParamConverterMock()
-    {
-        return $this->getMockBuilder(ParamConverterInterface::class)->getMock();
-    }
+    $manager = new ParamConverterManager();
+    $manager->add($converter);
+    $manager->apply($request, $configuration);
+  }
+
+  protected function createParamConverterMock() {
+    return $this->getMockBuilder(ParamConverterInterface::class)->getMock();
+  }
+
 }

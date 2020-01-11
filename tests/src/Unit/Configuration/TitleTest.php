@@ -7,51 +7,49 @@ use Drupal\Tests\UnitTestCase;
 use Mockery as m;
 use Symfony\Component\Routing\Route;
 
-class TitleTest extends UnitTestCase
-{
-    public function testModifyRouteMethod()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setDefault')->once()->withArgs(['_title', 'Hello World']);
-        $route->shouldReceive('setDefault')->once()->withArgs(['_title_arguments', ['arguments' => true]]);
-        $route->shouldReceive('setDefault')->once()->withArgs(['_title_context', ['context' => true]]);
-        $route->shouldReceive('setDefault')->once()->withArgs(['_title_callback', 'foo::callback']);
+class TitleTest extends UnitTestCase {
 
-        $class = m::mock(\ReflectionClass::class);
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModifyRouteMethod() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title', 'Hello World']);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title_arguments', ['arguments' => TRUE]]);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title_context', ['context' => TRUE]]);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title_callback', 'foo::callback']);
 
-        $security = new Title([
-            'value' => 'Hello World',
-            'arguments' => ['arguments' => true],
-            'context' => ['context' => true],
-            'callback' => 'foo::callback'
-        ]);
-        $this->assertNull($security->modifyRouteMethod($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $method = m::mock(\ReflectionMethod::class);
 
-        m::close();
-    }
+    $security = new Title([
+      'value' => 'Hello World',
+      'arguments' => ['arguments' => TRUE],
+      'context' => ['context' => TRUE],
+      'callback' => 'foo::callback',
+    ]);
+    $this->assertNull($security->modifyRouteMethod($route, $class, $method));
 
-    public function testModifyRouteMethodInlineAccess()
-    {
-        $route = m::mock(Route::class);
-        $route->shouldReceive('setDefault')->once()->withArgs(['_title_callback', 'foo::callback']);
+    m::close();
+  }
 
-        $class = m::mock(\ReflectionClass::class);
-        $class->shouldReceive('hasMethod')->andReturn('callback');
-        $class->shouldReceive('getName')->andReturn('foo');
-        $method = m::mock(\ReflectionMethod::class);
+  public function testModifyRouteMethodInlineAccess() {
+    $route = m::mock(Route::class);
+    $route->shouldReceive('setDefault')->once()->withArgs(['_title_callback', 'foo::callback']);
 
-        $security = new Title([
-            'callback' => 'callback'
-        ]);
-        $this->assertNull($security->modifyRouteClass($route, $class, $method));
+    $class = m::mock(\ReflectionClass::class);
+    $class->shouldReceive('hasMethod')->andReturn('callback');
+    $class->shouldReceive('getName')->andReturn('foo');
+    $method = m::mock(\ReflectionMethod::class);
 
-        m::close();
-    }
+    $security = new Title([
+      'callback' => 'callback',
+    ]);
+    $this->assertNull($security->modifyRouteClass($route, $class, $method));
 
-    public function testUnknownProperty()
-    {
-        $this->setExpectedException(\RuntimeException::class);
-        new Title(['foo' => 'bar']);
-    }
+    m::close();
+  }
+
+  public function testUnknownProperty() {
+    $this->setExpectedException(\RuntimeException::class);
+    new Title(['foo' => 'bar']);
+  }
+
 }

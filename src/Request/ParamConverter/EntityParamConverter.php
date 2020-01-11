@@ -13,101 +13,97 @@ use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class EntityParamConverter implements ParamConverterInterface
-{
+class EntityParamConverter implements ParamConverterInterface {
 
-    /**
-     * @var EntityTypeManagerInterface
-     */
-    private $entityTypeManager;
+  /**
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  private $entityTypeManager;
 
-    /**
-     * @param EntityTypeManagerInterface $entityTypeManager
-     */
-    public function __construct(EntityTypeManagerInterface $entityTypeManager)
-    {
-        $this->entityTypeManager = $entityTypeManager;
+  /**
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   */
+  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+    $this->entityTypeManager = $entityTypeManager;
+  }
+
+  /**
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
+   *
+   * @return bool
+   */
+  public function apply(Request $request, ParamConverter $configuration) {
+    $param = $configuration->getName();
+    if (!$request->attributes->has($param)) {
+      return FALSE;
     }
 
-    /**
-     * @param Request $request
-     * @param ParamConverter $configuration
-     *
-     * @return bool
-     */
-    public function apply(Request $request, ParamConverter $configuration)
-    {
-        $param = $configuration->getName();
-        if (!$request->attributes->has($param)) {
-            return false;
-        }
-
-        $value = $request->attributes->get($param);
-        if (!$value && $configuration->isOptional()) {
-            return false;
-        }
-
-        $request->attributes->set(
-            $param,
-            $this->getNode($value, $configuration)
-        );
-
-        return true;
+    $value = $request->attributes->get($param);
+    if (!$value && $configuration->isOptional()) {
+      return FALSE;
     }
 
-    /**
-     * @param string $value
-     * @param ParamConverter $configuration
-     *
-     * @return EntityInterface|null
-     */
-    protected function getNode($value, ParamConverter $configuration)
-    {
-        $node = $this->entityTypeManager->getStorage('node')->load($value);
-        $this->assertValidNode($configuration, $node);
+    $request->attributes->set(
+      $param,
+      $this->getNode($value, $configuration)
+    );
 
-        return $node;
-    }
+    return TRUE;
+  }
 
-    /**
-     * @param ParamConverter $configuration
-     * @param EntityInterface $node
-     */
-    protected function assertValidNode(
-        ParamConverter $configuration,
-        EntityInterface $node = null
-    ) {
-        if (is_null($node) && $configuration->isOptional()) {
-            return;
-        }
-        if (is_null($node)) {
-            throw new NotFoundHttpException('entity not found.');
-        }
-        $options = $configuration->getOptions();
-        if (isset($options['bundle']) && $node->bundle() !== $options['bundle']) {
-            throw new NotFoundHttpException(
-                sprintf('%s not found.', $options['bundle'])
-            );
-        }
-    }
+  /**
+   * @param string $value
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   */
+  protected function getNode($value, ParamConverter $configuration) {
+    $node = $this->entityTypeManager->getStorage('node')->load($value);
+    $this->assertValidNode($configuration, $node);
 
-    /**
-     * @param ParamConverter $configuration
-     *
-     * @return bool
-     */
-    public function supports(ParamConverter $configuration)
-    {
-        return in_array(
-            $configuration->getClass(),
-            [
-                NodeInterface::class,
-                Node::class,
-                EntityInterface::class,
-                Entity::class,
-                ContentEntityInterface::class,
-                ContentEntityBase::class,
-            ]
-        );
+    return $node;
+  }
+
+  /**
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
+   * @param \Drupal\Core\Entity\EntityInterface $node
+   */
+  protected function assertValidNode(
+    ParamConverter $configuration,
+    EntityInterface $node = NULL
+  ) {
+    if (is_null($node) && $configuration->isOptional()) {
+      return;
     }
+    if (is_null($node)) {
+      throw new NotFoundHttpException('entity not found.');
+    }
+    $options = $configuration->getOptions();
+    if (isset($options['bundle']) && $node->bundle() !== $options['bundle']) {
+      throw new NotFoundHttpException(
+        sprintf('%s not found.', $options['bundle'])
+      );
+    }
+  }
+
+  /**
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
+   *
+   * @return bool
+   */
+  public function supports(ParamConverter $configuration) {
+    return in_array(
+      $configuration->getClass(),
+      [
+        NodeInterface::class,
+        Node::class,
+        EntityInterface::class,
+        Entity::class,
+        ContentEntityInterface::class,
+        ContentEntityBase::class,
+      ]
+    );
+  }
+
 }

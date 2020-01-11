@@ -14,111 +14,106 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 /**
  * @group controller_annotations
  */
-class ControllerEventSubscriberTest extends UnitTestCase
-{
-    public function testOnKernelController()
-    {
-        $reader = m::mock(Reader::class);
+class ControllerEventSubscriberTest extends UnitTestCase {
 
-        $eventSubscriber = new ControllerEventSubscriber($reader);
+  public function testOnKernelController() {
+    $reader = m::mock(Reader::class);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getController')->once()->andReturn(null);
+    $eventSubscriber = new ControllerEventSubscriber($reader);
 
-        $this->assertNull($eventSubscriber->onKernelController($event));
-    }
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getController')->once()->andReturn(NULL);
 
-    public function testControllerInvoke()
-    {
-        $reader = m::mock(Reader::class);
-        $reader->shouldReceive('getClassAnnotations')->andReturn([]);
-        $reader->shouldReceive('getMethodAnnotations')->andReturn([]);
+    $this->assertNull($eventSubscriber->onKernelController($event));
+  }
 
-        $eventSubscriber = new ControllerEventSubscriber($reader);
+  public function testControllerInvoke() {
+    $reader = m::mock(Reader::class);
+    $reader->shouldReceive('getClassAnnotations')->andReturn([]);
+    $reader->shouldReceive('getMethodAnnotations')->andReturn([]);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getController')->once()->andReturn(new ControllerInvokableController);
-        $event->shouldReceive('getRequest')->once()->andReturn(new Request);
+    $eventSubscriber = new ControllerEventSubscriber($reader);
 
-        $this->assertNull($eventSubscriber->onKernelController($event));
-    }
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getController')->once()->andReturn(new ControllerInvokableController());
+    $event->shouldReceive('getRequest')->once()->andReturn(new Request());
 
-    public function testMultipleConfigurations()
-    {
-        $configuration = m::mock(ConfigurationInterface::class);
-        $configuration->shouldReceive('allowArray')->andReturn(true);
-        $configuration->shouldReceive('getAliasName')->andReturn('foo');
+    $this->assertNull($eventSubscriber->onKernelController($event));
+  }
 
-        $reader = m::mock(Reader::class);
-        $reader->shouldReceive('getClassAnnotations')->andReturn([
-          $configuration,
-          $configuration
-        ]);
-        $reader->shouldReceive('getMethodAnnotations')->andReturn([]);
+  public function testMultipleConfigurations() {
+    $configuration = m::mock(ConfigurationInterface::class);
+    $configuration->shouldReceive('allowArray')->andReturn(TRUE);
+    $configuration->shouldReceive('getAliasName')->andReturn('foo');
 
-        $eventSubscriber = new ControllerEventSubscriber($reader);
+    $reader = m::mock(Reader::class);
+    $reader->shouldReceive('getClassAnnotations')->andReturn([
+      $configuration,
+      $configuration,
+    ]);
+    $reader->shouldReceive('getMethodAnnotations')->andReturn([]);
 
-        $event = m::mock(FilterControllerEvent::class);
-        $event->shouldReceive('getController')->once()->andReturn(new ControllerInvokableController);
-        $event->shouldReceive('getRequest')->once()->andReturn(new Request);
+    $eventSubscriber = new ControllerEventSubscriber($reader);
 
-        $this->assertNull($eventSubscriber->onKernelController($event));
-    }
+    $event = m::mock(FilterControllerEvent::class);
+    $event->shouldReceive('getController')->once()->andReturn(new ControllerInvokableController());
+    $event->shouldReceive('getRequest')->once()->andReturn(new Request());
 
-    public function testMergeConfigurations()
-    {
-        $classConfigurations = [
-          'foo' => 'bar'
-        ];
-        $methodConfigurations = [
-          'foo' => 'bar'
-        ];
+    $this->assertNull($eventSubscriber->onKernelController($event));
+  }
 
-        $reader = m::mock(Reader::class);
-        $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
-        $eventSubscriber = new ControllerEventSubscriber($reader);
-        $result = $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
-        $this->assertEquals(['foo' => 'bar'], $result);
-    }
+  public function testMergeConfigurations() {
+    $classConfigurations = [
+      'foo' => 'bar',
+    ];
+    $methodConfigurations = [
+      'foo' => 'bar',
+    ];
 
-    public function testMergeConfigurationsArray()
-    {
-        $classConfigurations = [
-          'foo' => ['bar']
-        ];
-        $methodConfigurations = [
-          'foo' => ['baz']
-        ];
+    $reader = m::mock(Reader::class);
+    $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
+    $eventSubscriber = new ControllerEventSubscriber($reader);
+    $result = $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
+    $this->assertEquals(['foo' => 'bar'], $result);
+  }
 
-        $reader = m::mock(Reader::class);
-        $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
-        $eventSubscriber = new ControllerEventSubscriber($reader);
-        $result = $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
+  public function testMergeConfigurationsArray() {
+    $classConfigurations = [
+      'foo' => ['bar'],
+    ];
+    $methodConfigurations = [
+      'foo' => ['baz'],
+    ];
 
-        $this->assertEquals(['foo' => ['bar', 'baz']], $result);
-    }
+    $reader = m::mock(Reader::class);
+    $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
+    $eventSubscriber = new ControllerEventSubscriber($reader);
+    $result = $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
 
-    public function testMergeConfigurationsMismatch()
-    {
-        $this->setExpectedException(\UnexpectedValueException::class);
+    $this->assertEquals(['foo' => ['bar', 'baz']], $result);
+  }
 
-        $classConfigurations = [
-          'foo' => ['bar']
-        ];
-        $methodConfigurations = [
-          'foo' => 'bar'
-        ];
+  public function testMergeConfigurationsMismatch() {
+    $this->setExpectedException(\UnexpectedValueException::class);
 
-        $reader = m::mock(Reader::class);
-        $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
-        $eventSubscriber = new ControllerEventSubscriber($reader);
-        $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
-    }
+    $classConfigurations = [
+      'foo' => ['bar'],
+    ];
+    $methodConfigurations = [
+      'foo' => 'bar',
+    ];
+
+    $reader = m::mock(Reader::class);
+    $method = Helper::getProtectedMethod(ControllerEventSubscriber::class, 'mergeConfigurations');
+    $eventSubscriber = new ControllerEventSubscriber($reader);
+    $method->invokeArgs($eventSubscriber, [$classConfigurations, $methodConfigurations]);
+  }
+
 }
 
-class ControllerInvokableController
-{
-    public function __invoke()
-    {
-    }
+class ControllerInvokableController {
+
+  public function __invoke() {
+  }
+
 }
