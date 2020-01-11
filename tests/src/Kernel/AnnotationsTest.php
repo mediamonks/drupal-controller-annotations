@@ -81,12 +81,12 @@ class AnnotationsTest extends KernelTestBase {
     $this->assertForbidden(Request::create('/test/security/permission'));
     $this->setAccount(new UserSession([
       'uid' => 2,
-      'permissions' => ['foo']
+      'permissions' => ['foo'],
     ]));
     $this->assertForbidden(Request::create('/test/security/permission'));
     $this->setAccount(new UserSession([
       'uid' => 2,
-      'permissions' => ['access content']
+      'permissions' => ['access content'],
     ]));
 
     $this->assertResponseContents(Request::create('/test/security/permission'), 'OK');
@@ -109,7 +109,7 @@ class AnnotationsTest extends KernelTestBase {
     $this->setAdministratorAccount();
     $this->assertForbidden(Request::create('/test/security/custom'));
     $this->setAccount(new UserSession([
-      'uid' => 1337
+      'uid' => 1337,
     ]));
     $this->assertResponseContents(Request::create('/test/security/custom'), 'OK');
 
@@ -121,14 +121,14 @@ class AnnotationsTest extends KernelTestBase {
     $this->setAdministratorAccount();
     $this->assertForbidden(Request::create('/test/security/custom-inline'));
     $this->setAccount(new UserSession([
-      'uid' => 1337
+      'uid' => 1337,
     ]));
     $this->assertResponseContents(Request::create('/test/security/custom-inline'), 'OK');
 
     // csrf
     $this->assertForbidden(Request::create('/test/security/csrf'));
     $this->assertResponseContents(Request::create('/test/security/csrf', 'GET', [
-      'token' => $this->kernel->getContainer()->get('csrf_token')->get('test/security/csrf')
+      'token' => $this->kernel->getContainer()->get('csrf_token')->get('test/security/csrf'),
     ]), 'OK');
   }
 

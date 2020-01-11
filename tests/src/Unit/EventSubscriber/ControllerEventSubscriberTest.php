@@ -49,7 +49,7 @@ class ControllerEventSubscriberTest extends UnitTestCase {
     $reader = m::mock(Reader::class);
     $reader->shouldReceive('getClassAnnotations')->andReturn([
       $configuration,
-      $configuration
+      $configuration,
     ]);
     $reader->shouldReceive('getMethodAnnotations')->andReturn([]);
 
@@ -64,10 +64,10 @@ class ControllerEventSubscriberTest extends UnitTestCase {
 
   public function testMergeConfigurations() {
     $classConfigurations = [
-      'foo' => 'bar'
+      'foo' => 'bar',
     ];
     $methodConfigurations = [
-      'foo' => 'bar'
+      'foo' => 'bar',
     ];
 
     $reader = m::mock(Reader::class);
@@ -79,10 +79,10 @@ class ControllerEventSubscriberTest extends UnitTestCase {
 
   public function testMergeConfigurationsArray() {
     $classConfigurations = [
-      'foo' => ['bar']
+      'foo' => ['bar'],
     ];
     $methodConfigurations = [
-      'foo' => ['baz']
+      'foo' => ['baz'],
     ];
 
     $reader = m::mock(Reader::class);
@@ -97,10 +97,10 @@ class ControllerEventSubscriberTest extends UnitTestCase {
     $this->setExpectedException(\UnexpectedValueException::class);
 
     $classConfigurations = [
-      'foo' => ['bar']
+      'foo' => ['bar'],
     ];
     $methodConfigurations = [
-      'foo' => 'bar'
+      'foo' => 'bar',
     ];
 
     $reader = m::mock(Reader::class);

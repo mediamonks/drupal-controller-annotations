@@ -92,7 +92,7 @@ class TemplateEventSubscriberTest extends UnitTestCase {
     $templateResolver->shouldReceive('normalize')->once()->andReturn($templateName);
 
     $template = new Template([
-      'template' => $templateName
+      'template' => $templateName,
     ]);
 
     $request = new Request();

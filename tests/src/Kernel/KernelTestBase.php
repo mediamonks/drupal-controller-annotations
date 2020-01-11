@@ -117,7 +117,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   protected function setAuthenticatedAccount() {
     $this->setAccount(new UserSession([
       'uid' => 2,
-      'roles' => ['authenticated']
+      'roles' => ['authenticated'],
     ]));
   }
 
@@ -127,7 +127,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   protected function setAdministratorAccount() {
     $this->setAccount(new UserSession([
       'uid' => 1,
-      'roles' => ['administrator', 'authenticated']
+      'roles' => ['administrator', 'authenticated'],
     ]));
   }
 

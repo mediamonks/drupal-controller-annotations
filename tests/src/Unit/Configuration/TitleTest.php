@@ -23,7 +23,7 @@ class TitleTest extends UnitTestCase {
       'value' => 'Hello World',
       'arguments' => ['arguments' => TRUE],
       'context' => ['context' => TRUE],
-      'callback' => 'foo::callback'
+      'callback' => 'foo::callback',
     ]);
     $this->assertNull($security->modifyRouteMethod($route, $class, $method));
 
@@ -40,7 +40,7 @@ class TitleTest extends UnitTestCase {
     $method = m::mock(\ReflectionMethod::class);
 
     $security = new Title([
-      'callback' => 'callback'
+      'callback' => 'callback',
     ]);
     $this->assertNull($security->modifyRouteClass($route, $class, $method));
 

@@ -27,7 +27,7 @@ class SecurityTest extends UnitTestCase {
       'role' => 'role',
       'entity' => 'entity',
       'csrf' => TRUE,
-      'custom' => 'foo::custom'
+      'custom' => 'foo::custom',
     ]);
     $this->assertNull($security->modifyRouteMethod($route, $class, $method));
 
@@ -44,7 +44,7 @@ class SecurityTest extends UnitTestCase {
     $method = m::mock(\ReflectionMethod::class);
 
     $security = new Security([
-      'custom' => 'custom'
+      'custom' => 'custom',
     ]);
     $this->assertNull($security->modifyRouteMethod($route, $class, $method));
 

@@ -31,7 +31,7 @@ class AnnotatedRouteControllerLoaderTest extends UnitTestCase {
     $reader->shouldReceive('getClassAnnotation')->andReturn($routeConfiguration);
     $reader->shouldReceive('getMethodAnnotations')->andReturn([
       $routeConfiguration,
-      $methodConfiguration
+      $methodConfiguration,
     ]);
     $reader->shouldReceive('getClassAnnotations')->andReturn([]);
 
