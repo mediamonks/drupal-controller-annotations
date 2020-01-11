@@ -37,7 +37,7 @@ class ParamConverterController extends ControllerBase {
    * @ParamConverter
    */
   public function dateMultipleAction(\DateTime $start, \DateTime $end) {
-    return new Response($start->format('Y-m-d').'-'.$end->format('Y-m-d'));
+    return new Response($start->format('Y-m-d') . '-' . $end->format('Y-m-d'));
   }
 
   /**

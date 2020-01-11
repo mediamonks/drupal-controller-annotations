@@ -119,7 +119,7 @@ class ParamConverter extends ConfigurationAnnotation {
    *   Whether the parameter is optional.
    */
   public function setIsOptional($optional) {
-    $this->optional = (bool)$optional;
+    $this->optional = (bool) $optional;
   }
 
   /**

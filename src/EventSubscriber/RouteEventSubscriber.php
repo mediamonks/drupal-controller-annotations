@@ -50,7 +50,7 @@ class RouteEventSubscriber implements EventSubscriberInterface {
       if ($route->hasOption('type')
         && $route->getOption('type') === 'annotation'
       ) {
-        $routeCollection = $this->annotationDirectoryLoader->load($this->rootPath.$this->getRoutePath($route));
+        $routeCollection = $this->annotationDirectoryLoader->load($this->rootPath . $this->getRoutePath($route));
         $routeCollection->addPrefix($route->getPath());
 
         $event->getRouteCollection()->addCollection($routeCollection);

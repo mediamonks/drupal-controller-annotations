@@ -89,7 +89,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
    * @param \Symfony\Component\HttpFoundation\Request $request
    */
   protected function assertTitleStartsWith(Request $request, $title) {
-    $this->assertResponseContains($request, '<title>'.$title);
+    $this->assertResponseContains($request, '<title>' . $title);
   }
 
   /**

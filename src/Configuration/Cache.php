@@ -142,7 +142,7 @@ class Cache extends ConfigurationAnnotation {
    *   A boolean value.
    */
   public function setPublic($public) {
-    $this->public = (bool)$public;
+    $this->public = (bool) $public;
   }
 
   /**

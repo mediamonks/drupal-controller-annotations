@@ -5,7 +5,7 @@ namespace Drupal\Tests\controller_annotations\Unit\Templating;
 use Drupal\controller_annotations\Templating\TemplateResolver;
 use Drupal\Tests\UnitTestCase;
 
-require_once __DIR__.'/../../polyfill.php';
+require_once __DIR__ . '/../../polyfill.php';
 
 /**
  * @group controller_annotations

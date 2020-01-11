@@ -55,7 +55,7 @@ class Template extends ConfigurationAnnotation {
    * @return bool
    */
   public function isStreamable() {
-    return (bool)$this->streamable;
+    return (bool) $this->streamable;
   }
 
   /**

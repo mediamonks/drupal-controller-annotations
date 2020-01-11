@@ -110,10 +110,10 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
     foreach ($annotations as $configuration) {
       if ($configuration instanceof ConfigurationInterface) {
         if ($configuration->allowArray()) {
-          $configurations['_'.$configuration->getAliasName()][] = $configuration;
+          $configurations['_' . $configuration->getAliasName()][] = $configuration;
         }
-        elseif (!isset($configurations['_'.$configuration->getAliasName()])) {
-          $configurations['_'.$configuration->getAliasName()] = $configuration;
+        elseif (!isset($configurations['_' . $configuration->getAliasName()])) {
+          $configurations['_' . $configuration->getAliasName()] = $configuration;
         }
         else {
           throw new \LogicException(
