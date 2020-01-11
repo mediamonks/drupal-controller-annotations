@@ -4,8 +4,8 @@ namespace Drupal\Tests\controller_annotations\Kernel;
 
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AnonymousUserSession;
-use Drupal\Tests\controller_annotations\Kernel\TestUserSession as UserSession;
 use Drupal\KernelTests\KernelTestBase as BaseKernelTestBase;
+use Drupal\Tests\controller_annotations\Kernel\TestUserSession as UserSession;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
