@@ -27,8 +27,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
    * @param Request $request
    * @param $contents
    */
-  protected function assertResponseContents(Request $request, $contents)
-  {
+  protected function assertResponseContents(Request $request, $contents) {
     $response = $this->request($request);
     if ($response instanceof StreamedResponse) {
       ob_start();
@@ -47,8 +46,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
    * @param Request $request
    * @param $contents
    */
-  protected function assertResponseContains(Request $request, $contents)
-  {
+  protected function assertResponseContains(Request $request, $contents) {
     $response = $this->request($request);
     //echo $response->getContent();
     $this->assertTrue(strpos($response->getContent(), $contents) !== false);
@@ -58,8 +56,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
    * @param Request $request
    * @param $contents
    */
-  protected function assertResponseNotContains(Request $request, $contents)
-  {
+  protected function assertResponseNotContains(Request $request, $contents) {
     $response = $this->request($request);
     $this->assertTrue(strpos($response->getContent(), $contents) === false);
   }
@@ -67,8 +64,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    * @param Request $request
    */
-  protected function assertNotFound(Request $request)
-  {
+  protected function assertNotFound(Request $request) {
     $response = $this->request($request);
     $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
   }
@@ -76,8 +72,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    * @param Request $request
    */
-  protected function assertMethodNotAllowed(Request $request)
-  {
+  protected function assertMethodNotAllowed(Request $request) {
     $response = $this->request($request);
     $this->assertEquals(Response::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
   }
@@ -85,8 +80,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    * @param Request $request
    */
-  protected function assertForbidden(Request $request)
-  {
+  protected function assertForbidden(Request $request) {
     $response = $this->request($request);
     $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
   }
@@ -94,8 +88,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    * @param Request $request
    */
-  protected function assertTitleStartsWith(Request $request, $title)
-  {
+  protected function assertTitleStartsWith(Request $request, $title) {
     $this->assertResponseContains($request, '<title>'.$title);
   }
 
@@ -103,8 +96,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
    * @param Request $request
    * @return Response
    */
-  protected function request(Request $request)
-  {
+  protected function request(Request $request) {
     if (empty($this->kernel)) {
       $this->kernel = DrupalTestKernel::createFromRequest($request, $this->classLoader, 'prod');
     }
@@ -115,16 +107,14 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    *
    */
-  protected function setAnonymousAccount()
-  {
+  protected function setAnonymousAccount() {
     $this->setAccount(new AnonymousUserSession());
   }
 
   /**
    *
    */
-  protected function setAuthenticatedAccount()
-  {
+  protected function setAuthenticatedAccount() {
     $this->setAccount(new UserSession([
       'uid' => 2,
       'roles' => ['authenticated']
@@ -134,8 +124,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    *
    */
-  protected function setAdministratorAccount()
-  {
+  protected function setAdministratorAccount() {
     $this->setAccount(new UserSession([
       'uid' => 1,
       'roles' => ['administrator', 'authenticated']
@@ -145,8 +134,7 @@ abstract class KernelTestBase extends BaseKernelTestBase
   /**
    * @param AccountInterface $account
    */
-  protected function setAccount(AccountInterface $account)
-  {
+  protected function setAccount(AccountInterface $account) {
     $this->kernel->getContainer()->get('current_user')->setAccount($account);
   }
 }

@@ -42,16 +42,14 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   /**
    * @return bool
    */
-  public function hasPermission()
-  {
+  public function hasPermission() {
     return !empty($this->permission);
   }
 
   /**
    * @return string
    */
-  public function getPermission()
-  {
+  public function getPermission() {
     return $this->permission;
   }
 
@@ -59,8 +57,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param string $permission
    * @return Security
    */
-  public function setPermission($permission)
-  {
+  public function setPermission($permission) {
     $this->permission = $permission;
 
     return $this;
@@ -69,16 +66,14 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   /**
    * @return bool
    */
-  public function hasRole()
-  {
+  public function hasRole() {
     return !empty($this->role);
   }
 
   /**
    * @return string
    */
-  public function getRole()
-  {
+  public function getRole() {
     return $this->role;
   }
 
@@ -86,8 +81,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param string $role
    * @return Security
    */
-  public function setRole($role)
-  {
+  public function setRole($role) {
     $this->role = $role;
 
     return $this;
@@ -96,8 +90,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   /**
    * @return bool
    */
-  public function isAccess()
-  {
+  public function isAccess() {
     return $this->access;
   }
 
@@ -105,8 +98,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param bool $access
    * @return Security
    */
-  public function setAccess($access)
-  {
+  public function setAccess($access) {
     $this->access = $access;
 
     return $this;
@@ -115,16 +107,14 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   /**
    * @return bool
    */
-  public function hasEntity()
-  {
+  public function hasEntity() {
     return !empty($this->entity);
   }
 
   /**
    * @return string
    */
-  public function getEntity()
-  {
+  public function getEntity() {
     return $this->entity;
   }
 
@@ -132,8 +122,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param string $entity
    * @return Security
    */
-  public function setEntity($entity)
-  {
+  public function setEntity($entity) {
     $this->entity = $entity;
 
     return $this;
@@ -142,16 +131,14 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   /**
    * @return bool
    */
-  public function hasCustom()
-  {
+  public function hasCustom() {
     return !empty($this->custom);
   }
 
   /**
    * @return string
    */
-  public function getCustom()
-  {
+  public function getCustom() {
     return $this->custom;
   }
 
@@ -159,8 +146,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param string $custom
    * @return Security
    */
-  public function setCustom($custom)
-  {
+  public function setCustom($custom) {
     $this->custom = $custom;
 
     return $this;
@@ -169,8 +155,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   /**
    * @return bool
    */
-  public function hasCsrf()
-  {
+  public function hasCsrf() {
     return !empty($this->csrf);
   }
 
@@ -178,20 +163,17 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param bool $csrf
    * @return Security
    */
-  public function setCsrf($csrf)
-  {
+  public function setCsrf($csrf) {
     $this->csrf = $csrf;
 
     return $this;
   }
 
-  public function getAliasName()
-  {
+  public function getAliasName() {
     return 'security';
   }
 
-  public function allowArray()
-  {
+  public function allowArray() {
     return false;
   }
 
@@ -200,8 +182,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
-  public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
-  {
+  public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method) {
     $this->modifyRoute($route, $class);
   }
 
@@ -210,8 +191,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
-  public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
-  {
+  public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method) {
     $this->modifyRoute($route, $class);
   }
 
@@ -219,8 +199,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param RoutingRoute $route
    * @param \ReflectionClass $class
    */
-  protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class)
-  {
+  protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class) {
     if ($this->isAccess()) {
       $route->setRequirement('_access', 'TRUE');
     }
@@ -244,8 +223,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
    * @param RoutingRoute $route
    * @param \ReflectionClass $class
    */
-  protected function setCustomSecurity(RoutingRoute $route, \ReflectionClass $class)
-  {
+  protected function setCustomSecurity(RoutingRoute $route, \ReflectionClass $class) {
     if ($this->hasCustom()) {
       if (strpos($this->getCustom(), '::') === false && $class->hasMethod($this->getCustom())) {
         $this->setCustom(sprintf('%s::%s', $class->getName(), $this->getCustom()));

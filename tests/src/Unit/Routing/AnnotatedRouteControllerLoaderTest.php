@@ -15,8 +15,7 @@ use Symfony\Component\Routing\Route;
  */
 class AnnotatedRouteControllerLoaderTest extends UnitTestCase
 {
-  public function testConfigureRoute()
-  {
+  public function testConfigureRoute() {
     $routeConfiguration = m::mock(\Drupal\controller_annotations\Configuration\Route::class);
     $routeConfiguration->shouldReceive('getService')->andReturn(false);
     $routeConfiguration->shouldReceive('isAdmin')->andReturn(true);

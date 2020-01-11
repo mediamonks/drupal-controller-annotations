@@ -15,8 +15,7 @@ class BasicController extends ControllerBase
   /**
    * @Route("test/basic")
    */
-  public function basicAction()
-  {
+  public function basicAction() {
     return new Response('BasicController::basicAction');
   }
 }

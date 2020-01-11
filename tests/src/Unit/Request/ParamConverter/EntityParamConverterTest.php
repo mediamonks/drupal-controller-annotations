@@ -17,8 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntityParamConverterTest extends UnitTestCase
 {
-  private function getEntityParamConverter()
-  {
+  private function getEntityParamConverter() {
     $node = m::mock(Node::class);
 
     $entityInterface = m::mock(EntityInterface::class);
@@ -30,22 +29,19 @@ class EntityParamConverterTest extends UnitTestCase
     return new EntityParamConverter($entityTypeManager);
   }
 
-  public function testSupports()
-  {
+  public function testSupports() {
     $paramConverter = m::mock(ParamConverter::class);
     $paramConverter->shouldReceive('getClass')->once()->andReturn(Node::class);
     $this->assertTrue($this->getEntityParamConverter()->supports($paramConverter));
   }
 
-  public function testNotSupports()
-  {
+  public function testNotSupports() {
     $paramConverter = m::mock(ParamConverter::class);
     $paramConverter->shouldReceive('getClass')->once()->andReturn(self::class);
     $this->assertFalse($this->getEntityParamConverter()->supports($paramConverter));
   }
 
-  public function testApply()
-  {
+  public function testApply() {
     $name = 'test';
     $request = new Request();
     $request->attributes->set($name, 1);
@@ -64,8 +60,7 @@ class EntityParamConverterTest extends UnitTestCase
     $this->assertEquals($node, $request->attributes->get($name));
   }
 
-  public function testApplyNonExistingEntity()
-  {
+  public function testApplyNonExistingEntity() {
     $this->setExpectedException(NotFoundHttpException::class);
 
     $entityInterface = m::mock(EntityInterface::class);
@@ -89,8 +84,7 @@ class EntityParamConverterTest extends UnitTestCase
     $entityParamConverter->apply($request, $paramConverter);
   }
 
-  public function testApplyWithBundle()
-  {
+  public function testApplyWithBundle() {
     $id = 1;
     $bundle = 'article';
 
@@ -121,8 +115,7 @@ class EntityParamConverterTest extends UnitTestCase
     $this->assertEquals($node, $request->attributes->get($name));
   }
 
-  public function testApplyWithWrongBundle()
-  {
+  public function testApplyWithWrongBundle() {
     $this->setExpectedException(NotFoundHttpException::class);
 
     $id = 1;
@@ -152,8 +145,7 @@ class EntityParamConverterTest extends UnitTestCase
     $nodeParamConverter->apply($request, $paramConverter);
   }
 
-  public function testApplyOptionalWhenEmpty()
-  {
+  public function testApplyOptionalWhenEmpty() {
     $id = 1;
 
     $entityInterface = m::mock(EntityInterface::class);
@@ -180,8 +172,7 @@ class EntityParamConverterTest extends UnitTestCase
     $this->assertEquals(null, $request->attributes->get($name));
   }
 
-  public function testApplyWithoutAttribute()
-  {
+  public function testApplyWithoutAttribute() {
     $id = 1;
     $bundle = 'article';
 
@@ -205,8 +196,7 @@ class EntityParamConverterTest extends UnitTestCase
     $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
   }
 
-  public function testOptional()
-  {
+  public function testOptional() {
     $id = 1;
     $bundle = 'article';
 
@@ -228,8 +218,7 @@ class EntityParamConverterTest extends UnitTestCase
     $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
   }
 
-  public function testOptionalEmptyAttribute()
-  {
+  public function testOptionalEmptyAttribute() {
     $id = 1;
     $bundle = 'article';
 
@@ -253,8 +242,7 @@ class EntityParamConverterTest extends UnitTestCase
     $this->assertFalse($nodeParamConverter->apply($request, $paramConverter));
   }
 
-  public function tearDown()
-  {
+  public function tearDown() {
     m::close();
   }
 }

@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Route;
 
 class RouteTest extends UnitTestCase
 {
-  public function testModifyRouteClass()
-  {
+  public function testModifyRouteClass() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setOption')->once()->withArgs(['_admin_route', true]);
 
@@ -23,8 +22,7 @@ class RouteTest extends UnitTestCase
     m::close();
   }
 
-  public function testModifyMethodClass()
-  {
+  public function testModifyMethodClass() {
     $route = m::mock(Route::class);
 
     $class = m::mock(\ReflectionClass::class);
@@ -36,8 +34,7 @@ class RouteTest extends UnitTestCase
     m::close();
   }
 
-  public function testServiceNotAllowedOnMethodLevel()
-  {
+  public function testServiceNotAllowedOnMethodLevel() {
     $this->setExpectedException(\LogicException::class);
 
     $route = m::mock(Route::class);
@@ -51,14 +48,12 @@ class RouteTest extends UnitTestCase
     m::close();
   }
 
-  public function testAllowArray()
-  {
+  public function testAllowArray() {
     $routeConfig = new RouteConfiguration([]);
     $this->assertTrue($routeConfig->allowArray());
   }
 
-  public function testUnknownProperty()
-  {
+  public function testUnknownProperty() {
     $this->setExpectedException(\BadMethodCallException::class);
     new RouteConfiguration(['foo' => 'bar']);
   }

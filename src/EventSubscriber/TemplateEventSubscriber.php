@@ -29,8 +29,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    * @param \Twig_Environment $twig
    * @param TemplateResolver $resolver
    */
-  public function __construct(\Twig_Environment $twig, TemplateResolver $resolver)
-  {
+  public function __construct(\Twig_Environment $twig, TemplateResolver $resolver) {
     $this->twig = $twig;
     $this->resolver = $resolver;
   }
@@ -41,8 +40,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    *
    * @param FilterControllerEvent $event A FilterControllerEvent instance
    */
-  public function onKernelController(FilterControllerEvent $event)
-  {
+  public function onKernelController(FilterControllerEvent $event) {
     $template = $this->getTemplateFromRequest($event);
     if (!$template instanceof Template) {
       return;
@@ -58,8 +56,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    *
    * @param GetResponseForControllerResultEvent $event
    */
-  public function onKernelView(GetResponseForControllerResultEvent $event)
-  {
+  public function onKernelView(GetResponseForControllerResultEvent $event) {
     $template = $this->getTemplateFromRequest($event);
     if (!$template instanceof Template) {
       return;
@@ -72,16 +69,14 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    * @param KernelEvent $event
    * @return mixed
    */
-  private function getTemplateFromRequest(KernelEvent $event)
-  {
+  private function getTemplateFromRequest(KernelEvent $event) {
     return $event->getRequest()->attributes->get('_template');
   }
 
   /**
    * @param Template $template
    */
-  private function normalizeTemplate(Template $template)
-  {
+  private function normalizeTemplate(Template $template) {
     if (is_null($template->getTemplate())) {
       $templateFile = $this->resolver->resolveByControllerAndAction(
         get_class($template->getOwner()[0]),
@@ -99,8 +94,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    * @param Template $template
    * @param $parameters
    */
-  private function setResponse(GetResponseForControllerResultEvent $event, Template $template, $parameters)
-  {
+  private function setResponse(GetResponseForControllerResultEvent $event, Template $template, $parameters) {
     // make sure the owner (controller+dependencies) is not cached or stored elsewhere
     $template->setOwner([]);
 
@@ -120,8 +114,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    * @param Template $template
    * @return array|mixed
    */
-  private function getParameters(GetResponseForControllerResultEvent $event, Template $template)
-  {
+  private function getParameters(GetResponseForControllerResultEvent $event, Template $template) {
     $parameters = $event->getControllerResult();
 
     $owner = $template->getOwner();
@@ -143,8 +136,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    * @param string $action
    * @return array
    */
-  private function resolveDefaultParameters(Request $request, Template $template, $controller, $action)
-  {
+  private function resolveDefaultParameters(Request $request, Template $template, $controller, $action) {
     $arguments = $template->getVars();
 
     if (0 === count($arguments)) {
@@ -167,8 +159,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
    * @param array $arguments
    * @return array
    */
-  private function resolveParametersWithReflection(Request $request, array $arguments)
-  {
+  private function resolveParametersWithReflection(Request $request, array $arguments) {
     $parameters = [];
     foreach ($arguments as $argument) {
       if ($argument instanceof \ReflectionParameter) {
@@ -188,8 +179,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface
   /**
    * @return array
    */
-  public static function getSubscribedEvents()
-  {
+  public static function getSubscribedEvents() {
     return [
       KernelEvents::CONTROLLER => ['onKernelController', 100],
       KernelEvents::VIEW => ['onKernelView', 10],

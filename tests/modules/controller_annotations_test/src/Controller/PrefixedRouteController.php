@@ -16,8 +16,7 @@ class PrefixedRouteController extends ControllerBase
    * @Route
    * @Security(access=true)
    */
-  public function emptyRouteAction()
-  {
+  public function emptyRouteAction() {
     return new Response('PrefixedBasicController::emptyRouteAction');
   }
 
@@ -25,8 +24,7 @@ class PrefixedRouteController extends ControllerBase
    * @Route("/named", name="named_route")
    * @Security(access=true)
    */
-  public function namedRouteAction()
-  {
+  public function namedRouteAction() {
     return new Response('PrefixedBasicController::namedRouteAction');
   }
 }

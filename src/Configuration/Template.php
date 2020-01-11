@@ -41,24 +41,21 @@ class Template extends ConfigurationAnnotation
    *
    * @return array
    */
-  public function getVars()
-  {
+  public function getVars() {
     return $this->vars;
   }
 
   /**
    * @param bool $streamable
    */
-  public function setIsStreamable($streamable)
-  {
+  public function setIsStreamable($streamable) {
     $this->streamable = $streamable;
   }
 
   /**
    * @return bool
    */
-  public function isStreamable()
-  {
+  public function isStreamable() {
     return (bool)$this->streamable;
   }
 
@@ -67,8 +64,7 @@ class Template extends ConfigurationAnnotation
    *
    * @param array $vars The template variables
    */
-  public function setVars($vars)
-  {
+  public function setVars($vars) {
     $this->vars = $vars;
   }
 
@@ -77,8 +73,7 @@ class Template extends ConfigurationAnnotation
    *
    * @param string $template The template logic name
    */
-  public function setValue($template)
-  {
+  public function setValue($template) {
     $this->setTemplate($template);
   }
 
@@ -87,8 +82,7 @@ class Template extends ConfigurationAnnotation
    *
    * @return string
    */
-  public function getTemplate()
-  {
+  public function getTemplate() {
     return $this->template;
   }
 
@@ -97,8 +91,7 @@ class Template extends ConfigurationAnnotation
    *
    * @param string $template The template reference
    */
-  public function setTemplate($template)
-  {
+  public function setTemplate($template) {
     $this->template = $template;
   }
 
@@ -109,8 +102,7 @@ class Template extends ConfigurationAnnotation
    *
    * @see ConfigurationInterface
    */
-  public function getAliasName()
-  {
+  public function getAliasName() {
     return 'template';
   }
 
@@ -121,16 +113,14 @@ class Template extends ConfigurationAnnotation
    *
    * @see ConfigurationInterface
    */
-  public function allowArray()
-  {
+  public function allowArray() {
     return false;
   }
 
   /**
    * @param array $owner
    */
-  public function setOwner(array $owner)
-  {
+  public function setOwner(array $owner) {
     $this->owner = $owner;
   }
 
@@ -139,8 +129,7 @@ class Template extends ConfigurationAnnotation
    *
    * @return array
    */
-  public function getOwner()
-  {
+  public function getOwner() {
     return $this->owner;
   }
 }

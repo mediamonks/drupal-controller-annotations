@@ -63,8 +63,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return string
    */
-  public function getExpires()
-  {
+  public function getExpires() {
     return $this->expires;
   }
 
@@ -73,8 +72,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param string $expires A valid php date
    */
-  public function setExpires($expires)
-  {
+  public function setExpires($expires) {
     $this->expires = $expires;
   }
 
@@ -83,8 +81,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param int $maxage A number of seconds
    */
-  public function setMaxAge($maxage)
-  {
+  public function setMaxAge($maxage) {
     $this->maxage = $maxage;
   }
 
@@ -94,8 +91,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return int
    */
-  public function getMaxAge()
-  {
+  public function getMaxAge() {
     return $this->maxage;
   }
 
@@ -104,8 +100,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param int $smaxage A number of seconds
    */
-  public function setSMaxAge($smaxage)
-  {
+  public function setSMaxAge($smaxage) {
     $this->smaxage = $smaxage;
   }
 
@@ -115,8 +110,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return int
    */
-  public function getSMaxAge()
-  {
+  public function getSMaxAge() {
     return $this->smaxage;
   }
 
@@ -125,8 +119,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return bool
    */
-  public function isPublic()
-  {
+  public function isPublic() {
     return $this->public === true;
   }
 
@@ -135,8 +128,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return bool
    */
-  public function isPrivate()
-  {
+  public function isPrivate() {
     return $this->public === false;
   }
 
@@ -145,8 +137,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param bool $public A boolean value
    */
-  public function setPublic($public)
-  {
+  public function setPublic($public) {
     $this->public = (bool)$public;
   }
 
@@ -155,8 +146,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return array
    */
-  public function getVary()
-  {
+  public function getVary() {
     return $this->vary;
   }
 
@@ -165,8 +155,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param array $vary
    */
-  public function setVary($vary)
-  {
+  public function setVary($vary) {
     $this->vary = $vary;
   }
 
@@ -175,8 +164,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param string $expression
    */
-  public function setLastModified($expression)
-  {
+  public function setLastModified($expression) {
     $this->lastModified = $expression;
   }
 
@@ -185,8 +173,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return string
    */
-  public function getLastModified()
-  {
+  public function getLastModified() {
     return $this->lastModified;
   }
 
@@ -195,8 +182,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @param string $expression
    */
-  public function setETag($expression)
-  {
+  public function setETag($expression) {
     $this->etag = $expression;
   }
 
@@ -205,8 +191,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @return string
    */
-  public function getETag()
-  {
+  public function getETag() {
     return $this->etag;
   }
 
@@ -217,8 +202,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @see ConfigurationInterface
    */
-  public function getAliasName()
-  {
+  public function getAliasName() {
     return 'cache';
   }
 
@@ -229,8 +213,7 @@ class Cache extends ConfigurationAnnotation
    *
    * @see ConfigurationInterface
    */
-  public function allowArray()
-  {
+  public function allowArray() {
     return false;
   }
 }

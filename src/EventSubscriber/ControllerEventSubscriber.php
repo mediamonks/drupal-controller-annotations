@@ -20,8 +20,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
   /**
    * @param Reader $reader
    */
-  public function __construct(Reader $reader)
-  {
+  public function __construct(Reader $reader) {
     $this->reader = $reader;
   }
 
@@ -33,8 +32,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
    * @param FilterControllerEvent $event
    * @throws \ReflectionException
    */
-  public function onKernelController(FilterControllerEvent $event)
-  {
+  public function onKernelController(FilterControllerEvent $event) {
     $controller = $event->getController();
 
     if (!is_array($controller) && method_exists($controller, '__invoke')) {
@@ -62,8 +60,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
    * @param Request $request
    * @param array $configurations
    */
-  protected function setRequestAttributes(Request $request, array $configurations)
-  {
+  protected function setRequestAttributes(Request $request, array $configurations) {
     foreach ($configurations as $key => $attributes) {
       $request->attributes->set($key, $attributes);
     }
@@ -75,8 +72,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
    *
    * @return array
    */
-  protected function mergeConfigurations(array $classConfigurations, array $methodConfigurations)
-  {
+  protected function mergeConfigurations(array $classConfigurations, array $methodConfigurations) {
     $configurations = [];
     foreach (array_merge(array_keys($classConfigurations), array_keys($methodConfigurations)) as $key) {
       if (!array_key_exists($key, $classConfigurations)) {
@@ -106,8 +102,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
    *
    * @return array
    */
-  protected function getConfigurations(array $annotations)
-  {
+  protected function getConfigurations(array $annotations) {
     $configurations = [];
     foreach ($annotations as $configuration) {
       if ($configuration instanceof ConfigurationInterface) {
@@ -129,8 +124,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface
   /**
    * @return array
    */
-  public static function getSubscribedEvents()
-  {
+  public static function getSubscribedEvents() {
     return [
       KernelEvents::CONTROLLER => [
         ['onKernelController', 200],

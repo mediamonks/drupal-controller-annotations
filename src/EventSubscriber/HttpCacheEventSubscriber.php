@@ -31,8 +31,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
 
   /**
    */
-  public function __construct()
-  {
+  public function __construct() {
     $this->lastModifiedDates = new \SplObjectStorage();
     $this->eTags = new \SplObjectStorage();
   }
@@ -42,8 +41,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @param FilterControllerEvent $event
    */
-  public function onKernelController(FilterControllerEvent $event)
-  {
+  public function onKernelController(FilterControllerEvent $event) {
     $request = $event->getRequest();
     if (!$configuration = $this->getConfiguration($request)) {
       return;
@@ -72,8 +70,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @param FilterResponseEvent $event
    */
-  public function onKernelResponse(FilterResponseEvent $event)
-  {
+  public function onKernelResponse(FilterResponseEvent $event) {
     $request = $event->getRequest();
     if (!$configuration = $this->getConfiguration($request)) {
       return;
@@ -126,8 +123,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @return string
    */
-  protected function createETag(Request $request, Cache $configuration)
-  {
+  protected function createETag(Request $request, Cache $configuration) {
     return hash(
       'sha256',
       $this->getExpressionLanguage()->evaluate(
@@ -142,8 +138,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @return float
    */
-  protected function calculateAge($age)
-  {
+  protected function calculateAge($age) {
     $now = microtime(true);
 
     return ceil(strtotime($age, $now) - $now);
@@ -154,8 +149,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @return Cache|false
    */
-  protected function getConfiguration(Request $request)
-  {
+  protected function getConfiguration(Request $request) {
     $configuration = $request->attributes->get('_cache');
     if (empty($configuration) || !$configuration instanceof Cache) {
       return false;
@@ -224,8 +218,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @return bool|\DateTime
    */
-  protected function calculateExpires(Cache $configuration)
-  {
+  protected function calculateExpires(Cache $configuration) {
     return \DateTime::createFromFormat(
       'U',
       strtotime($configuration->getExpires()),
@@ -240,8 +233,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    *
    * @return bool
    */
-  protected function hasUncachableStatusCode(Response $response)
-  {
+  protected function hasUncachableStatusCode(Response $response) {
     if (!in_array(
       $response->getStatusCode(),
       [200, 203, 300, 301, 302, 304, 404, 410]
@@ -256,8 +248,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
    * @codeCoverageIgnore
    * @return ExpressionLanguage
    */
-  private function getExpressionLanguage()
-  {
+  private function getExpressionLanguage() {
     if (null === $this->expressionLanguage) {
       if (!class_exists(ExpressionLanguage::class)) {
         throw new \RuntimeException(
@@ -273,8 +264,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
   /**
    * @return array
    */
-  public static function getSubscribedEvents()
-  {
+  public static function getSubscribedEvents() {
     return [
       KernelEvents::CONTROLLER => [
         ['onKernelController', 0],

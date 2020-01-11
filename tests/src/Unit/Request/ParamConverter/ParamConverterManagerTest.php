@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ParamConverterManagerTest extends UnitTestCase
 {
-  public function testPriorities()
-  {
+  public function testPriorities() {
     $manager = new ParamConverterManager();
     $this->assertEquals(array(), $manager->all());
 
@@ -27,8 +26,7 @@ class ParamConverterManagerTest extends UnitTestCase
     $this->assertEquals(array($high, $low), $manager->all());
   }
 
-  public function testApply()
-  {
+  public function testApply() {
     $supported = $this->createParamConverterMock();
     $supported
       ->expects($this->once())
@@ -64,8 +62,7 @@ class ParamConverterManagerTest extends UnitTestCase
     $manager->apply(new Request(), $configurations);
   }
 
-  public function testApplyNamedConverter()
-  {
+  public function testApplyNamedConverter() {
     $converter = $this->createParamConverterMock();
     $converter
       ->expects($this->any())
@@ -96,8 +93,7 @@ class ParamConverterManagerTest extends UnitTestCase
    * @expectedException    \RuntimeException
    * @expectedExceptionMessage Converter 'test' does not support conversion of parameter 'param'.
    */
-  public function testApplyNamedConverterNotSupportsParameter()
-  {
+  public function testApplyNamedConverterNotSupportsParameter() {
     $converter = $this->createParamConverterMock();
     $converter
       ->expects($this->any())
@@ -123,8 +119,7 @@ class ParamConverterManagerTest extends UnitTestCase
    * @expectedException    \RuntimeException
    * @expectedExceptionMessage No converter named 'test' found for conversion of parameter 'param'.
    */
-  public function testApplyNamedConverterNoConverter()
-  {
+  public function testApplyNamedConverterNoConverter() {
     $request = new Request();
     $request->attributes->set('param', '1234');
 
@@ -138,8 +133,7 @@ class ParamConverterManagerTest extends UnitTestCase
     $manager->apply($request, array($configuration));
   }
 
-  public function testApplyNotCalledOnAlreadyConvertedObjects()
-  {
+  public function testApplyNotCalledOnAlreadyConvertedObjects() {
     $converter = $this->createParamConverterMock();
     $converter
       ->expects($this->never())
@@ -164,8 +158,7 @@ class ParamConverterManagerTest extends UnitTestCase
     $manager->apply($request, array($configuration));
   }
 
-  public function testApplyWithoutArray()
-  {
+  public function testApplyWithoutArray() {
     $converter = $this->createParamConverterMock();
     $converter
       ->expects($this->any())
@@ -189,8 +182,7 @@ class ParamConverterManagerTest extends UnitTestCase
     $manager->apply($request, $configuration);
   }
 
-  protected function createParamConverterMock()
-  {
+  protected function createParamConverterMock() {
     return $this->getMockBuilder(ParamConverterInterface::class)->getMock();
   }
 }

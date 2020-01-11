@@ -11,8 +11,7 @@ class DrupalTestKernel extends DrupalKernel
   /**
    * {@inheritdoc}
    */
-  public function setSitePath($path)
-  {
+  public function setSitePath($path) {
     if (empty($this->sitePath)) {
       parent::setSitePath($path);
     }
@@ -21,8 +20,7 @@ class DrupalTestKernel extends DrupalKernel
   /**
    * @param Request $request
    */
-  protected function initializeSettings(Request $request)
-  {
+  protected function initializeSettings(Request $request) {
     $settings = Settings::getAll();
     parent::initializeSettings($request);
     new Settings($settings);

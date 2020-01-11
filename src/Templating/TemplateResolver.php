@@ -16,8 +16,7 @@ class TemplateResolver
    * @param string $action
    * @return string
    */
-  public function resolveByControllerAndAction(string $controllerClass, string $action): string
-  {
+  public function resolveByControllerAndAction(string $controllerClass, string $action): string {
     preg_match('/^Drupal\\\(.*)\\\Controller\\\(.*)/', $controllerClass, $data);
     if (!empty($data)) {
       $module = $data[1];
@@ -49,8 +48,7 @@ class TemplateResolver
    * @param string $template
    * @return string
    */
-  public function normalize(string $template): string
-  {
+  public function normalize(string $template): string {
     if (preg_match('/^(.+):(.+):(.+)$/', $template, $matches)) {
       return $this->format($matches[1], $matches[2], $matches[3]);
     }
@@ -69,8 +67,7 @@ class TemplateResolver
    * @param string $action
    * @return string
    */
-  private function format(string $module, string $controller, string $action = null): string
-  {
+  private function format(string $module, string $controller, string $action = null): string {
     $controller = $this->normalizeString($controller);
 
     $templateName = sprintf('%s-%s', $module, $controller);
@@ -93,8 +90,7 @@ class TemplateResolver
    * @param string $value
    * @return string
    */
-  private function normalizeString(string $value): string
-  {
+  private function normalizeString(string $value): string {
     return str_replace('\\', '-', mb_strtolower($value));
   }
 }

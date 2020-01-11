@@ -19,8 +19,7 @@ class ParamConverterController extends ControllerBase
    * @Security(access=true)
    * @ParamConverter()
    */
-  public function dateAction(\DateTime $start)
-  {
+  public function dateAction(\DateTime $start) {
     return new Response($start->format('Y-m-d'));
   }
 
@@ -29,8 +28,7 @@ class ParamConverterController extends ControllerBase
    * @Security(access=true)
    * @ParamConverter("start", options={"format": "d-m-Y"})
    */
-  public function dateFormatAction(\DateTime $start)
-  {
+  public function dateFormatAction(\DateTime $start) {
     return new Response($start->format('Y-m-d'));
   }
 
@@ -39,8 +37,7 @@ class ParamConverterController extends ControllerBase
    * @Security(access=true)
    * @ParamConverter
    */
-  public function dateMultipleAction(\DateTime $start, \DateTime $end)
-  {
+  public function dateMultipleAction(\DateTime $start, \DateTime $end) {
     return new Response($start->format('Y-m-d').'-'.$end->format('Y-m-d'));
   }
 
@@ -49,8 +46,7 @@ class ParamConverterController extends ControllerBase
    * @Security(access=true)
    * @ParamConverter()
    */
-  public function optionalDateAction(\DateTime $start = null)
-  {
+  public function optionalDateAction(\DateTime $start = null) {
     if (empty($start)) {
       return new Response('empty');
     }

@@ -51,8 +51,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @return string
    */
-  public function getName()
-  {
+  public function getName() {
     return $this->name;
   }
 
@@ -61,8 +60,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @param string $name The parameter name
    */
-  public function setValue($name)
-  {
+  public function setValue($name) {
     $this->setName($name);
   }
 
@@ -71,8 +69,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @param string $name The parameter name
    */
-  public function setName($name)
-  {
+  public function setName($name) {
     $this->name = $name;
   }
 
@@ -81,8 +78,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @return string $name
    */
-  public function getClass()
-  {
+  public function getClass() {
     return $this->class;
   }
 
@@ -91,8 +87,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @param string $class The parameter class name
    */
-  public function setClass($class)
-  {
+  public function setClass($class) {
     $this->class = $class;
   }
 
@@ -101,8 +96,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @return array
    */
-  public function getOptions()
-  {
+  public function getOptions() {
     return $this->options;
   }
 
@@ -111,8 +105,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @param array $options An array of options
    */
-  public function setOptions($options)
-  {
+  public function setOptions($options) {
     $this->options = $options;
   }
 
@@ -121,8 +114,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @param bool $optional Whether the parameter is optional
    */
-  public function setIsOptional($optional)
-  {
+  public function setIsOptional($optional) {
     $this->optional = (bool)$optional;
   }
 
@@ -131,8 +123,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @return bool
    */
-  public function isOptional()
-  {
+  public function isOptional() {
     return $this->optional;
   }
 
@@ -141,8 +132,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @return string
    */
-  public function getConverter()
-  {
+  public function getConverter() {
     return $this->converter;
   }
 
@@ -151,8 +141,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @param string $converter
    */
-  public function setConverter($converter)
-  {
+  public function setConverter($converter) {
     $this->converter = $converter;
   }
 
@@ -163,8 +152,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @see ConfigurationInterface
    */
-  public function getAliasName()
-  {
+  public function getAliasName() {
     return 'converters';
   }
 
@@ -175,8 +163,7 @@ class ParamConverter extends ConfigurationAnnotation
    *
    * @see ConfigurationInterface
    */
-  public function allowArray()
-  {
+  public function allowArray() {
     return true;
   }
 }

@@ -12,7 +12,6 @@ class FooControllerParamConverterAtClassAndMethod
   /**
    * @ParamConverter("test2")
    */
-  public function barAction($test, $test2)
-  {
+  public function barAction($test, $test2) {
   }
 }

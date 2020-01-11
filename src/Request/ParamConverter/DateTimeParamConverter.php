@@ -19,8 +19,7 @@ class DateTimeParamConverter implements ParamConverterInterface
    *
    * @throws NotFoundHttpException When invalid date given
    */
-  public function apply(Request $request, ParamConverter $configuration)
-  {
+  public function apply(Request $request, ParamConverter $configuration) {
     $param = $configuration->getName();
     if (!$request->attributes->has($param)) {
       return false;
@@ -46,8 +45,7 @@ class DateTimeParamConverter implements ParamConverterInterface
    * @return bool|DateTime
    * @throws \Exception
    */
-  protected function getDateTime(ParamConverter $configuration, $value, $param)
-  {
+  protected function getDateTime(ParamConverter $configuration, $value, $param) {
     $options = $configuration->getOptions();
 
     if (isset($options['format'])) {
@@ -68,8 +66,7 @@ class DateTimeParamConverter implements ParamConverterInterface
   /**
    * {@inheritdoc}
    */
-  public function supports(ParamConverter $configuration)
-  {
+  public function supports(ParamConverter $configuration) {
     return \DateTime::class === $configuration->getClass();
   }
 }

@@ -30,8 +30,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
    * @param ParamConverterManager $manager A ParamConverterManager instance
    * @param bool $autoConvert Auto convert non-configured objects
    */
-  public function __construct(ParamConverterManager $manager, $autoConvert = true)
-  {
+  public function __construct(ParamConverterManager $manager, $autoConvert = true) {
     $this->manager = $manager;
     $this->autoConvert = $autoConvert;
     $this->isParameterTypeSupported = method_exists('ReflectionParameter', 'getType');
@@ -42,8 +41,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
    *
    * @param FilterControllerEvent $event A FilterControllerEvent instance
    */
-  public function onKernelController(FilterControllerEvent $event)
-  {
+  public function onKernelController(FilterControllerEvent $event) {
     $controller = $event->getController();
     $request = $event->getRequest();
     $configurations = [];
@@ -67,8 +65,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
    *
    * @return \ReflectionFunction|\ReflectionMethod
    */
-  protected function resolveMethod($controller)
-  {
+  protected function resolveMethod($controller) {
     if (is_array($controller)) {
       return new \ReflectionMethod($controller[0], $controller[1]);
     }
@@ -86,8 +83,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
    *
    * @return array
    */
-  private function autoConfigure(\ReflectionFunctionAbstract $r, Request $request, $configurations)
-  {
+  private function autoConfigure(\ReflectionFunctionAbstract $r, Request $request, $configurations) {
     foreach ($r->getParameters() as $param) {
       if ($param->getClass() && $param->getClass()->isInstance($request)) {
         continue;
@@ -125,8 +121,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface
   /**
    * @return array
    */
-  public static function getSubscribedEvents()
-  {
+  public static function getSubscribedEvents() {
     return [
       KernelEvents::CONTROLLER => [
         ['onKernelController', 100],

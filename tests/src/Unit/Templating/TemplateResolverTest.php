@@ -17,8 +17,7 @@ class TemplateResolverTest extends UnitTestCase
    */
   private $templateResolver;
 
-  public function setUp()
-  {
+  public function setUp() {
     $this->templateResolver = new TemplateResolver();
   }
 
@@ -42,8 +41,7 @@ class TemplateResolverTest extends UnitTestCase
   /**
    * @return array
    */
-  public function controllerActionProvider()
-  {
+  public function controllerActionProvider() {
     $expected = 'modules/foo/templates/foo-foo-bar.html.twig';
 
     return [
@@ -72,8 +70,7 @@ class TemplateResolverTest extends UnitTestCase
   /**
    * @dataProvider normalizeProvider
    */
-  public function testNormalize($template, $expected)
-  {
+  public function testNormalize($template, $expected) {
     $this->assertEquals(
       $expected,
       $this->templateResolver->normalize($template)
@@ -83,8 +80,7 @@ class TemplateResolverTest extends UnitTestCase
   /**
    * @return array
    */
-  public function normalizeProvider()
-  {
+  public function normalizeProvider() {
     return [
       ['foo:bar', 'modules/foo/templates/foo-bar.html.twig'],
       ['foobar:baz', 'modules/foobar/templates/foobar-baz.html.twig'],
@@ -92,14 +88,12 @@ class TemplateResolverTest extends UnitTestCase
     ];
   }
 
-  public function testNormalizeWithInvalidTemplate()
-  {
+  public function testNormalizeWithInvalidTemplate() {
     $this->setExpectedException(\InvalidArgumentException::class);
     $this->templateResolver->normalize('foo');
   }
 
-  public function testResolveByControllerAndActionWithInvalidController()
-  {
+  public function testResolveByControllerAndActionWithInvalidController() {
     $this->setExpectedException(\InvalidArgumentException::class);
     $this->templateResolver->resolveByControllerAndAction('Foo', 'fooAction');
   }

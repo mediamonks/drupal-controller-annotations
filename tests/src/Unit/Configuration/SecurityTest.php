@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Route;
 
 class SecurityTest extends UnitTestCase
 {
-  public function testModifyRouteMethod()
-  {
+  public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_access', true]);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_permission', 'permission']);
@@ -35,8 +34,7 @@ class SecurityTest extends UnitTestCase
     m::close();
   }
 
-  public function testModifyRouteMethodInlineAccess()
-  {
+  public function testModifyRouteMethodInlineAccess() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setRequirement')->once()->withArgs(['_custom_access', 'foo::custom']);
 

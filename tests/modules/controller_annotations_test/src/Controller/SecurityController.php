@@ -21,8 +21,7 @@ class SecurityController extends ControllerBase
    * @Route("access")
    * @Security(access=true)
    */
-  public function accessAction()
-  {
+  public function accessAction() {
     return new Response('OK');
   }
 
@@ -30,8 +29,7 @@ class SecurityController extends ControllerBase
    * @Route("permission")
    * @Security(permission="access content")
    */
-  public function permissionAction()
-  {
+  public function permissionAction() {
     return new Response('OK');
   }
 
@@ -39,8 +37,7 @@ class SecurityController extends ControllerBase
    * @Route("role")
    * @Security(role="administrator")
    */
-  public function roleAction()
-  {
+  public function roleAction() {
     return new Response('OK');
   }
 
@@ -48,8 +45,7 @@ class SecurityController extends ControllerBase
    * @Route("entity/{node}")
    * @Security(entity="node.view")
    */
-  public function entityAction(Node $node)
-  {
+  public function entityAction(Node $node) {
     return new Response('OK');
   }
 
@@ -57,8 +53,7 @@ class SecurityController extends ControllerBase
    * @Route("custom")
    * @Security(custom="\Drupal\controller_annotations_test\Security\Custom::access")
    */
-  public function customAction()
-  {
+  public function customAction() {
     return new Response('OK');
   }
 
@@ -66,8 +61,7 @@ class SecurityController extends ControllerBase
    * @Route("custom-inline")
    * @Security(custom="access")
    */
-  public function customInlineAction()
-  {
+  public function customInlineAction() {
     return new Response('OK');
   }
 
@@ -75,8 +69,7 @@ class SecurityController extends ControllerBase
    * @Route("csrf")
    * @Security(access=true, csrf=true)
    */
-  public function csrfAction()
-  {
+  public function csrfAction() {
     return new Response('OK');
   }
 
@@ -84,8 +77,7 @@ class SecurityController extends ControllerBase
    * @param AccountInterface $account
    * @return AccessResult
    */
-  public function access(AccountInterface $account)
-  {
+  public function access(AccountInterface $account) {
     return AccessResult::allowedIf($account->id() === 1337);
   }
 }

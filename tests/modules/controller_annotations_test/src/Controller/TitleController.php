@@ -18,8 +18,7 @@ class TitleController extends ControllerBase
    * @Security(access=true)
    * @Title("Hello World")
    */
-  public function normalAction()
-  {
+  public function normalAction() {
     return [];
   }
 
@@ -28,8 +27,7 @@ class TitleController extends ControllerBase
    * @Security(access=true)
    * @Title("Hello @name", arguments={"@name":"MediaMonks"})
    */
-  public function argumentsAction()
-  {
+  public function argumentsAction() {
     return [];
   }
 
@@ -38,8 +36,7 @@ class TitleController extends ControllerBase
    * @Security(access=true)
    * @Title(callback="\Drupal\controller_annotations_test\Title\Custom::title")
    */
-  public function callbackAction()
-  {
+  public function callbackAction() {
     return [];
   }
 
@@ -48,16 +45,14 @@ class TitleController extends ControllerBase
    * @Security(access=true)
    * @Title(callback="title")
    */
-  public function callbackInlineAction()
-  {
+  public function callbackInlineAction() {
     return [];
   }
 
   /**
    * @return string
    */
-  public function title()
-  {
+  public function title() {
     return 'Hello Callback Inline';
   }
 }

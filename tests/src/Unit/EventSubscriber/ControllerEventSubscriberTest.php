@@ -16,8 +16,7 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  */
 class ControllerEventSubscriberTest extends UnitTestCase
 {
-  public function testOnKernelController()
-  {
+  public function testOnKernelController() {
     $reader = m::mock(Reader::class);
 
     $eventSubscriber = new ControllerEventSubscriber($reader);
@@ -28,8 +27,7 @@ class ControllerEventSubscriberTest extends UnitTestCase
     $this->assertNull($eventSubscriber->onKernelController($event));
   }
 
-  public function testControllerInvoke()
-  {
+  public function testControllerInvoke() {
     $reader = m::mock(Reader::class);
     $reader->shouldReceive('getClassAnnotations')->andReturn([]);
     $reader->shouldReceive('getMethodAnnotations')->andReturn([]);
@@ -43,8 +41,7 @@ class ControllerEventSubscriberTest extends UnitTestCase
     $this->assertNull($eventSubscriber->onKernelController($event));
   }
 
-  public function testMultipleConfigurations()
-  {
+  public function testMultipleConfigurations() {
     $configuration = m::mock(ConfigurationInterface::class);
     $configuration->shouldReceive('allowArray')->andReturn(true);
     $configuration->shouldReceive('getAliasName')->andReturn('foo');
@@ -65,8 +62,7 @@ class ControllerEventSubscriberTest extends UnitTestCase
     $this->assertNull($eventSubscriber->onKernelController($event));
   }
 
-  public function testMergeConfigurations()
-  {
+  public function testMergeConfigurations() {
     $classConfigurations = [
       'foo' => 'bar'
     ];
@@ -81,8 +77,7 @@ class ControllerEventSubscriberTest extends UnitTestCase
     $this->assertEquals(['foo' => 'bar'], $result);
   }
 
-  public function testMergeConfigurationsArray()
-  {
+  public function testMergeConfigurationsArray() {
     $classConfigurations = [
       'foo' => ['bar']
     ];
@@ -98,8 +93,7 @@ class ControllerEventSubscriberTest extends UnitTestCase
     $this->assertEquals(['foo' => ['bar', 'baz']], $result);
   }
 
-  public function testMergeConfigurationsMismatch()
-  {
+  public function testMergeConfigurationsMismatch() {
     $this->setExpectedException(\UnexpectedValueException::class);
 
     $classConfigurations = [
@@ -118,7 +112,6 @@ class ControllerEventSubscriberTest extends UnitTestCase
 
 class ControllerInvokableController
 {
-  public function __invoke()
-  {
+  public function __invoke() {
   }
 }

@@ -24,8 +24,7 @@ class EntityParamConverter implements ParamConverterInterface
   /**
    * @param EntityTypeManagerInterface $entityTypeManager
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager)
-  {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
     $this->entityTypeManager = $entityTypeManager;
   }
 
@@ -35,8 +34,7 @@ class EntityParamConverter implements ParamConverterInterface
    *
    * @return bool
    */
-  public function apply(Request $request, ParamConverter $configuration)
-  {
+  public function apply(Request $request, ParamConverter $configuration) {
     $param = $configuration->getName();
     if (!$request->attributes->has($param)) {
       return false;
@@ -61,8 +59,7 @@ class EntityParamConverter implements ParamConverterInterface
    *
    * @return EntityInterface|null
    */
-  protected function getNode($value, ParamConverter $configuration)
-  {
+  protected function getNode($value, ParamConverter $configuration) {
     $node = $this->entityTypeManager->getStorage('node')->load($value);
     $this->assertValidNode($configuration, $node);
 
@@ -96,8 +93,7 @@ class EntityParamConverter implements ParamConverterInterface
    *
    * @return bool
    */
-  public function supports(ParamConverter $configuration)
-  {
+  public function supports(ParamConverter $configuration) {
     return in_array(
       $configuration->getClass(),
       [

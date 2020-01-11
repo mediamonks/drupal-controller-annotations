@@ -15,8 +15,7 @@ class AdminController extends ControllerBase
    * @Route("admin", admin=true)
    * @Security(role="administrator")
    */
-  public function adminAction()
-  {
+  public function adminAction() {
     return [];
   }
 
@@ -24,8 +23,7 @@ class AdminController extends ControllerBase
    * @Route("normal")
    * @Security(role="administrator")
    */
-  public function normalAction()
-  {
+  public function normalAction() {
     return [];
   }
 }

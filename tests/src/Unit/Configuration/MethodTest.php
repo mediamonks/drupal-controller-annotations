@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Route;
 
 class MethodTest extends UnitTestCase
 {
-  public function testModifyRouteClass()
-  {
+  public function testModifyRouteClass() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
 
@@ -23,8 +22,7 @@ class MethodTest extends UnitTestCase
     m::close();
   }
 
-  public function testModifyRouteMethod()
-  {
+  public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setMethods')->once()->withArgs([['GET', 'POST']]);
 
@@ -37,8 +35,7 @@ class MethodTest extends UnitTestCase
     m::close();
   }
 
-  public function testModify()
-  {
+  public function testModify() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setMethods')->once()->withArgs([['GET']]);
     $route->shouldReceive('setMethods')->once()->withArgs([['POST']]);

@@ -21,8 +21,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @return array
    */
-  public function getMethods()
-  {
+  public function getMethods() {
     return $this->methods;
   }
 
@@ -31,8 +30,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @param array|string $methods An HTTP method or an array of HTTP methods
    */
-  public function setMethods($methods)
-  {
+  public function setMethods($methods) {
     $this->methods = is_array($methods) ? $methods : array($methods);
   }
 
@@ -41,8 +39,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @param array|string $methods An HTTP method or an array of HTTP methods
    */
-  public function setValue($methods)
-  {
+  public function setValue($methods) {
     $this->setMethods($methods);
   }
 
@@ -53,8 +50,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @see ConfigurationInterface
    */
-  public function getAliasName()
-  {
+  public function getAliasName() {
     return 'method';
   }
 
@@ -65,8 +61,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @see ConfigurationInterface
    */
-  public function allowArray()
-  {
+  public function allowArray() {
     return false;
   }
 
@@ -75,8 +70,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
-  public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
-  {
+  public function modifyRouteClass(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method) {
     $this->modifyRoute($route);
   }
 
@@ -85,8 +79,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
-  public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method)
-  {
+  public function modifyRouteMethod(RoutingRoute $route, \ReflectionClass $class, \ReflectionMethod $method) {
     $this->modifyRoute($route);
   }
 
@@ -96,8 +89,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    *
    * @param RoutingRoute $route
    */
-  protected function modifyRoute(RoutingRoute $route)
-  {
+  protected function modifyRoute(RoutingRoute $route) {
     $route->setMethods($this->getMethods());
   }
 }

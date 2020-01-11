@@ -10,8 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AnnotationsTest extends KernelTestBase
 {
-  public function testRouting()
-  {
+  public function testRouting() {
     $response = $this->request(Request::create('/test/basic'));
     $this->assertEquals('BasicController::basicAction', $response->getContent());
 
@@ -31,22 +30,19 @@ class AnnotationsTest extends KernelTestBase
     $this->assertResponseContents(Request::create('/test/service'), 'ServiceController::getAction');
   }
 
-  public function testAdmin()
-  {
+  public function testAdmin() {
     $this->assertForbidden(Request::create('/test/admin/admin'));
     $this->setAdministratorAccount();
     $this->assertResponseContains(Request::create('/test/admin/admin'), 'currentPathIsAdmin":true');
   }
 
-  public function testNotAdmin()
-  {
+  public function testNotAdmin() {
     $this->assertForbidden(Request::create('/test/admin/normal'));
     $this->setAdministratorAccount();
     $this->assertResponseContains(Request::create('/test/admin/normal'), 'currentPathIsAdmin":false');
   }
 
-  public function testTemplate()
-  {
+  public function testTemplate() {
     $this->setUpTemplate();
     $this->assertResponseContents(Request::create('/test/template/empty'), 'empty');
     $this->assertResponseContents(Request::create('/test/template/module-controller'), 'module-controller');
@@ -57,8 +53,7 @@ class AnnotationsTest extends KernelTestBase
     $this->assertResponseContents(Request::create('/test/template/vars/Monk'), 'Hello Monk');
   }
 
-  private function setUpTemplate()
-  {
+  private function setUpTemplate() {
     $sourceModule = $this->getDrupalRoot() . '/modules/controller_annotations/tests/modules/controller_annotations_test/templates/';
 
     if (!file_exists($sourceModule)) {
@@ -78,8 +73,7 @@ class AnnotationsTest extends KernelTestBase
     }
   }
 
-  public function testSecurity()
-  {
+  public function testSecurity() {
     // all access
     $this->assertResponseContents(Request::create('/test/security/access'), 'OK');
 
@@ -138,16 +132,14 @@ class AnnotationsTest extends KernelTestBase
     ]), 'OK');
   }
 
-  public function testTitle()
-  {
+  public function testTitle() {
     $this->assertTitleStartsWith(Request::create('/test/title/normal'), 'Hello World');
     $this->assertTitleStartsWith(Request::create('/test/title/arguments'), 'Hello MediaMonks');
     $this->assertTitleStartsWith(Request::create('/test/title/callback'), 'Hello Callback');
     $this->assertTitleStartsWith(Request::create('/test/title/callback-inline'), 'Hello Callback Inline');
   }
 
-  public function testParamConverter()
-  {
+  public function testParamConverter() {
     $this->assertResponseContents(Request::create('/test/param-converter/date/2017-08-15'), '2017-08-15');
     $this->assertResponseContents(Request::create('/test/param-converter/date-format/15-08-2017'), '2017-08-15');
     $this->assertResponseContents(Request::create('/test/param-converter/date-multiple/14-08-2017/15-08-2017'), '2017-08-14-2017-08-15');

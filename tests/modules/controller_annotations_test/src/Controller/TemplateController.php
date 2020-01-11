@@ -17,8 +17,7 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template
    */
-  public function emptyAction()
-  {
+  public function emptyAction() {
   }
 
   /**
@@ -26,8 +25,7 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template("controller_annotations_test:template")
    */
-  public function moduleControllerAction()
-  {
+  public function moduleControllerAction() {
   }
 
   /**
@@ -35,8 +33,7 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template("controller_annotations_test:template:action")
    */
-  public function moduleControllerActionAction()
-  {
+  public function moduleControllerActionAction() {
   }
 
   /**
@@ -44,8 +41,7 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template
    */
-  public function parameterAction()
-  {
+  public function parameterAction() {
     return ['parameter' => 'value'];
   }
 
@@ -54,8 +50,7 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template
    */
-  public function parameterUrlAction($parameter, $default = 'default')
-  {
+  public function parameterUrlAction($parameter, $default = 'default') {
   }
 
   /**
@@ -63,8 +58,7 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template(isStreamable=true)
    */
-  public function streamableAction()
-  {
+  public function streamableAction() {
   }
 
   /**
@@ -72,7 +66,6 @@ class TemplateController extends ControllerBase
    * @Security(access=true)
    * @Template()
    */
-  public function varsAction($name = 'World')
-  {
+  public function varsAction($name = 'World') {
   }
 }

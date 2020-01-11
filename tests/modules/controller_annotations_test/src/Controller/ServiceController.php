@@ -15,8 +15,7 @@ class ServiceController
    * @Route("test/service")
    * @Security(access=true)
    */
-  public function getAction()
-  {
+  public function getAction() {
     return new Response('ServiceController::getAction');
   }
 }

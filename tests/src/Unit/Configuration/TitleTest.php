@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Route;
 
 class TitleTest extends UnitTestCase
 {
-  public function testModifyRouteMethod()
-  {
+  public function testModifyRouteMethod() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setDefault')->once()->withArgs(['_title', 'Hello World']);
     $route->shouldReceive('setDefault')->once()->withArgs(['_title_arguments', ['arguments' => true]]);
@@ -31,8 +30,7 @@ class TitleTest extends UnitTestCase
     m::close();
   }
 
-  public function testModifyRouteMethodInlineAccess()
-  {
+  public function testModifyRouteMethodInlineAccess() {
     $route = m::mock(Route::class);
     $route->shouldReceive('setDefault')->once()->withArgs(['_title_callback', 'foo::callback']);
 
@@ -49,8 +47,7 @@ class TitleTest extends UnitTestCase
     m::close();
   }
 
-  public function testUnknownProperty()
-  {
+  public function testUnknownProperty() {
     $this->setExpectedException(\RuntimeException::class);
     new Title(['foo' => 'bar']);
   }

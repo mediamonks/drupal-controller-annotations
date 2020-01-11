@@ -18,8 +18,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
   /**
    * @dataProvider getControllerWithNoArgsFixtures
    */
-  public function testRequestIsSkipped($controllerCallable)
-  {
+  public function testRequestIsSkipped($controllerCallable) {
     $kernel = $this->getMockBuilder(HttpKernelInterface::class)->getMock();
     $request = new Request();
 
@@ -36,8 +35,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
     $eventSubscriber->onKernelController($event);
   }
 
-  public function getControllerWithNoArgsFixtures()
-  {
+  public function getControllerWithNoArgsFixtures() {
     return [
       [[new ParamConverterTestController(), 'noArgAction']],
       [new ParamConverterInvokableNoArgController()],
@@ -47,8 +45,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
   /**
    * @dataProvider getControllerWithArgsFixtures
    */
-  public function testAutoConvert($controllerCallable)
-  {
+  public function testAutoConvert($controllerCallable) {
     $kernel = $this->getMockBuilder(
       HttpKernelInterface::class
     )->getMock();
@@ -75,8 +72,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
    * @dataProvider settingOptionalParamProvider
    * @requires PHP 7.1
    */
-  public function testSettingOptionalParam($function, $isOptional)
-  {
+  public function testSettingOptionalParam($function, $isOptional) {
     $kernel = $this->getMockBuilder(HttpKernelInterface::class)->getMock();
     $request = new Request();
 
@@ -102,8 +98,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
     $eventSubscriber->onKernelController($event);
   }
 
-  public function settingOptionalParamProvider()
-  {
+  public function settingOptionalParamProvider() {
     return [
       ['requiredParamAction', false],
       ['defaultParamAction', true],
@@ -114,8 +109,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
   /**
    * @dataProvider getControllerWithArgsFixtures
    */
-  public function testNoAutoConvert($controllerCallable)
-  {
+  public function testNoAutoConvert($controllerCallable) {
     $kernel = $this->getMockBuilder(HttpKernelInterface::class)->getMock();
     $request = new Request([], [], ['date' => '2014-03-14 09:00:00']);
 
@@ -133,16 +127,14 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
     $eventSubscriber->onKernelController($event);
   }
 
-  public function getControllerWithArgsFixtures()
-  {
+  public function getControllerWithArgsFixtures() {
     return [
       [[new ParamConverterTestController(), 'dateAction']],
       [new ParamConverterInvokableController()],
     ];
   }
 
-  protected function getParamConverterManager(Request $request, $configurations)
-  {
+  protected function getParamConverterManager(Request $request, $configurations) {
     $manager = $this->getMockBuilder(ParamConverterManager::class)->getMock();
     $manager
       ->expects($this->once())
@@ -152,8 +144,7 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
     return $manager;
   }
 
-  public function testPredefinedConfigurations()
-  {
+  public function testPredefinedConfigurations() {
     $configuration = m::mock(\stdClass::class);
     $configuration->shouldReceive('getName')->andReturn('foo');
 
@@ -183,27 +174,23 @@ class ParamConverterEventSubscriberTest extends UnitTestCase
 class ParamConverterTestController
 {
 
-  public function noArgAction(Request $request)
-  {
+  public function noArgAction(Request $request) {
   }
 
-  public function dateAction(\DateTime $date)
-  {
+  public function dateAction(\DateTime $date) {
   }
 }
 
 class ParamConverterInvokableNoArgController
 {
 
-  public function __invoke(Request $request)
-  {
+  public function __invoke(Request $request) {
   }
 }
 
 class ParamConverterInvokableController
 {
 
-  public function __invoke(\DateTime $date)
-  {
+  public function __invoke(\DateTime $date) {
   }
 }

@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class InvokeController
 {
-  public function __invoke()
-  {
+  public function __invoke() {
     return new Response('InvokeController::__invoke');
   }
 }

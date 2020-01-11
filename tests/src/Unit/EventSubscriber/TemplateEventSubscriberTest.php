@@ -19,8 +19,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class TemplateEventSubscriberTest extends UnitTestCase
 {
-  public function testOnKernelControllerWithoutTemplate()
-  {
+  public function testOnKernelControllerWithoutTemplate() {
     $twig = m::mock(\Twig_Environment::class);
     $templateResolver = m::mock(TemplateResolver::class);
 
@@ -39,8 +38,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
     $this->assertNull($eventSubscriber->onKernelView($event));
   }
 
-  public function testOnKernelControllerWithInvalidTemplate()
-  {
+  public function testOnKernelControllerWithInvalidTemplate() {
     $twig = m::mock(\Twig_Environment::class);
     $templateResolver = m::mock(TemplateResolver::class);
 
@@ -60,8 +58,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
     $this->assertNull($eventSubscriber->onKernelView($event));
   }
 
-  public function testOnKernelControllerWithTemplate()
-  {
+  public function testOnKernelControllerWithTemplate() {
     $templateName = 'resolved_template';
 
     $twig = m::mock(\Twig_Environment::class);
@@ -87,8 +84,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
     $this->assertEquals($owner, $template->getOwner());
   }
 
-  public function testOnKernelControllerWithTemplateName()
-  {
+  public function testOnKernelControllerWithTemplateName() {
     $templateName = 'resolved_template';
 
     $twig = m::mock(\Twig_Environment::class);
@@ -116,8 +112,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
     $this->assertEquals($owner, $template->getOwner());
   }
 
-  public function testOnKernelView()
-  {
+  public function testOnKernelView() {
     $renderedContent = 'rendered_page';
     $templateName = 'template.html.twig';
 
@@ -148,8 +143,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
     $this->assertEquals($renderedContent, $response->getContent());
   }
 
-  public function testOnKernelViewStreamed()
-  {
+  public function testOnKernelViewStreamed() {
     $templateName = 'template.html.twig';
 
     $twig = m::mock(\Twig_Environment::class);
@@ -182,8 +176,7 @@ class TemplateEventSubscriberTest extends UnitTestCase
     $response->sendContent();
   }
 
-  public function tearDown()
-  {
+  public function tearDown() {
     m::close();
   }
 }

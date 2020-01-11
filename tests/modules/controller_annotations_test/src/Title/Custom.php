@@ -8,8 +8,7 @@ class Custom
   /**
    * @return string
    */
-  public function title()
-  {
+  public function title() {
     return 'Hello Callback';
   }
 }

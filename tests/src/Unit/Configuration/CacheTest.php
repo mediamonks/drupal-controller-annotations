@@ -7,8 +7,7 @@ use Drupal\Tests\UnitTestCase;
 
 class CacheTest extends UnitTestCase
 {
-  public function testProperties()
-  {
+  public function testProperties() {
     $cache = new Cache([]);
 
     $cache->setExpires('tomorrow');
@@ -41,15 +40,13 @@ class CacheTest extends UnitTestCase
     $this->assertEquals('yesterday', $cache->getLastModified());
   }
 
-  public function testGetAliasName()
-  {
+  public function testGetAliasName() {
     $cache = new Cache([]);
 
     $this->assertEquals('cache', $cache->getAliasName());
   }
 
-  public function testAllowArray()
-  {
+  public function testAllowArray() {
     $cache = new Cache([]);
 
     $this->assertFalse($cache->allowArray());

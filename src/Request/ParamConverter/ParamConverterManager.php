@@ -29,8 +29,7 @@ class ParamConverterManager
    * @param Request $request
    * @param array|object $configurations
    */
-  public function apply(Request $request, $configurations)
-  {
+  public function apply(Request $request, $configurations) {
     if (is_object($configurations)) {
       $configurations = [$configurations];
     }
@@ -46,8 +45,7 @@ class ParamConverterManager
    * @param Request $request
    * @param ParamConverter $configuration
    */
-  protected function applyConverter(Request $request, ParamConverter $configuration)
-  {
+  protected function applyConverter(Request $request, ParamConverter $configuration) {
     $value = $request->attributes->get($configuration->getName());
     $className = $configuration->getClass();
 
@@ -76,8 +74,7 @@ class ParamConverterManager
    * @param Request $request
    * @param ParamConverter $configuration
    */
-  protected function applyNamedConverter(Request $request, ParamConverter $configuration)
-  {
+  protected function applyNamedConverter(Request $request, ParamConverter $configuration) {
     $converterName = $configuration->getConverter();
     if (!isset($this->namedConverters[$converterName])) {
       throw new \RuntimeException(
@@ -116,8 +113,7 @@ class ParamConverterManager
    * @param int $priority The priority (between -10 and 10).
    * @param string $name Name of the converter.
    */
-  public function add(ParamConverterInterface $converter, $priority = 0, $name = null)
-  {
+  public function add(ParamConverterInterface $converter, $priority = 0, $name = null) {
     if ($priority !== null) {
       if (!isset($this->converters[$priority])) {
         $this->converters[$priority] = [];
@@ -136,8 +132,7 @@ class ParamConverterManager
    *
    * @return array An array of param converters
    */
-  public function all()
-  {
+  public function all() {
     krsort($this->converters);
 
     $converters = array();

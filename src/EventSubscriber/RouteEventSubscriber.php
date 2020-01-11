@@ -25,8 +25,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
    * @param AnnotationDirectoryLoader $annotationDirectoryLoader
    * @param string $rootPath
    */
-  public function __construct(AnnotationDirectoryLoader $annotationDirectoryLoader, string $rootPath)
-  {
+  public function __construct(AnnotationDirectoryLoader $annotationDirectoryLoader, string $rootPath) {
     $this->registerAnnotations();
     $this->annotationDirectoryLoader = $annotationDirectoryLoader;
     $this->rootPath = $rootPath;
@@ -35,8 +34,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
   /**
    * Configure the annotation registry to make routing annotations available
    */
-  private function registerAnnotations()
-  {
+  private function registerAnnotations() {
     AnnotationRegistry::registerLoader('class_exists');
   }
 
@@ -44,8 +42,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
    * @param RouteBuildEvent $event
    * @throws \Exception
    */
-  public function onRoutes(RouteBuildEvent $event)
-  {
+  public function onRoutes(RouteBuildEvent $event) {
     /**
      * @var $route Route
      */
@@ -65,8 +62,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
   /**
    * @return array
    */
-  public static function getSubscribedEvents()
-  {
+  public static function getSubscribedEvents() {
     return [
       RoutingEvents::DYNAMIC => [
         ['onRoutes', 0],
@@ -79,8 +75,7 @@ class RouteEventSubscriber implements EventSubscriberInterface
    * @return string
    * @throws \Exception
    */
-  protected function getRoutePath(Route $route)
-  {
+  protected function getRoutePath(Route $route) {
     if ($route->hasOption('path')) {
       $path = $route->getOption('path');
     } elseif ($route->hasOption('module')) {

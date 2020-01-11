@@ -15,13 +15,11 @@ class DateTimeParamConverterTest extends UnitTestCase
 
   private $converter;
 
-  public function setUp()
-  {
+  public function setUp() {
     $this->converter = new DateTimeParamConverter();
   }
 
-  public function testSupports()
-  {
+  public function testSupports() {
     $config = $this->createConfiguration('DateTime');
     $this->assertTrue($this->converter->supports($config));
 
@@ -32,8 +30,7 @@ class DateTimeParamConverterTest extends UnitTestCase
     $this->assertFalse($this->converter->supports($config));
   }
 
-  public function testApply()
-  {
+  public function testApply() {
     $request = new Request([], [], ['start' => '2012-07-21 00:00:00']);
     $config = $this->createConfiguration('DateTime', 'start');
 
@@ -46,8 +43,7 @@ class DateTimeParamConverterTest extends UnitTestCase
     );
   }
 
-  public function testApplyInvalidDate404Exception()
-  {
+  public function testApplyInvalidDate404Exception() {
     $request = new Request([], [], ['start' => 'Invalid DateTime Format']);
     $config = $this->createConfiguration('DateTime', 'start');
 
@@ -58,8 +54,7 @@ class DateTimeParamConverterTest extends UnitTestCase
     $this->converter->apply($request, $config);
   }
 
-  public function testApplyWithFormatInvalidDate404Exception()
-  {
+  public function testApplyWithFormatInvalidDate404Exception() {
     $request = new Request([], [], ['start' => '2012-07-21']);
     $config = $this->createConfiguration('DateTime', 'start');
     $config->expects($this->any())->method('getOptions')->will(
@@ -73,8 +68,7 @@ class DateTimeParamConverterTest extends UnitTestCase
     $this->converter->apply($request, $config);
   }
 
-  public function testApplyOptionalWithEmptyAttribute()
-  {
+  public function testApplyOptionalWithEmptyAttribute() {
     $request = new Request([], [], ['start' => null]);
     $config = $this->createConfiguration('DateTime', 'start');
     $config->expects($this->once())
@@ -85,16 +79,14 @@ class DateTimeParamConverterTest extends UnitTestCase
     $this->assertNull($request->attributes->get('start'));
   }
 
-  public function testApplyEmptyAttribute()
-  {
+  public function testApplyEmptyAttribute() {
     $request = new Request();
     $config = $this->createConfiguration('DateTime', 'start');
 
     $this->assertFalse($this->converter->apply($request, $config));
   }
 
-  public function createConfiguration($class = null, $name = null)
-  {
+  public function createConfiguration($class = null, $name = null) {
     $config = $this
       ->getMockBuilder(ParamConverter::class)
       ->setMethods(

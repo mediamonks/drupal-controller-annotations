@@ -15,8 +15,7 @@ class MethodController extends ControllerBase
    * @Method("GET")
    * @Security(access=true)
    */
-  public function getAction()
-  {
+  public function getAction() {
     return new Response('ClassRouteController::getAction');
   }
 
@@ -25,8 +24,7 @@ class MethodController extends ControllerBase
    * @Method("POST")
    * @Security(access=true)
    */
-  public function postAction()
-  {
+  public function postAction() {
     return new Response('ClassRouteController::postAction');
   }
 
@@ -35,8 +33,7 @@ class MethodController extends ControllerBase
    * @Method({"GET", "POST"})
    * @Security(access=true)
    */
-  public function getAndPostAction()
-  {
+  public function getAndPostAction() {
     return new Response('ClassRouteController::getAndPostAction');
   }
 }
