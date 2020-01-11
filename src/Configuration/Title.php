@@ -135,7 +135,7 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -144,7 +144,7 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -153,7 +153,7 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    */
   protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class) {
@@ -171,7 +171,7 @@ class Title extends ConfigurationAnnotation implements RouteModifierMethodInterf
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    */
   protected function registerCallback(RoutingRoute $route, \ReflectionClass $class) {

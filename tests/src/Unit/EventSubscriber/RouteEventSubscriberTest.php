@@ -16,17 +16,17 @@ use Symfony\Component\Routing\RouteCollection;
 class RouteEventSubscriberTest extends UnitTestCase {
 
   /**
-   * @var RouteCollection
+   * @var \Symfony\Component\Routing\RouteCollection
    */
   protected $routeCollection;
 
   /**
-   * @var RouteCollection
+   * @var \Symfony\Component\Routing\RouteCollection
    */
   protected $annotatedRouteCollection;
 
   /**
-   * @var RouteEventSubscriber
+   * @var \Drupal\controller_annotations\EventSubscriber\RouteEventSubscriber
    */
   protected $eventSubscriber;
 
@@ -38,7 +38,7 @@ class RouteEventSubscriberTest extends UnitTestCase {
   }
 
   /**
-   * @return RouteCollection
+   * @return \Symfony\Component\Routing\RouteCollection
    */
   protected function getRouteCollection() {
     if (empty($this->routeCollection)) {
@@ -49,7 +49,7 @@ class RouteEventSubscriberTest extends UnitTestCase {
   }
 
   /**
-   * @return RouteCollection
+   * @return \Symfony\Component\Routing\RouteCollection
    */
   protected function getAnnotatedRouteCollection() {
     if (empty($this->annotatedRouteCollection)) {

@@ -8,12 +8,12 @@ use Drupal\Core\Cache\CacheBackendInterface;
 class DrupalCache extends CacheProvider {
 
   /**
-   * @var CacheBackendInterface
+   * @var \Drupal\Core\Cache\CacheBackendInterface
    */
   private $cache;
 
   /**
-   * @param CacheBackendInterface $cache
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
    */
   public function __construct(CacheBackendInterface $cache) {
     $this->cache = $cache;

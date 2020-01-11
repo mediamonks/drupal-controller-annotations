@@ -18,7 +18,7 @@ class DrupalTestKernel extends DrupalKernel {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    */
   protected function initializeSettings(Request $request) {
     $settings = Settings::getAll();

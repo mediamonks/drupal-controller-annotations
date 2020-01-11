@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Route as RoutingRoute;
 interface RouteModifierMethodInterface extends RouteModifierInterface {
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */

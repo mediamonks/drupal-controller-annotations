@@ -26,7 +26,7 @@ class ParamConverterManager {
    * Applies all converters to the passed configurations and stops when a
    * converter is applied it will move on to the next configuration and so on.
    *
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @param array|object $configurations
    */
   public function apply(Request $request, $configurations) {
@@ -42,8 +42,8 @@ class ParamConverterManager {
   /**
    * Apply converter on request based on the given configuration.
    *
-   * @param Request $request
-   * @param ParamConverter $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
    */
   protected function applyConverter(Request $request, ParamConverter $configuration) {
     $value = $request->attributes->get($configuration->getName());
@@ -71,8 +71,8 @@ class ParamConverterManager {
   }
 
   /**
-   * @param Request $request
-   * @param ParamConverter $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
    */
   protected function applyNamedConverter(Request $request, ParamConverter $configuration) {
     $converterName = $configuration->getConverter();
@@ -109,7 +109,7 @@ class ParamConverterManager {
    * added converter will not be part of the iteration chain and can only
    * be invoked explicitly.
    *
-   * @param ParamConverterInterface $converter A ParamConverterInterface instance
+   * @param \Drupal\controller_annotations\Configuration\ParamConverterInterface $converter A ParamConverterInterface instance
    * @param int $priority The priority (between -10 and 10).
    * @param string $name Name of the converter.
    */

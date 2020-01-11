@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Route;
 class RouteEventSubscriber implements EventSubscriberInterface {
 
   /**
-   * @var AnnotationDirectoryLoader
+   * @var \Symfony\Component\Routing\Loader\AnnotationDirectoryLoader
    */
   private $annotationDirectoryLoader;
 
@@ -22,7 +22,7 @@ class RouteEventSubscriber implements EventSubscriberInterface {
   private $rootPath;
 
   /**
-   * @param AnnotationDirectoryLoader $annotationDirectoryLoader
+   * @param \Symfony\Component\Routing\Loader\AnnotationDirectoryLoader $annotationDirectoryLoader
    * @param string $rootPath
    */
   public function __construct(AnnotationDirectoryLoader $annotationDirectoryLoader, string $rootPath) {
@@ -39,7 +39,7 @@ class RouteEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param RouteBuildEvent $event
+   * @param \Drupal\Core\Routing\RouteBuildEvent $event
    * @throws \Exception
    */
   public function onRoutes(RouteBuildEvent $event) {
@@ -71,7 +71,7 @@ class RouteEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Route $route
+   * @param \Symfony\Component\Routing\Route $route
    * @return string
    * @throws \Exception
    */

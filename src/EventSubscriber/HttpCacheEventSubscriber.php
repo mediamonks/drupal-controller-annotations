@@ -24,7 +24,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   private $eTags;
 
   /**
-   * @var ExpressionLanguage
+   * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage
    */
   private $expressionLanguage;
 
@@ -38,7 +38,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   /**
    * Handles HTTP validation headers.
    *
-   * @param FilterControllerEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
    */
   public function onKernelController(FilterControllerEvent $event) {
     $request = $event->getRequest();
@@ -67,7 +67,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   /**
    * Modifies the response to apply HTTP cache headers when needed.
    *
-   * @param FilterResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
    */
   public function onKernelResponse(FilterResponseEvent $event) {
     $request = $event->getRequest();
@@ -84,9 +84,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
-   * @param Response $response
-   * @param Cache $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Symfony\Component\HttpFoundation\Response $response
+   * @param \Drupal\controller_annotations\Configuration\Cache $configuration
    */
   protected function setLastModified(
     Request $request,
@@ -102,9 +102,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
-   * @param Response $response
-   * @param Cache $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Symfony\Component\HttpFoundation\Response $response
+   * @param \Drupal\controller_annotations\Configuration\Cache $configuration
    */
   protected function setETag(
     Request $request,
@@ -117,8 +117,8 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
-   * @param Cache $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Drupal\controller_annotations\Configuration\Cache $configuration
    *
    * @return string
    */
@@ -144,9 +144,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    *
-   * @return Cache|false
+   * @return \Drupal\controller_annotations\Configuration\Cache|false
    */
   protected function getConfiguration(Request $request) {
     $configuration = $request->attributes->get('_cache');
@@ -158,9 +158,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
-   * @param Response $response
-   * @param Cache $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Symfony\Component\HttpFoundation\Response $response
+   * @param \Drupal\controller_annotations\Configuration\Cache $configuration
    */
   protected function setCacheProperties(
     Request $request,
@@ -213,7 +213,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Cache $configuration
+   * @param \Drupal\controller_annotations\Configuration\Cache $configuration
    *
    * @return bool|\DateTime
    */
@@ -228,7 +228,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
   /**
    * http://tools.ietf.org/html/draft-ietf-httpbis-p4-conditional-12#section-3.1
    *
-   * @param Response $response
+   * @param \Symfony\Component\HttpFoundation\Response $response
    *
    * @return bool
    */
@@ -245,7 +245,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface {
 
   /**
    * @codeCoverageIgnore
-   * @return ExpressionLanguage
+   * @return \Symfony\Component\ExpressionLanguage\ExpressionLanguage
    */
   private function getExpressionLanguage() {
     if (NULL === $this->expressionLanguage) {

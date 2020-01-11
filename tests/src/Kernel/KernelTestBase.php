@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 abstract class KernelTestBase extends BaseKernelTestBase {
 
   /**
-   * @var DrupalKernel
+   * @var \Drupal\Core\DrupalKernel
    */
   protected $kernel;
 
@@ -24,7 +24,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   public static $modules = ['controller_annotations', 'controller_annotations_test', 'user', 'system', 'node'];
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @param $contents
    */
   protected function assertResponseContents(Request $request, $contents) {
@@ -43,7 +43,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @param $contents
    */
   protected function assertResponseContains(Request $request, $contents) {
@@ -53,7 +53,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @param $contents
    */
   protected function assertResponseNotContains(Request $request, $contents) {
@@ -62,7 +62,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    */
   protected function assertNotFound(Request $request) {
     $response = $this->request($request);
@@ -70,7 +70,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    */
   protected function assertMethodNotAllowed(Request $request) {
     $response = $this->request($request);
@@ -78,7 +78,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    */
   protected function assertForbidden(Request $request) {
     $response = $this->request($request);
@@ -86,15 +86,15 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    */
   protected function assertTitleStartsWith(Request $request, $title) {
     $this->assertResponseContains($request, '<title>'.$title);
   }
 
   /**
-   * @param Request $request
-   * @return Response
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @return \Symfony\Component\HttpFoundation\Response
    */
   protected function request(Request $request) {
     if (empty($this->kernel)) {
@@ -132,7 +132,7 @@ abstract class KernelTestBase extends BaseKernelTestBase {
   }
 
   /**
-   * @param AccountInterface $account
+   * @param \Drupal\Core\Session\AccountInterface $account
    */
   protected function setAccount(AccountInterface $account) {
     $this->kernel->getContainer()->get('current_user')->setAccount($account);

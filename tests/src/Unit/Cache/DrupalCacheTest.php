@@ -67,7 +67,7 @@ class DrupalCacheTest extends UnitTestCase {
   }
 
   /**
-   * @return CacheBackendInterface
+   * @return \Drupal\Core\Cache\CacheBackendInterface
    */
   protected function getDrupalCacheMock() {
     $drupalCache = m::mock(CacheBackendInterface::class);
@@ -79,7 +79,7 @@ class DrupalCacheTest extends UnitTestCase {
   /**
    * @param $data
    *
-   * @return StdClass
+   * @return \StdClass
    */
   protected function getCacheData($data) {
     $cacheData = new StdClass();

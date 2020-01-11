@@ -66,7 +66,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -75,7 +75,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -87,7 +87,7 @@ class Method extends ConfigurationAnnotation implements RouteModifierMethodInter
    * we need to make sure this is an array instead of a string which is different in Symfony Framework
    * otherwise the support for defining an array of methods will not work as expected
    *
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    */
   protected function modifyRoute(RoutingRoute $route) {
     $route->setMethods($this->getMethods());

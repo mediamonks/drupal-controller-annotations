@@ -21,13 +21,13 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
   private $twig;
 
   /**
-   * @var TemplateResolver
+   * @var \Drupal\controller_annotations\Configuration\TemplateResolver
    */
   private $resolver;
 
   /**
    * @param \Twig_Environment $twig
-   * @param TemplateResolver $resolver
+   * @param \Drupal\controller_annotations\Configuration\TemplateResolver $resolver
    */
   public function __construct(\Twig_Environment $twig, TemplateResolver $resolver) {
     $this->twig = $twig;
@@ -38,7 +38,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
    * Guesses the template name to render and its variables and adds them to
    * the request object.
    *
-   * @param FilterControllerEvent $event A FilterControllerEvent instance
+   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event A FilterControllerEvent instance
    */
   public function onKernelController(FilterControllerEvent $event) {
     $template = $this->getTemplateFromRequest($event);
@@ -54,7 +54,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
    * Renders the template and initializes a new response object with the
    * rendered template content.
    *
-   * @param GetResponseForControllerResultEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent $event
    */
   public function onKernelView(GetResponseForControllerResultEvent $event) {
     $template = $this->getTemplateFromRequest($event);
@@ -66,7 +66,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param KernelEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\KernelEvent $event
    * @return mixed
    */
   private function getTemplateFromRequest(KernelEvent $event) {
@@ -74,7 +74,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Template $template
+   * @param \Drupal\controller_annotations\Configuration\Template $template
    */
   private function normalizeTemplate(Template $template) {
     if (is_null($template->getTemplate())) {
@@ -91,8 +91,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param GetResponseForControllerResultEvent $event
-   * @param Template $template
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent $event
+   * @param \Drupal\controller_annotations\Configuration\Template $template
    * @param $parameters
    */
   private function setResponse(GetResponseForControllerResultEvent $event, Template $template, $parameters) {
@@ -112,8 +112,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param GetResponseForControllerResultEvent $event
-   * @param Template $template
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent $event
+   * @param \Drupal\controller_annotations\Configuration\Template $template
    * @return array|mixed
    */
   private function getParameters(GetResponseForControllerResultEvent $event, Template $template) {
@@ -132,8 +132,8 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
-   * @param Template $template
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Drupal\controller_annotations\Configuration\Template $template
    * @param object $controller
    * @param string $action
    * @return array
@@ -157,7 +157,7 @@ class TemplateEventSubscriber implements EventSubscriberInterface {
    * fetch the arguments of @Template.vars or everything if desired
    * and assign them to the designated template
    *
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @param array $arguments
    * @return array
    */

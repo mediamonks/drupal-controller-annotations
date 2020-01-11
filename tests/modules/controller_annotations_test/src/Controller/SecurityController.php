@@ -74,8 +74,8 @@ class SecurityController extends ControllerBase {
   }
 
   /**
-   * @param AccountInterface $account
-   * @return AccessResult
+   * @param \Drupal\Core\Session\AccountInterface $account
+   * @return \Drupal\Core\Access\AccessResult
    */
   public function access(AccountInterface $account) {
     return AccessResult::allowedIf($account->id() === 1337);

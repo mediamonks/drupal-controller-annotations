@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Route;
 class AnnotatedRouteControllerLoader extends AnnotationClassLoader {
 
   /**
-   * @param Route $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    * @param mixed $annotation
@@ -39,7 +39,7 @@ class AnnotatedRouteControllerLoader extends AnnotationClassLoader {
   }
 
   /**
-   * @param Route $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -52,7 +52,7 @@ class AnnotatedRouteControllerLoader extends AnnotationClassLoader {
   }
 
   /**
-   * @param Route $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -65,7 +65,7 @@ class AnnotatedRouteControllerLoader extends AnnotationClassLoader {
   }
 
   /**
-   * @param Route $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */

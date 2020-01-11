@@ -13,7 +13,7 @@ require_once __DIR__.'/../../polyfill.php';
 class TemplateResolverTest extends UnitTestCase {
 
   /**
-   * @var TemplateResolver
+   * @var \Drupal\controller_annotations\Templating\TemplateResolver
    */
   private $templateResolver;
 

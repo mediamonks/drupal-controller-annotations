@@ -178,7 +178,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -187,7 +187,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -196,7 +196,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    */
   protected function modifyRoute(RoutingRoute $route, \ReflectionClass $class) {
@@ -220,7 +220,7 @@ class Security extends ConfigurationAnnotation implements RouteModifierMethodInt
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    */
   protected function setCustomSecurity(RoutingRoute $route, \ReflectionClass $class) {

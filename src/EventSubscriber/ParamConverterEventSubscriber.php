@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ParamConverterEventSubscriber implements EventSubscriberInterface {
 
   /**
-   * @var ParamConverterManager
+   * @var \Drupal\controller_annotations\Configuration\ParamConverterManager
    */
   protected $manager;
 
@@ -27,7 +27,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface {
   private $isParameterTypeSupported;
 
   /**
-   * @param ParamConverterManager $manager A ParamConverterManager instance
+   * @param \Drupal\controller_annotations\Configuration\ParamConverterManager $manager A ParamConverterManager instance
    * @param bool $autoConvert Auto convert non-configured objects
    */
   public function __construct(ParamConverterManager $manager, $autoConvert = TRUE) {
@@ -39,7 +39,7 @@ class ParamConverterEventSubscriber implements EventSubscriberInterface {
   /**
    * Modifies the ParamConverterManager instance.
    *
-   * @param FilterControllerEvent $event A FilterControllerEvent instance
+   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event A FilterControllerEvent instance
    */
   public function onKernelController(FilterControllerEvent $event) {
     $controller = $event->getController();

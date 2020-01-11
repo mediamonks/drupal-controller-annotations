@@ -13,12 +13,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ControllerEventSubscriber implements EventSubscriberInterface {
 
   /**
-   * @var Reader
+   * @var \Doctrine\Common\Annotations\Reader
    */
   protected $reader;
 
   /**
-   * @param Reader $reader
+   * @param \Doctrine\Common\Annotations\Reader $reader
    */
   public function __construct(Reader $reader) {
     $this->reader = $reader;
@@ -29,7 +29,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
    * controllers annotations like the template to render or HTTP caching
    * configuration.
    *
-   * @param FilterControllerEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
    * @throws \ReflectionException
    */
   public function onKernelController(FilterControllerEvent $event) {
@@ -57,7 +57,7 @@ class ControllerEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @param array $configurations
    */
   protected function setRequestAttributes(Request $request, array $configurations) {

@@ -64,7 +64,7 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -73,7 +73,7 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */
@@ -86,7 +86,7 @@ class Route extends BaseRoute implements RouteModifierMethodInterface, RouteModi
   }
 
   /**
-   * @param RoutingRoute $route
+   * @param \Symfony\Component\Routing\Route $route
    * @param \ReflectionClass $class
    * @param \ReflectionMethod $method
    */

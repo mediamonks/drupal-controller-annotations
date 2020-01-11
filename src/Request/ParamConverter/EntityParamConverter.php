@@ -16,20 +16,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class EntityParamConverter implements ParamConverterInterface {
 
   /**
-   * @var EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   private $entityTypeManager;
 
   /**
-   * @param EntityTypeManagerInterface $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    */
   public function __construct(EntityTypeManagerInterface $entityTypeManager) {
     $this->entityTypeManager = $entityTypeManager;
   }
 
   /**
-   * @param Request $request
-   * @param ParamConverter $configuration
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
    *
    * @return bool
    */
@@ -54,9 +54,9 @@ class EntityParamConverter implements ParamConverterInterface {
 
   /**
    * @param string $value
-   * @param ParamConverter $configuration
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
    *
-   * @return EntityInterface|null
+   * @return \Drupal\Core\Entity\EntityInterface|null
    */
   protected function getNode($value, ParamConverter $configuration) {
     $node = $this->entityTypeManager->getStorage('node')->load($value);
@@ -66,8 +66,8 @@ class EntityParamConverter implements ParamConverterInterface {
   }
 
   /**
-   * @param ParamConverter $configuration
-   * @param EntityInterface $node
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
+   * @param \Drupal\Core\Entity\EntityInterface $node
    */
   protected function assertValidNode(
     ParamConverter $configuration,
@@ -88,7 +88,7 @@ class EntityParamConverter implements ParamConverterInterface {
   }
 
   /**
-   * @param ParamConverter $configuration
+   * @param \Drupal\controller_annotations\Configuration\ParamConverter $configuration
    *
    * @return bool
    */
