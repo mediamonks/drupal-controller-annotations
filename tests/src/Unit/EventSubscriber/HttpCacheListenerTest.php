@@ -53,8 +53,8 @@ class HttpCacheListenerTest extends UnitTestCase {
 
   public function testResponseIsPrivateIfConfigurationIsPublicFalse() {
     $request = $this->createRequest(new Cache([
-          'public' => FALSE,
-        ]));
+      'public' => FALSE,
+    ]));
 
     $this->listener->onKernelResponse($this->createEventMock($request, $this->response));
 
