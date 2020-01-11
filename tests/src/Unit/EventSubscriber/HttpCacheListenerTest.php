@@ -23,8 +23,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   public function testWontReassignResponseWhenResponseIsUnsuccessful() {
     $this->event
       ->expects($this->never())
-      ->method('setResponse')
-    ;
+      ->method('setResponse');
 
     $this->response->setStatusCode(500);
 
@@ -34,8 +33,7 @@ class HttpCacheListenerTest extends UnitTestCase {
   public function testWontReassignResponseWhenNoConfigurationIsPresent() {
     $this->event
       ->expects($this->never())
-      ->method('setResponse')
-    ;
+      ->method('setResponse');
 
     $this->request->attributes->remove('_cache');
 
@@ -212,14 +210,12 @@ class HttpCacheListenerTest extends UnitTestCase {
     $event
       ->expects($this->any())
       ->method('getRequest')
-      ->will($this->returnValue($request))
-    ;
+      ->will($this->returnValue($request));
 
     $event
       ->expects($this->any())
       ->method('getResponse')
-      ->will($this->returnValue($response))
-    ;
+      ->will($this->returnValue($response));
 
     return $event;
   }

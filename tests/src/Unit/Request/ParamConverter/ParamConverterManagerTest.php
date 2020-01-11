@@ -31,24 +31,20 @@ class ParamConverterManagerTest extends UnitTestCase {
     $supported
       ->expects($this->once())
       ->method('supports')
-      ->will($this->returnValue(TRUE))
-    ;
+      ->will($this->returnValue(TRUE));
     $supported
       ->expects($this->once())
       ->method('apply')
-      ->will($this->returnValue(FALSE))
-    ;
+      ->will($this->returnValue(FALSE));
 
     $invalid = $this->createParamConverterMock();
     $invalid
       ->expects($this->once())
       ->method('supports')
-      ->will($this->returnValue(FALSE))
-    ;
+      ->will($this->returnValue(FALSE));
     $invalid
       ->expects($this->never())
-      ->method('apply')
-    ;
+      ->method('apply');
 
     $configurations = [
       new Configuration\ParamConverter([
@@ -67,13 +63,11 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter
       ->expects($this->any())
       ->method('supports')
-      ->will($this->returnValue(TRUE))
-    ;
+      ->will($this->returnValue(TRUE));
 
     $converter
       ->expects($this->any())
-      ->method('apply')
-    ;
+      ->method('apply');
 
     $request = new Request();
     $request->attributes->set('param', '1234');
@@ -98,8 +92,7 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter
       ->expects($this->any())
       ->method('supports')
-      ->will($this->returnValue(FALSE))
-    ;
+      ->will($this->returnValue(FALSE));
 
     $request = new Request();
     $request->attributes->set('param', '1234');
@@ -137,13 +130,11 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter = $this->createParamConverterMock();
     $converter
       ->expects($this->never())
-      ->method('supports')
-    ;
+      ->method('supports');
 
     $converter
       ->expects($this->never())
-      ->method('apply')
-    ;
+      ->method('apply');
 
     $request = new Request();
     $request->attributes->set('converted', new \stdClass());
@@ -163,13 +154,11 @@ class ParamConverterManagerTest extends UnitTestCase {
     $converter
       ->expects($this->any())
       ->method('supports')
-      ->will($this->returnValue(FALSE))
-    ;
+      ->will($this->returnValue(FALSE));
 
     $converter
       ->expects($this->never())
-      ->method('apply')
-    ;
+      ->method('apply');
 
     $request = new Request();
 
